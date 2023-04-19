@@ -1,0 +1,54 @@
+// Red
+static const Color hebRed = Color(0xffDE2B27); // HEB Red color - #DE2B27
+static const Color titleRed = Color(0xff722017); // Title color - #722017
+static const Color buttonRed1 = Color(0xffFFC0B1); // Button widget - #FFC0B1
+static const Color buttonRed2 = Color(0xffF85A46); // Button widget - #F85A46
+static const Color strokeRed = Color(0x4D722017); // Stroke - #722017 30%
+static const Color red1 = Color(0xffFFB1B1); // Widget - #FFB1B1
+static const Color red2 = Color(0xffE8D8EC); // Widget - #E8D8EC
+// Gray
+static const Color grey1 = Color(0xff787878); // Text, widget - #787878
+static const Color gray2 = Color(0xff3F3838); // Text - #3F3838
+static const Color gray3 = Color(0xffC5C5C5); // Text, stroke - #C5C5C5
+static const Color gray4 = Color(0xffF5F5F5); // Background - #F5F5F5
+static const Color gray5 = Color(0x66DCDCDC); // Background - #DCDCDC 40%
+static const Color gray6 = Color(0xffE6E6E6); // Background - #E6E6E6
+static const Color gray7 =
+    Color(0xffD9D9D9); // Carousel, progress bar - #D9D9D9
+static const Color gray8 = Color(0xff494949); // Text - #494949
+static const Color gray9 = Color(0xffCFCDCD); // Text - #CFCDCD
+static const Color inputStrokeGray =
+    Color(0xffD4D4D4); // Input gray - #D4D4D4
+static const Color descriptionGray =
+    Color(0x4DC5C5C5); // Widget - #C5C5C5 30%
+static const Color searchGray = Color(0xffBFBFBF); // Search widget - #BFBFBF
+static const Color strokeGray = Color(0xffB7B7B7); // Stroke - #B7B7B7
+static const Color couponGray = Color(0xffF4F3F3); // Widget - #F4F3F3
+static const Color buttonGray = Color(0xffEFEFEF); // Button widget - #EFEFEF
+static const Color googleGray = Color(0xff333333); // Text - #333333
+// Orange
+static const Color orange1 = Color(0xffFCB716); // Widget - #FCB716
+static const Color orange2 = Color(0xffFFD7B1); // Widget - #FFD7B1
+static const Color categoryOrange = Color(0xffFDDB8A); // Widget - #FDDB8A
+// Blue
+static const Color blue1 = Color(0xffB3E8EF); // Widget - #B3E8EF
+static const Color registerBlue =
+    Color(0xff009FCE); // Button widget - #009FCE
+// Green
+static const Color green1 = Color(0xffCAFFB1); // Widget - #CAFFB1
+static const Color green2 = Color(0xff59FF88); // Widget - #59FF88
+static const Color green3 = Color(0xffC4F29D); // Widget - #C4F29D
+// Yellow
+static const Color yellow1 = Color(0xffFFFCB1); // Widget - #FFFCB1
+static const Color yellow2 = Color(0xffFFF48F); // Widget - #FFF48F
+static const Color selectedYellow =
+    Color(0xffFAFF0E); // Selected object - #FAFF0E
+// White
+static const Color overviewWhite = Color(0xB3FFFFFF); // Widget - White 70%
+static const Color glassWhite = Color(0x33FFFFFF); // Widget - White 20%
+static const Color disabledWhite = Color(0x80FFFFFF); // Widget - White 50%
+// Black
+static const Color strokeBlack1 = Color(0xB3000000); // Stroke - Black 70%
+static const Color strokeBlack2 = Color(0x66000000); // Stroke - Black 40%
+static const Color strokeBlack3 = Color(0x1A000000); // Stroke - Black 10%
+static const Color textBlack = Color(0x80000000); // Text - Black 50%
