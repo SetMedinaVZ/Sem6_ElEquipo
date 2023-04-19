@@ -1,22 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import {
-    BrowserRouter,
-    Route,
-    Routes
-} from "react-router-dom";
-import reportWebVitals from './reportWebVitals';
-import IniciarSesion from './AccessPage/IniciarSesion';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import reportWebVitals from "./reportWebVitals";
+import IniciarSesion from "./AccessPage/IniciarSesion";
+import { AuthProvider } from "./Context/AuthContext";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
           <Route path="/" element={<IniciarSesion />} />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
 );
 

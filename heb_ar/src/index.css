@@ -1,3 +1,62 @@
+:root {
+  /* Red */
+  --hebRed: #DE2B27;
+  --titleRed: #722017;
+  --buttonRed1: #FFC0B1;
+  --buttonRed2: #F85A46;
+  --strokeRed: #7220174D;
+  --red1: #FFB1B1;
+  --red2: #E8D8EC;
+
+  /* Gray */
+  --grey1: #787878;
+  --gray2: #3F3838;
+  --gray3: #C5C5C5;
+  --gray4: #F5F5F5;
+  --gray5: #DCDCDC66;
+  --gray6: #E6E6E6;
+  --gray7: #D9D9D9;
+  --gray8: #494949;
+  --gray9: #CFCDCD;
+  --inputStrokeGray: #D4D4D4;
+  --descriptionGray: #C5C5C54D;
+  --searchGray: #BFBFBF;
+  --strokeGray: #B7B7B7;
+  --couponGray: #F4F3F3;
+  --buttonGray: #EFEFEF;
+  --googleGray: #333333;
+
+  /* Orange */
+  --orange1: #FCB716;
+  --orange2: #FFD7B1;
+  --categoryOrange: #FDDB8A;
+
+  /* Blue */
+  --blue1: #B3E8EF;
+  --registerBlue: #009FCE;
+
+  /* Green */
+  --green1: #CAFFB1;
+  --green2: #59FF88;
+  --green3: #C4F29D;
+
+  /* Yellow */
+  --yellow1: #FFFCB1;
+  --yellow2: #FFF48F;
+  --selectedYellow: #FAFF0E;
+
+  /* White */
+  --overviewWhite: #B3FFFFFF;
+  --glassWhite: #33FFFFFF;
+  --disabledWhite: #80FFFFFF;
+
+  /* Black */
+  --strokeBlack1: #B3000000;
+  --strokeBlack2: #66000000;
+  --strokeBlack3: #1A000000;
+  --textBlack: #80000000;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
