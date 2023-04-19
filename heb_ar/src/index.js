@@ -4,15 +4,18 @@ import './index.css';
 import {
     BrowserRouter,
     Route,
+    Routes
 } from "react-router-dom";
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import IniciarSesion from './AccessPage/IniciarSesion';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-        <Route path="/" element={<App />} />
+      <Routes>
+          <Route path="/" element={<IniciarSesion />} />
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
