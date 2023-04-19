@@ -33,7 +33,6 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     return onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
       if (user) {
         const userRef = doc(firestore, "users", user.uid);
         const userSnap = await getDoc(userRef);
@@ -42,6 +41,8 @@ export function AuthProvider({ children }) {
           setUserDoc(userData);
         }
       }
+      setCurrentUser(user);
+      setLoading(false);
     });
   }, []);
 
