@@ -1,24 +1,22 @@
 @font-face {
     font-family: "Poppins";   /*Can be any text*/
-    src: local("Poppins-Regular"),
-      url("../assets/fonts/Poppins-Regular.ttf") format("truetype");
-  }
+    src: local("Poppins-Bold"),
+    url("../assets/fonts/Poppins-Bold.ttf") format("truetype");
+}
 
 .IniciarSesion{
-    width: 248px;
-    height: 54px;
-
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 700;
     font-size: 36px;
-
     color: #000000;
 }
 
 button{
     width: 290px;
     height: 38px;
+
+    margin-bottom: 12px;
 }
 
 input{
@@ -28,14 +26,29 @@ input{
     height: 40px;
 
     border: 1px solid #D5D5D5;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.20));
     border-radius: 10px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    padding-left: 18px;
+    margin-bottom: 16px;
 }
-    
-.container{
-    position: absolute;
+
+::placeholder{
+    color: #C5C5C5;
+}
+
+.column{
     width: 100%;
     height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .IniciarButton{
@@ -47,7 +60,7 @@ input{
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 1.20rem;
 
     color: #FFFFFF;
 }
@@ -61,7 +74,7 @@ input{
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 1.20rem;
 
     color: #FFFFFF;
 }
@@ -80,10 +93,6 @@ input{
 }
 
 .OlvidasteContra{
-    
-    width: 154px;
-    height: 15px;
-
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
@@ -92,4 +101,78 @@ input{
     text-decoration-line: underline;
 
     color: #787878;
+    margin-bottom: 20px;
+}
+
+.contConText{
+    font-family: 'Inter';
+    font-style: bold;
+    font-weight: 700;
+    font-size: 15px;
+
+    color: black;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+button {
+    max-width: 320px;
+    /* display: flex; */
+    padding: 0.5rem 1.4rem;
+    /* font-size: 0.875rem; */
+    line-height: 1.25rem;
+    /* font-weight: 700; */
+    text-align: center;
+    /* text-transform: uppercase; */
+    vertical-align: middle;
+    align-items: center;
+    border: 0px solid rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    gap: 0.75rem;
+    color: rgb(65, 63, 63);
+    background-color: #efefef;
+    cursor: pointer;
+    transition: all .6s ease;
+
+    box-shadow: 0px 4px 4px  rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border-color: #333333;
+    justify-content: center;
+}
+
+.buttonGoogle{
+    display: flex;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.00rem;
+    line-height: 18px;
+    align-items: center;
+
+    color: #333333;
+    margin-top: 10px;
+}
+
+.buttonGoogle svg {
+    height: 24px;
+}
+
+button:hover {
+    transform: scale(1.02);
+}
+
+.rectangle{
+    display: inline-block;
+    width: 70px;
+    height: 0px;
+    background: black; 
+    border: 2px solid #000000;
+}
+
+.RectangleRow{
+    display: flex;
+    justify-content: center;
+    width: 290px;
+    align-items: center;
 }
