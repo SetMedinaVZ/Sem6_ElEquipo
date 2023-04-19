@@ -1,6 +1,6 @@
 import React from "react";
 import "./IniciarSesion.css";
-import AppBar from "../Components/AppBar/AppBar";
+import AppBar from "../../common/AppBar/AppBar";
 
 function IniciarSesion() {
   return (

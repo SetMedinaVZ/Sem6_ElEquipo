@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
-import IniciarSesion from "./AccessPage/IniciarSesion";
-import { AuthProvider } from "./Context/AuthContext";
+import IniciarSesion from "./pages/AccessPage/IniciarSesion";
+import { AuthProvider } from "./context/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
