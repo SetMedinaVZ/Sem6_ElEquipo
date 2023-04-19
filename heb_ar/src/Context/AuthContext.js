@@ -1,56 +1,61 @@
-import {createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import {createContext, useContext, useEffect, useState} from "react";
-import {auth, firestore} from "../firebase";
-import {collection, doc, getDoc} from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import { createContext, useContext, useEffect, useState } from "react";
+import { auth, firestore } from "../../firebase";
+import { collection, doc, getDoc } from "firebase/firestore";
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
 export function useAuth() {
-    return useContext(AuthContext)
+  return useContext(AuthContext);
 }
 
-export function AuthProvider({children}) {
-    const [currentUser, setCurrentUser] = useState();
-    const [userDoc, setUserDoc] = useState();
-    const [loading, setLoading] = useState(true);
+export function AuthProvider({ children }) {
+  const [currentUser, setCurrentUser] = useState();
+  const [userDoc, setUserDoc] = useState();
+  const [loading, setLoading] = useState(true);
 
-    function signup(email, password) {
-        return createUserWithEmailAndPassword(auth, email, password);
-    }
+  function signup(email, password) {
+    return createUserWithEmailAndPassword(auth, email, password);
+  }
 
-    function login(email, password) {
-        return signInWithEmailAndPassword(auth, email, password);
-    }
+  function login(email, password) {
+    return signInWithEmailAndPassword(auth, email, password);
+  }
 
-    function logout() {
-        return signOut(auth);
-    }
+  function logout() {
+    return signOut(auth);
+  }
 
-    useEffect(() => {
-        return onAuthStateChanged(auth, async user => {
-            setCurrentUser(user)
-            if(user) {
-                const userRef = doc(firestore, "users", user.uid)
-                const userSnap = await getDoc(userRef)
-                let userData = userSnap.data()
-                if(userData) {
-                    setUserDoc(userData)
-                }
-            }
-        })
-    } , [])
+  useEffect(() => {
+    return onAuthStateChanged(auth, async (user) => {
+      setCurrentUser(user);
+      if (user) {
+        const userRef = doc(firestore, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        let userData = userSnap.data();
+        if (userData) {
+          setUserDoc(userData);
+        }
+      }
+    });
+  }, []);
 
-    const value = {
-        currentUser,
-        userDoc,
-        signup,
-        login,
-        logout,
-    }
+  const value = {
+    currentUser,
+    userDoc,
+    signup,
+    login,
+    logout,
+  };
 
-    return (
-        <AuthContext.Provider value={value}>
-            {!loading && children}
-        </AuthContext.Provider>
-    )
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 }
