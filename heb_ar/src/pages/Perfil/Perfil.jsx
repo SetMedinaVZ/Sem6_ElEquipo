@@ -1,5 +1,6 @@
 import React from "react";
 import AppBar from "../../common/AppBar/AppBar";
+import NavBar from "../../common/NavBar/NavBar";
 
 function Perfil() {
   return (
@@ -8,6 +9,7 @@ function Perfil() {
       <div className="container">
         <h1>Perfil</h1>
       </div>
+      <NavBar pagina={'perfil'}/>
     </>
   );
 }

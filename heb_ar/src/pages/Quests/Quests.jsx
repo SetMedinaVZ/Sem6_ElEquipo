@@ -1,5 +1,6 @@
 import React from "react";
 import AppBar from "../../common/AppBar/AppBar";
+import NavBar from "../../common/NavBar/NavBar";
 
 function Quests() {
   return (
@@ -8,6 +9,7 @@ function Quests() {
       <div className="container">
         <h1>Quests</h1>
       </div>
+      <NavBar pagina={'quests'}/>
     </>
   );
 }

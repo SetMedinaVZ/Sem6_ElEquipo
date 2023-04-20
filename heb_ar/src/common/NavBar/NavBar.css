@@ -33,25 +33,20 @@
     height: 50px;
 }
 
-.perfil{
-    background-image: url("../../assets/icons/home.svg");
-}
+.perfil{background-image: url("../../assets/icons/home.svg");}
+.perfil_f{background-image: url("../../assets/icons/home_filled.svg");}
 
-.carrito{
-    background-image: url("../../assets/icons/cart.svg");
-}
+.carrito{background-image: url("../../assets/icons/cart.svg");}
+.carrito_f{background-image: url("../../assets/icons/cart_filled.svg");}
 
-.escaneo{
-    background-image: url("../../assets/icons/scan.svg");
-}
+.escaneo{background-image: url("../../assets/icons/scan.svg");}
+.escaneo_f{background-image: url("../../assets/icons/scan_filled.svg");}
 
-.quests{
-    background-image: url("../../assets/icons/file.svg");
-}
+.quests{background-image: url("../../assets/icons/file.svg");}
+.quests_f{background-image: url("../../assets/icons/file_filled.svg");}
 
-.cupones{
-    background-image: url("../../assets/icons/coupon.svg");
-}
+.cupones{background-image: url("../../assets/icons/coupon.svg");}
+.cupones_f{background-image: url("../../assets/icons/coupon_filled.svg");}
 
 @media screen and (min-width: 768px) {
     
