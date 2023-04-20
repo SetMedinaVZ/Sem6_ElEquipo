@@ -1,0 +1,58 @@
+.nav-bar{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    background-color: #DE2B27;
+    align-items: center;
+    justify-content: space-around;
+    height: 80px;
+    border-radius: 20px 20px 0px 0px;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.linkScan{
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    border: 2px solid #FFFFFF;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 100px;
+    margin-bottom: 10%;
+    background-color: #DE2B27;
+    background-repeat: no-repeat;
+    background-size: 65%;
+    background-position: center;
+}
+
+.link{
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+}
+
+.perfil{
+    background-image: url("../../assets/icons/home.svg");
+}
+
+.carrito{
+    background-image: url("../../assets/icons/cart.svg");
+}
+
+.escaneo{
+    background-image: url("../../assets/icons/scan.svg");
+}
+
+.quests{
+    background-image: url("../../assets/icons/file.svg");
+}
+
+.cupones{
+    background-image: url("../../assets/icons/coupon.svg");
+}
+
+@media screen and (min-width: 768px) {
+    
+}

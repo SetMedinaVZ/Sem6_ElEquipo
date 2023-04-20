@@ -2,6 +2,7 @@ import React from "react";
 import "./IniciarSesion.css";
 import AppBar from "../../common/AppBar/AppBar";
 import styled from "styled-components";
+import NavBar from "../../common/NavBar/NavBar";
 
 const InputMail = styled.input.attrs({
   placeholder:'Correo electrónico'
@@ -90,6 +91,7 @@ function IniciarSesion() {
           </Button>
         </div>
       </div>
+      <NavBar />
     </>
   );
 }
