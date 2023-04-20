@@ -3,6 +3,7 @@ import "./IniciarSesion.css";
 import AppBar from "../../common/AppBar/AppBar";
 import styled from "styled-components";
 import NavBar from "../../common/NavBar/NavBar";
+import NavBarAccess from "../../common/NavBar/NavBarAccess";
 
 const InputMail = styled.input.attrs({
   placeholder:'Correo electrónico'
@@ -45,7 +46,7 @@ function IniciarSesion() {
       <AppBar />
       <div className="container">
         <div className="column">
-          <h1 className="IniciarSesion">Iniciar Sesión</h1>
+          <h1 className="Title">Iniciar Sesión</h1>
           {/* <input placeholder="Correo electrónico"></input>
           <input placeholder="Contraseña"></input> */}
           <InputMail></InputMail>
@@ -56,11 +57,11 @@ function IniciarSesion() {
           {/* <button className="IniciarButton">Iniciar sesión</button>
           <button className="CrearCuenta">Crear cuenta</button> */}
           <Button className="IniciarButton">Iniciar sesión</Button>
-          <Button className="CrearCuenta">Crear Cuenta</Button>
+          <a href="/creaTuCuenta"><Button className="CrearCuenta">Crear Cuenta</Button></a>
 
           <div className="RectangleRow">
             <span className="rectangle"></span>
-            <p className="contConText">O continua</p>
+            <p className="contConText">O </p>
             <span className="rectangle"></span>
           </div>
           
@@ -91,7 +92,7 @@ function IniciarSesion() {
           </Button>
         </div>
       </div>
-      <NavBar />
+      <NavBarAccess />
     </>
   );
 }
