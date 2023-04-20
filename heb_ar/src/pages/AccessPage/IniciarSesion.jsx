@@ -57,7 +57,7 @@ function IniciarSesion() {
           {/* <button className="IniciarButton">Iniciar sesión</button>
           <button className="CrearCuenta">Crear cuenta</button> */}
           <Button className="IniciarButton">Iniciar sesión</Button>
-          <a href="/creaTuCuenta"><Button className="CrearCuenta">Crear Cuenta</Button></a>
+          <a href="/crear-cuenta"><Button className="CrearCuenta">Crear Cuenta</Button></a>
 
           <div className="RectangleRow">
             <span className="rectangle"></span>
