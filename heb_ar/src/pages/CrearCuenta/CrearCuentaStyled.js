@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Title = styled.text`
+export const Titulo = styled.text`
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 700;
@@ -26,9 +26,12 @@ export const Input = styled.input`
   line-height: 22px;
   padding-left: 18px;
   margin-bottom: 16px;
+  ::placeholder {
+    color: #c5c5c5
+  }
 `;
 
-export const Date = styled.input` 
+export const Fecha = styled.input` 
   width: 100%;
   
   height: 40px;
@@ -37,12 +40,14 @@ export const Date = styled.input`
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.20));
   border-radius: 10px;
 
+  color: #C5C5C5;
   font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
   padding-left: 18px;
+  padding-right: 18px;
   margin-bottom: 16px;
 `;
 

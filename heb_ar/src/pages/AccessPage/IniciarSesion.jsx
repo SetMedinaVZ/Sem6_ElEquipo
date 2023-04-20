@@ -25,6 +25,9 @@ const InputMail = styled.input.attrs({
   line-height: 22px;
   padding-left: 18px;
   margin-bottom: 16px;
+  ::placeholder {
+    color: #c5c5c5
+  }
 `;
 
 const PasswordInput = styled(InputMail).attrs({
