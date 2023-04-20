@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useState} from 'react';
 import "./IniciarSesion.css";
 import AppBar from "../../common/AppBar/AppBar";
 import styled from "styled-components";
-import NavBar from "../../common/NavBar/NavBar";
 import NavBarAccess from "../../common/NavBar/NavBarAccess";
+import {useAuth} from "../../context/AuthContext"
+import { NavLink, useNavigate } from 'react-router-dom'
 
 const InputMail = styled.input.attrs({
   placeholder:'Correo electrónico'
@@ -44,6 +45,28 @@ const Button = styled.button`
 `;
 
 function IniciarSesion() {
+  const navigate = useNavigate();
+  const {login} = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onLogin = (e) => {
+    e.preventDefault();
+    login(email, password)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        navigate("/perfil")
+        console.log(user);
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage)
+    });
+   
+}
+
+
   return (
     <>
       <AppBar />
@@ -52,14 +75,14 @@ function IniciarSesion() {
           <h1 className="Title">Iniciar Sesión</h1>
           {/* <input placeholder="Correo electrónico"></input>
           <input placeholder="Contraseña"></input> */}
-          <InputMail></InputMail>
-          <PasswordInput></PasswordInput>
+          <InputMail id="email-address" name="email" type="email" required placeholder="Email address" onChange={(e)=>setEmail(e.target.value)}></InputMail>
+          <PasswordInput id="password" name="password" type="password" required placeholder="Password" onChange={(e)=>setPassword(e.target.value)}></PasswordInput>
 
           <a href="/OlvidasteContra" className="OlvidasteContra">¿Olvidaste tu contraseña?</a>
 
           {/* <button className="IniciarButton">Iniciar sesión</button>
           <button className="CrearCuenta">Crear cuenta</button> */}
-          <Button className="IniciarButton">Iniciar sesión</Button>
+          <Button onClick={onLogin} className="IniciarButton">Iniciar sesión</Button>
           <a href="/crear-cuenta"><Button className="CrearCuenta">Crear Cuenta</Button></a>
 
           <div className="RectangleRow">
