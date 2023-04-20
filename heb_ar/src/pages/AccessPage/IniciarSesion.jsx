@@ -1,7 +1,42 @@
 import React from "react";
-import { useAuth } from "../../context/AuthContext";
 import "./IniciarSesion.css";
 import AppBar from "../../common/AppBar/AppBar";
+import styled from "styled-components";
+
+const InputMail = styled.input.attrs({
+  placeholder:'Correo electrónico'
+})`
+
+  box-sizing: border-box;
+
+  width: 290px;
+  height: 40px;
+
+  border: 1px solid #D5D5D5;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.20));
+  border-radius: 10px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  padding-left: 18px;
+  margin-bottom: 16px;
+`;
+
+const PasswordInput = styled(InputMail).attrs({
+  type: "password",
+  placeholder:'Contraseña'
+})``;
+
+const Button = styled.button`
+  width: 290px;
+  height: 38px;
+  margin-bottom: 12px;
+  display:flex; 
+  justify-content: center;
+`;
 
 function IniciarSesion() {
   return (
@@ -10,20 +45,25 @@ function IniciarSesion() {
       <div className="container">
         <div className="column">
           <h1 className="IniciarSesion">Iniciar Sesión</h1>
-          <input placeholder="Correo electrónico"></input>
-          <input placeholder="Contraseña"></input>
-          {/* <InputSubmit type='submit' value='login'/> */}
-          <a href="/OlvidasteContra" className="OlvidasteContra">
-            ¿Olvidaste tu contraseña?
-          </a>
-          <button className="IniciarButton">Iniciar sesión</button>
-          <button className="CrearCuenta">Crear cuenta</button>
+          {/* <input placeholder="Correo electrónico"></input>
+          <input placeholder="Contraseña"></input> */}
+          <InputMail></InputMail>
+          <PasswordInput></PasswordInput>
+
+          <a href="/OlvidasteContra" className="OlvidasteContra">¿Olvidaste tu contraseña?</a>
+
+          {/* <button className="IniciarButton">Iniciar sesión</button>
+          <button className="CrearCuenta">Crear cuenta</button> */}
+          <Button className="IniciarButton">Iniciar sesión</Button>
+          <Button className="CrearCuenta">Crear Cuenta</Button>
+
           <div className="RectangleRow">
             <span className="rectangle"></span>
-            <p className="contConText">O continua con</p>
+            <p className="contConText">O continua</p>
             <span className="rectangle"></span>
           </div>
-          <button className="buttonGoogle">
+          
+          <Button className="buttonGoogle">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               preserveAspectRatio="xMidYMid"
@@ -47,7 +87,7 @@ function IniciarSesion() {
               ></path>
             </svg>
             Continuar con Google
-          </button>
+          </Button>
         </div>
       </div>
     </>
