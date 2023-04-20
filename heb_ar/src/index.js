@@ -4,6 +4,7 @@ import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import IniciarSesion from "./pages/AccessPage/IniciarSesion";
+import CrearCuenta from "./pages/CrearCuenta/CrearCuenta";
 import { AuthProvider } from "./context/AuthContext";
 import Perfil from "./pages/Perfil/Perfil";
 import Carrito from "./pages/Carrito/Carrito";
@@ -17,6 +18,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<IniciarSesion />} />
+        <Route path="/crear-cuenta" element={<CrearCuenta />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/carrito" element={<Carrito />} />
         <Route path="/escaneo" element={<Escaneo />} />
