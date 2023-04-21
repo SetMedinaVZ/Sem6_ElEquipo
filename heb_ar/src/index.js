@@ -11,6 +11,7 @@ import Carrito from "./pages/Carrito/Carrito";
 import Escaneo from "./pages/Escaneo/Escaneo";
 import Quests from "./pages/Quests/Quests";
 import Cupones from "./pages/Cupones/Cupones";
+import Sidebar from "./common/Sidebar";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -24,6 +25,7 @@ root.render(
         <Route path="/escaneo" element={<Escaneo />} />
         <Route path="/quests" element={<Quests />} />
         <Route path="/cupones" element={<Cupones />} />
+        <Route path="/test" element={<Sidebar />} />
       </Routes>
     </BrowserRouter>
   </AuthProvider>
