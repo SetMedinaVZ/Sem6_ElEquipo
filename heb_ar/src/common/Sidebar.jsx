@@ -1,17 +1,19 @@
-import React from 'react'
-import SidebarButton from './SidebarButton';
-import styled from 'styled-components';
-import { ReactComponent as CloseButton } from '../assets/icons/close.svg'
-import { ReactComponent as LogOutButton } from '../assets/icons/logout.svg'
-import { ReactComponent as User } from '../assets/icons/user2.svg'
-import { ReactComponent as Chart } from '../assets/icons/chart.svg'
-import { ReactComponent as Quest } from '../assets/icons/quest.svg'
+import React from "react";
+import SidebarButton from "./SidebarButton";
+import styled from "styled-components";
+import { ReactComponent as CloseButton } from "../assets/icons/close.svg";
+import { ReactComponent as LogOutButton } from "../assets/icons/logout.svg";
+import { ReactComponent as User } from "../assets/icons/user2.svg";
+import { ReactComponent as Chart } from "../assets/icons/chart.svg";
+import { ReactComponent as Quest } from "../assets/icons/quest.svg";
 
 const Section = styled.div`
   position: absolute;
   width: 60%;
-  height: 100vh;
+  height: 100%;
   right: 0;
+  top: 0;
+  z-index: 3;
 
   background: var(--hebRed);
   box-shadow: -4px 0px 4px rgba(0, 0, 0, 0.25);
@@ -38,12 +40,12 @@ const LogOut = styled.div`
   align-items: center;
   margin-left: 10px;
   margin-bottom: 10px;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
   line-height: 29px;
-  color: #FFFFFF;
+  color: #ffffff;
 `;
 
 const LogOutText = styled.p`
@@ -52,21 +54,19 @@ const LogOutText = styled.p`
 
 function Sidebar() {
   return (
-    <>
-      <Section>
-        <Close />
-        <AllButtons>
-          <SidebarButton buttonIcon={<User />} buttonText='Mi Perfil' />
-          <SidebarButton buttonIcon={<Chart />} buttonText='Gastos Mensuales' />
-          <SidebarButton buttonIcon={<Quest />} buttonText='Quests' />
-        </AllButtons>
-        <LogOut>
-          <LogOutButton />
-          <LogOutText>Cerrar Sesión</LogOutText>
-        </LogOut>
-      </Section>
-    </>
-  )
+    <Section>
+      <Close />
+      <AllButtons>
+        <SidebarButton buttonIcon={<User />} buttonText="Mi Perfil" />
+        <SidebarButton buttonIcon={<Chart />} buttonText="Gastos Mensuales" />
+        <SidebarButton buttonIcon={<Quest />} buttonText="Quests" />
+      </AllButtons>
+      <LogOut>
+        <LogOutButton />
+        <LogOutText>Cerrar Sesión</LogOutText>
+      </LogOut>
+    </Section>
+  );
 }
 
-export default Sidebar
+export default Sidebar;
