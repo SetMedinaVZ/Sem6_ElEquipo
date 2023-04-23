@@ -7,13 +7,13 @@ import { useAuth } from "./AuthContext";
  * @returns {Object} If the user is logged in, the children component 
  * is returned, otherwise the user is redirected to the login page.
  */
-const ProtectedRoute = ({children}){
+const ProtectedRoute = ({children}) => {
     const {currentUser} = useAuth();
 
     if(!currentUser){
         return <Navigate to="/" />
     }
     return children;
-}
+};
 
 export default ProtectedRoute;
