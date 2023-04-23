@@ -55,6 +55,7 @@ export const InputDiv = styled.div`
     display: flex;
     width: 290px;
     height: 40px;
+    margin-bottom: 16px;
 
     &.inputWithIcon {
         position: relative;

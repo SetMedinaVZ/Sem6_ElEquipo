@@ -5,6 +5,8 @@ import styled from "styled-components";
 import NavBarAccess from "../../common/NavBar/NavBarAccess";
 import { useAuth } from "../../context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const InputMail = styled.input.attrs({
   placeholder: "Correo electrónico",
@@ -55,18 +57,45 @@ function IniciarSesion() {
       .then((userCredential) => {
         const user = userCredential.user;
         navigate("/perfil");
-        console.log(user);
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        toast.error(error.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+      });
+  };
+
+  const onLoginWithGoogle = () => {
+    loginWithGoogle()
+      .then((userCredential) => {
+        const user = userCredential.user;
+        navigate("/perfil");
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
       });
   };
 
   return (
     <>
       <AppBar />
+      <ToastContainer />
       <div className="container">
         <div className="column">
           <h1 className="Title">Iniciar Sesión</h1>
@@ -108,7 +137,7 @@ function IniciarSesion() {
             <span className="rectangle"></span>
           </div>
 
-          <Button className="buttonGoogle" onClick={loginWithGoogle}>
+          <Button className="buttonGoogle" onClick={onLoginWithGoogle}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               preserveAspectRatio="xMidYMid"
