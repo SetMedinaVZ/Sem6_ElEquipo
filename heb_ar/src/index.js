@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import IniciarSesion from "./pages/AccessPage/IniciarSesion";
 import CrearCuenta from "./pages/CrearCuenta/CrearCuenta";
 import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./context/protectedRoute";
 import Perfil from "./pages/Perfil/Perfil";
 import Carrito from "./pages/Carrito/Carrito";
 import Escaneo from "./pages/Escaneo/Escaneo";
@@ -20,12 +21,46 @@ root.render(
       <Routes>
         <Route path="/" element={<IniciarSesion />} />
         <Route path="/crear-cuenta" element={<CrearCuenta />} />
-        <Route path="/perfil" element={<Perfil />} />
-        <Route path="/carrito" element={<Carrito />} />
-        <Route path="/escaneo" element={<Escaneo />} />
-        <Route path="/quests" element={<Quests />} />
-        <Route path="/cupones" element={<Cupones />} />
-        <Route path="/test" element={<Sidebar />} />
+        <Route
+          path="/perfil"
+          element={
+            <ProtectedRoute>
+              <Perfil />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/carrito"
+          element={
+            <ProtectedRoute>
+              <Carrito />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/escaneo"
+          element={
+            <ProtectedRoute>
+              <Escaneo />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/quests"
+          element={
+            <ProtectedRoute>
+              <Quests />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cupones"
+          element={
+            <ProtectedRoute>
+              <Cupones />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   </AuthProvider>

@@ -1,25 +1,24 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import "./IniciarSesion.css";
 import AppBar from "../../common/AppBar/AppBar";
 import styled from "styled-components";
 import NavBarAccess from "../../common/NavBar/NavBarAccess";
-import {useAuth} from "../../context/AuthContext"
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useAuth } from "../../context/AuthContext";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const InputMail = styled.input.attrs({
-  placeholder:'Correo electrónico'
+  placeholder: "Correo electrónico",
 })`
-
   box-sizing: border-box;
 
   width: 290px;
   height: 40px;
 
-  border: 1px solid #D5D5D5;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.20));
+  border: 1px solid #d5d5d5;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2));
   border-radius: 10px;
 
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
@@ -27,45 +26,43 @@ const InputMail = styled.input.attrs({
   padding-left: 18px;
   margin-bottom: 16px;
   ::placeholder {
-    color: #c5c5c5
+    color: #c5c5c5;
   }
 `;
 
 const PasswordInput = styled(InputMail).attrs({
   type: "password",
-  placeholder:'Contraseña'
+  placeholder: "Contraseña",
 })``;
 
 const Button = styled.button`
   width: 290px;
   height: 38px;
   margin-bottom: 12px;
-  display:flex; 
+  display: flex;
   justify-content: center;
 `;
 
 function IniciarSesion() {
   const navigate = useNavigate();
-  const {login} = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const onLogin = (e) => {
     e.preventDefault();
     login(email, password)
-    .then((userCredential) => {
+      .then((userCredential) => {
         const user = userCredential.user;
-        navigate("/perfil")
+        navigate("/perfil");
         console.log(user);
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage)
-    });
-   
-}
-
+        console.log(errorCode, errorMessage);
+      });
+  };
 
   return (
     <>
@@ -75,22 +72,42 @@ function IniciarSesion() {
           <h1 className="Title">Iniciar Sesión</h1>
           {/* <input placeholder="Correo electrónico"></input>
           <input placeholder="Contraseña"></input> */}
-          <InputMail id="email-address" name="email" type="email" required placeholder="Email address" onChange={(e)=>setEmail(e.target.value)}></InputMail>
-          <PasswordInput id="password" name="password" type="password" required placeholder="Password" onChange={(e)=>setPassword(e.target.value)}></PasswordInput>
+          <InputMail
+            id="email-address"
+            name="email"
+            type="email"
+            required
+            placeholder="Email address"
+            onChange={(e) => setEmail(e.target.value)}
+          ></InputMail>
+          <PasswordInput
+            id="password"
+            name="password"
+            type="password"
+            required
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          ></PasswordInput>
 
-          <a href="/OlvidasteContra" className="OlvidasteContra">¿Olvidaste tu contraseña?</a>
+          <a href="/OlvidasteContra" className="OlvidasteContra">
+            ¿Olvidaste tu contraseña?
+          </a>
 
           {/* <button className="IniciarButton">Iniciar sesión</button>
           <button className="CrearCuenta">Crear cuenta</button> */}
-          <Button onClick={onLogin} className="IniciarButton">Iniciar sesión</Button>
-          <a href="/crear-cuenta"><Button className="CrearCuenta">Crear Cuenta</Button></a>
+          <Button onClick={onLogin} className="IniciarButton">
+            Iniciar sesión
+          </Button>
+          <a href="/crear-cuenta">
+            <Button className="CrearCuenta">Crear Cuenta</Button>
+          </a>
 
           <div className="RectangleRow">
             <span className="rectangle"></span>
             <p className="contConText">O </p>
             <span className="rectangle"></span>
           </div>
-          
+
           <Button className="buttonGoogle">
             <svg
               xmlns="http://www.w3.org/2000/svg"

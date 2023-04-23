@@ -6,6 +6,7 @@ import { ReactComponent as LogOutButton } from "../assets/icons/logout.svg";
 import { ReactComponent as User } from "../assets/icons/user2.svg";
 import { ReactComponent as Chart } from "../assets/icons/chart.svg";
 import { ReactComponent as Quest } from "../assets/icons/quest.svg";
+import { useAuth } from "../context/AuthContext";
 
 const Section = styled.div`
   position: absolute;
@@ -52,16 +53,18 @@ const LogOutText = styled.p`
   padding-left: 10px;
 `;
 
-function Sidebar() {
+function Sidebar({setOpen}) {
+  const {logout} = useAuth();
+
   return (
     <Section>
-      <Close />
+      <Close onClick={setOpen} />
       <AllButtons>
         <SidebarButton buttonIcon={<User />} buttonText="Mi Perfil" />
         <SidebarButton buttonIcon={<Chart />} buttonText="Gastos Mensuales" />
         <SidebarButton buttonIcon={<Quest />} buttonText="Quests" />
       </AllButtons>
-      <LogOut>
+      <LogOut onClick={logout}>
         <LogOutButton />
         <LogOutText>Cerrar Sesión</LogOutText>
       </LogOut>

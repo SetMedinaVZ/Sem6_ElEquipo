@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useCallback } from "react";
 import RedBarSVG from "../../assets/imgs/redBar.svg";
 import HEBlogo from "../../assets/imgs/logo.svg";
 import "./AppBar.css";
@@ -6,15 +6,14 @@ import { useAuth } from "../../context/AuthContext";
 import UserSVG from "../../assets/icons/user.svg";
 import MenuSVG from "../../assets/icons/menu.svg";
 import Sidebar from "../Sidebar";
-import sidebar from "../Sidebar";
 
 const AppBar = () => {
   const { currentUser } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  function handleSidebar() {
-    setIsSidebarOpen(true);
-  }
+  const handleSidebar = useCallback(() => {
+    setIsSidebarOpen(!isSidebarOpen);
+  }, [isSidebarOpen]);
 
   return (
     <Fragment>
@@ -30,7 +29,7 @@ const AppBar = () => {
               alt="menu-icon"
               onClick={handleSidebar}
             />
-            {isSidebarOpen && <Sidebar />}
+            {isSidebarOpen && <Sidebar setOpen={handleSidebar} />}
           </>
         )}
       </div>
