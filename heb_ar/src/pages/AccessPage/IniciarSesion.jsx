@@ -45,7 +45,7 @@ const Button = styled.button`
 
 function IniciarSesion() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -108,7 +108,7 @@ function IniciarSesion() {
             <span className="rectangle"></span>
           </div>
 
-          <Button className="buttonGoogle">
+          <Button className="buttonGoogle" onClick={loginWithGoogle}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               preserveAspectRatio="xMidYMid"

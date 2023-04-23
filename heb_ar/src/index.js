@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import reportWebVitals from "./reportWebVitals";
 import IniciarSesion from "./pages/AccessPage/IniciarSesion";
 import CrearCuenta from "./pages/CrearCuenta/CrearCuenta";
 import { AuthProvider } from "./context/AuthContext";
