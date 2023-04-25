@@ -22,7 +22,6 @@ const Section = styled.div`
 `;
 
 const Close = styled(CloseButton)`
-  margin: 10px;
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
 `;
 
@@ -39,26 +38,39 @@ const LogOut = styled.div`
   bottom: 0;
   display: flex;
   align-items: center;
-  margin-left: 10px;
+  margin-left: 20px;
   margin-bottom: 10px;
-  font-family: "Inter";
+`;
+
+const LogOutText = styled.p`
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
   line-height: 29px;
-  color: #ffffff;
-`;
+  color: #FFFFFF;
 
-const LogOutText = styled.p`
   padding-left: 10px;
+
+  @media (max-width: 370px) {
+    font-size: 20px;
+  }
 `;
 
-function Sidebar({setOpen}) {
-  const {logout} = useAuth();
+const Button = styled.button`
+  padding: 0;
+  margin: 10px;
+  background-color: transparent;
+`;
+
+function Sidebar({ setOpen }) {
+  const { logout } = useAuth();
 
   return (
     <Section>
-      <Close onClick={setOpen} />
+      <Button>
+        <Close onClick={setOpen} />
+      </Button>
       <AllButtons>
         <SidebarButton buttonIcon={<User />} buttonText="Mi Perfil" />
         <SidebarButton buttonIcon={<Chart />} buttonText="Gastos Mensuales" />

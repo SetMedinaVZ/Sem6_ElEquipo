@@ -12,9 +12,9 @@ const Button = styled.button`
   border-radius: 10px;
 
   display: flex;
-  justify-content: space-between;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: space-between; */
+  /* justify-content: center; */
+  /* align-items: center; */
   flex-direction: column;
 
   margin-bottom: 20px;
@@ -32,6 +32,10 @@ const ButtonText = styled.p`
   line-height: 27px;
 
   color: #FFFFFF;
+  
+  @media (max-width: 400px) {
+    font-size: 20px;
+  }
 `;
 
 function SidebarButton(props) {
