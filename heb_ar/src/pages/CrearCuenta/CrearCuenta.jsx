@@ -9,7 +9,8 @@ import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { setDoc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
+import { firestore } from "../../firebase";
 
 function CrearCuenta() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function CrearCuenta() {
       signup(email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-          setDoc(user.uid, {
+          setDoc(doc(firestore, 'users', userCredential.user.uid), {
             nombre: name,
             apellido: lastname,
             email: email,

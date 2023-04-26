@@ -7,7 +7,8 @@ import { useAuth } from "../../context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { setDoc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
+import { firestore } from "../../firebase";
 
 const InputMail = styled.input.attrs({
   placeholder: "Correo electrónico",
@@ -79,7 +80,7 @@ function IniciarSesion() {
       .then((userCredential) => {
         const user = userCredential.user;
         const profile = userCredential.additionalUserInfo.profile;
-        setDoc(user.uid, {
+        setDoc(doc(firestore, 'users', userCredential.user.uid), {
           nombre: user.displayName,
           apellido: user.lastName,
           email: user.email,
