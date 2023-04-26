@@ -136,5 +136,13 @@ export const Button = styled.button`
     padding-left: 16px;
 
     color: #DE2B27;
+`;
 
+export const Back = styled.img`
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: 14px;
+    top: 23px;
+    transform: scaleX(-1);
 `;

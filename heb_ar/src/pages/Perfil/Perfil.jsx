@@ -1,13 +1,17 @@
 import React from "react";
-import AppBar from "../../common/AppBar/AppBar";
-import NavBar from "../../common/NavBar/NavBar";
-import {Titulo, Texto, Codigo, InputDiv, Input, Fecha, Button} from "./PerfilStyled"
+// import AppBar from "../../common/AppBar/AppBar";
+// import NavBar from "../../common/NavBar/NavBar";
+import Arrow from "../../assets/icons/arrow.svg"
+import {Titulo, Texto, Codigo, InputDiv, Input, Fecha, Button, Back} from "./PerfilStyled"
 
 function Perfil() {
   return (
     <>
       {/* <AppBar /> */}
       <div className="container">
+        <a href="https://www.linkedin.com/in/franco-sotomayor-casale-27aa45228/">
+          <Back src={Arrow} alt="Regresar"/>
+        </a>
         <Titulo>Mi Perfil</Titulo>
         
         <InputDiv className="CodigoUsuario">
