@@ -31,6 +31,7 @@ export function AuthProvider({ children }) {
 
   function loginWithGoogle() {
     const provider = new GoogleAuthProvider();
+    provider.addScope("https://www.googleapis.com/auth/user.birthday.read");
     return signInWithPopup(auth, provider);
   }
 

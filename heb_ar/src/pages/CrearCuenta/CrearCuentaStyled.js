@@ -76,7 +76,7 @@ export const InputDiv = styled.div`
 export const Button = styled.button`
   width: 290px;
   height: 38px;
-  margin-bottom: 12px;
+  margin: 2rem 0;
   display:flex; 
   justify-content: center;
 `;

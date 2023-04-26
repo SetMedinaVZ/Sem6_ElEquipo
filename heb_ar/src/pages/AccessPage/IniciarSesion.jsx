@@ -51,6 +51,7 @@ function IniciarSesion() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+
   const onLogin = (e) => {
     e.preventDefault();
     login(email, password)
@@ -76,6 +77,13 @@ function IniciarSesion() {
     loginWithGoogle()
       .then((userCredential) => {
         const user = userCredential.user;
+        const profile = userCredential.additionalUserInfo.profile;
+        setDoc(user.uid, {
+          nombre: user.displayName,
+          apellido: user.lastName,
+          email: user.email,
+          fechaNacimiento: profile.birthday,
+        });
         navigate("/perfil");
       })
       .catch((error) => {
