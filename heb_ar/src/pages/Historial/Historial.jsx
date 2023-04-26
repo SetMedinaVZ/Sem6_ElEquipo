@@ -1,13 +1,19 @@
 import React from "react";
-import AppBar from "../../common/AppBar/AppBar";
+// import AppBar from "../../common/AppBar/AppBar";
+import Arrow from "../../assets/icons/arrow.svg"
+import { Back, Titulo } from "./HistorialStyled"
 
 
 function Historial() {
   return (
     <>
-        <AppBar/>
+        {/* <AppBar/> */}
         <div className="container">
-            <h1>Historial</h1>
+          <a href="/">
+            <Back src={Arrow} alt="Regresar"/>
+          </a>
+          <Titulo>Historial</Titulo>
+
         </div>
     </>
   );

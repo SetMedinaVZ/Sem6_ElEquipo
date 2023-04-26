@@ -125,16 +125,20 @@ function OverviewPerfil2({ setOpen }) {
             </SubSection1>
             <SubSection1 className="SubItemsDiv">
                 <Column >
-                    <a href="/perfil"><img src={User3SVG} />
-                    <h1>Perfil</h1></a>
+                    <a href="/perfil">
+                        <img src={User3SVG} />
+                        <h1>Perfil</h1>
+                    </a>
                 </Column>
                 <Column>
                     <img src={CardSVG} />
                     <h1>Método</h1>
                 </Column>
                 <Column>
-                    <img src={HistorySVG} />
-                    <h1>Historial</h1>
+                    <a href="/historial">
+                        <img src={HistorySVG} />
+                        <h1>Historial</h1>
+                    </a>
                 </Column>
                 <Column>
                     <img src={AyudaSVG} />
