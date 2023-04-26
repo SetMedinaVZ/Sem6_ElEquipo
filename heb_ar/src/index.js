@@ -11,9 +11,13 @@ import Carrito from "./pages/Carrito/Carrito";
 import Escaneo from "./pages/Escaneo/Escaneo";
 import Quests from "./pages/Quests/Quests";
 import Cupones from "./pages/Cupones/Cupones";
+
 import "firebase/functions";
 import firebase from "firebase/app";
 import Home from "./pages/Home/home";
+
+import OverviewPerfil2 from "./common/OverviewPerfil2";
+import Historial from "./pages/Historial/Historial";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -35,6 +39,14 @@ root.render(
           element={
             <ProtectedRoute>
               <Perfil />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/historial"
+          element={
+            <ProtectedRoute>
+              <Historial />
             </ProtectedRoute>
           }
         />

@@ -6,14 +6,20 @@ import { useAuth } from "../../context/AuthContext";
 import UserSVG from "../../assets/icons/user.svg";
 import MenuSVG from "../../assets/icons/menu.svg";
 import Sidebar from "../Sidebar";
+import OverviewPerfil2 from "../OverviewPerfil2";
 
 const AppBar = () => {
   const { currentUser } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isOverviewOpen, setIsOverViewOpen] = useState(false);
 
   const handleSidebar = useCallback(() => {
     setIsSidebarOpen(!isSidebarOpen);
   }, [isSidebarOpen]);
+
+  const handleOverview = useCallback(() => {
+    setIsOverViewOpen(!isOverviewOpen);
+  }, [isOverviewOpen]);
 
   return (
     <Fragment>
@@ -22,7 +28,11 @@ const AppBar = () => {
         <img className="logo" src={HEBlogo} alt="heb-logo" />
         {currentUser && (
           <>
-            <img className="user-icon" src={UserSVG} alt="user-icon" />
+            <img 
+              className="user-icon" 
+              src={UserSVG} 
+              alt="user-icon"
+              onClick={handleOverview} />
             <img
               className="menu-icon"
               src={MenuSVG}
@@ -30,6 +40,7 @@ const AppBar = () => {
               onClick={handleSidebar}
             />
             {isSidebarOpen && <Sidebar setOpen={handleSidebar} />}
+            {isOverviewOpen && <OverviewPerfil2 setOpen={handleOverview} />}
           </>
         )}
       </div>
