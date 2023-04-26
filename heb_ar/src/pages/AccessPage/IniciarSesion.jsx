@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./IniciarSesion.css";
 import AppBar from "../../common/AppBar/AppBar";
 import styled from "styled-components";
 import NavBarAccess from "../../common/NavBar/NavBarAccess";
 import { useAuth } from "../../context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { setDoc, doc } from "firebase/firestore";
 import { firestore } from "../../firebase";
 
@@ -49,58 +49,60 @@ const Button = styled.button`
 
 function IniciarSesion() {
   const navigate = useNavigate();
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle, currentUser} = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
 
-
-  const onLogin = (e) => {
+  const onLogin = async (e) => {
     e.preventDefault();
-    login(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        navigate("/perfil");
-      })
-      .catch((error) => {
-        toast.error(error.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          });
+    try {
+      await login(email, password);
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
+    }
   };
 
-  const onLoginWithGoogle = () => {
-    loginWithGoogle()
-      .then((userCredential) => {
+  const onLoginWithGoogle = async () => {
+    try {
+      await loginWithGoogle().then((userCredential) => {
         const user = userCredential.user;
         const profile = userCredential.additionalUserInfo.profile;
-        setDoc(doc(firestore, 'users', userCredential.user.uid), {
+        setDoc(doc(firestore, "users", userCredential.user.uid), {
           nombre: user.displayName,
           apellido: user.lastName,
           email: user.email,
           fechaNacimiento: profile.birthday,
         });
-        navigate("/perfil");
-      })
-      .catch((error) => {
-        toast.error(error.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          });
       });
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
 
   return (
     <>

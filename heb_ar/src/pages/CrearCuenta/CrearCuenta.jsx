@@ -22,33 +22,32 @@ function CrearCuenta() {
   const [password, setPassword] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState(null);
 
-  const onCreateAccount = (e) => {
+  const onCreateAccount = async (e) => {
     e.preventDefault();
     if (password == password2) {
-      signup(email, password)
-        .then((userCredential) => {
+      try {
+        await signup(email, password).then((userCredential) => {
           const user = userCredential.user;
-          setDoc(doc(firestore, 'users', userCredential.user.uid), {
+          setDoc(doc(firestore, "users", userCredential.user.uid), {
             nombre: name,
             apellido: lastname,
             email: email,
             fechaNacimiento: fechaNacimiento,
           });
-          navigate("/perfil");
-          console.log(user);
-        })
-        .catch((error) => {
-          toast.error(error.message, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
         });
+        navigate("/perfil");
+      } catch (error) {
+        toast.error(error.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     } else {
       toast.error("Las contraseñas deben de coincidir", {
         position: "top-center",
