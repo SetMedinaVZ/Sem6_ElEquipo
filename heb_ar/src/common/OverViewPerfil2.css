@@ -1,11 +1,11 @@
-.logo{
+.logo2{
     position: absolute;
     transform: scale(0.4);
     top: -15%;
 }
 
 @media screen and (min-width: 768px) {
-    .logo{
+    .logo2{
         transform: scale(0.2);
         top: -26rem;
     }
