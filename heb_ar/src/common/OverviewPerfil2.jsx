@@ -11,6 +11,7 @@ import AyudaSVG from "../assets/icons/ayuda.svg";
 
 
 import './OverViewPerfil2.css';
+import { useNavigate } from "react-router-dom";
 
 const Section = styled.div`
   position: absolute;
@@ -97,7 +98,7 @@ const Column = styled.div`
 `;
 
 function OverviewPerfil2({ setOpen }) {
-
+    const navigate = useNavigate();
     var Puntos = 1025;
     var Nombre = 'Marcelo Marquez';
 
@@ -123,9 +124,9 @@ function OverviewPerfil2({ setOpen }) {
                 </Column>
             </SubSection1>
             <SubSection1 className="SubItemsDiv">
-                <Column>
-                    <img src={User3SVG} />
-                    <h1>Perfil</h1>
+                <Column >
+                    <a href="/perfil"><img src={User3SVG} />
+                    <h1>Perfil</h1></a>
                 </Column>
                 <Column>
                     <img src={CardSVG} />
