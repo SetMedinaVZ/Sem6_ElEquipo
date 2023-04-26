@@ -7,6 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { setDoc } from "firebase/firestore";
 
 const InputMail = styled.input.attrs({
   placeholder: "Correo electrónico",
