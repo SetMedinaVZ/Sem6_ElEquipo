@@ -33,8 +33,8 @@
     height: 50px;
 }
 
-.perfil{background-image: url("../../assets/icons/home.svg");}
-.perfil_f{background-image: url("../../assets/icons/home_filled.svg");}
+.home{background-image: url("../../assets/icons/home.svg");}
+.home_f{background-image: url("../../assets/icons/home_filled.svg");}
 
 .carrito{background-image: url("../../assets/icons/cart.svg");}
 .carrito_f{background-image: url("../../assets/icons/cart_filled.svg");}

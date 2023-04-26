@@ -1,13 +1,14 @@
 import React from "react";
 import AppBar from "../../common/AppBar/AppBar";
 import NavBar from "../../common/NavBar/NavBar";
+import { Titulo } from "./CuponesStyled"
 
 function Cupones() {
   return (
     <>
       <AppBar />
       <div className="container">
-        <h1>Cupones</h1>
+        <Titulo>Cupones por tiempo</Titulo>
       </div>
       <NavBar pagina={'cupones'}/>
     </>

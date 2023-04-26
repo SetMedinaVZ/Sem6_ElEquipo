@@ -1,13 +1,14 @@
 import React from "react";
 import AppBar from "../../common/AppBar/AppBar";
 import NavBar from "../../common/NavBar/NavBar";
+import { Titulo } from "./CarritoStyled"
 
 function Carrito() {
   return (
     <>
       <AppBar />
       <div className="container">
-        <h1>Carrito</h1>
+        <Titulo>Tu Carrito</Titulo>
       </div>
       <NavBar pagina={'carrito'}/>
     </>
