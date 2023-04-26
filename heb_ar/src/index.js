@@ -11,16 +11,25 @@ import Carrito from "./pages/Carrito/Carrito";
 import Escaneo from "./pages/Escaneo/Escaneo";
 import Quests from "./pages/Quests/Quests";
 import Cupones from "./pages/Cupones/Cupones";
-import 'firebase/functions';
-import firebase from 'firebase/app';
+import "firebase/functions";
+import firebase from "firebase/app";
+import Home from "./pages/Home/home";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <AuthProvider>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<IniciarSesion />} />
+        <Route path="/iniciar-sesion" element={<IniciarSesion />} />
         <Route path="/crear-cuenta" element={<CrearCuenta />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/perfil"
           element={
@@ -65,4 +74,3 @@ root.render(
     </BrowserRouter>
   </AuthProvider>
 );
-
