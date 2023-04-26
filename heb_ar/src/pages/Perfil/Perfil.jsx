@@ -9,7 +9,7 @@ function Perfil() {
     <>
       {/* <AppBar /> */}
       <div className="container">
-        <a href="https://www.linkedin.com/in/franco-sotomayor-casale-27aa45228/">
+        <a href="/">
           <Back src={Arrow} alt="Regresar"/>
         </a>
         <Titulo>Mi Perfil</Titulo>
