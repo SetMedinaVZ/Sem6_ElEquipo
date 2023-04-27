@@ -28,9 +28,9 @@ const AppBar = () => {
         <img className="logo" src={HEBlogo} alt="heb-logo" />
         {currentUser && (
           <>
-            <img 
-              className="user-icon" 
-              src={UserSVG} 
+            <img
+              className="user-icon"
+              src={UserSVG}
               alt="user-icon"
               onClick={handleOverview} />
             <img
