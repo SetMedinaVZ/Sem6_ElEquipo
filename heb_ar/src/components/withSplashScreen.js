@@ -1,30 +1,18 @@
 import React, {Component, useRef} from 'react';
-// import auth0Client from '../Auth';
 import './splash-screen.css';
 import Logo from "../assets/imgs/logo.svg";
-// import { useSpring, animated } from '@react-spring/web'
+import Fade from 'react-reveal/Fade';
 
 function LoadingMessage() {
-
-//     const imgRef = useRef();
-
-//     const imgStyle = useSpring({
-//         to: {
-//             opacity: 1
-//         },
-//         from: {
-//             opacity: 0
-//         },
-//         ref: imgRef
-//     });
-
     return (
         <div className="splash-screen">
-            <img 
-                src={Logo} 
-                alt="" 
-                // style={imgStyle}
-            />
+            <Fade top>
+              <img 
+                  src={Logo} 
+                  alt="" 
+                  // style={imgStyle}
+              />
+            </Fade>
         </div>
     );
 }
@@ -40,7 +28,6 @@ function withSplashScreen(WrappedComponent) {
 
     async componentDidMount() {
       try {
-        // await auth0Client.loadSession();
         setTimeout(() => {
           this.setState({
             loading: false,
@@ -65,57 +52,3 @@ function withSplashScreen(WrappedComponent) {
 }
 
 export default withSplashScreen;
-
-// import React, { Component, useRef } from 'react';
-// // import auth0Client from '../Auth';
-// import './splash-screen.css';
-// import Logo from '../assets/imgs/logo.svg';
-// import { useSpring, animated } from 'react-spring';
-
-// function LoadingMessage() {
-//   const imgRef = useRef();
-
-//   const imgStyle = useSpring({
-//     to: {
-//       opacity: 1,
-//     },
-//     from: {
-//       opacity: 0,
-//     },
-//     ref: imgRef,
-//   });
-
-//   return (
-//     <div className="splash-screen">
-//       <animated.img src={Logo} alt="" style={imgStyle} />
-//     </div>
-//   );
-// }
-
-// function withSplashScreen(WrappedComponent) {
-//   return function Splash(props) {
-//     const [loading, setLoading] = React.useState(true);
-
-//     React.useEffect(() => {
-//       async function checkSession() {
-//         try {
-//           // await auth0Client.loadSession();
-//           setTimeout(() => {
-//             setLoading(false);
-//           }, 1500);
-//         } catch (err) {
-//           console.log(err);
-//           setLoading(false);
-//         }
-//       }
-
-//       checkSession();
-//     }, []);
-
-//     if (loading) return <LoadingMessage />;
-
-//     return <WrappedComponent {...props} />;
-//   };
-// }
-
-// export default withSplashScreen;
