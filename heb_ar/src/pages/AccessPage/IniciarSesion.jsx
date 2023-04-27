@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setDoc, doc } from "firebase/firestore";
 import { firestore } from "../../firebase";
+import withSplashScreen from "../../components/withSplashScreen";
 
 const InputMail = styled.input.attrs({
   placeholder: "Correo electrónico",
@@ -181,4 +182,4 @@ function IniciarSesion() {
   );
 }
 
-export default IniciarSesion;
+export default withSplashScreen(IniciarSesion);
