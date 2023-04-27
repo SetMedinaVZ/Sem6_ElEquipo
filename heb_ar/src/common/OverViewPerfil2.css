@@ -1,7 +1,7 @@
 .logo2{
     position: absolute;
     transform: scale(0.4);
-    top: -15%;
+    top: -16%;
 }
 
 @media screen and (min-width: 768px) {

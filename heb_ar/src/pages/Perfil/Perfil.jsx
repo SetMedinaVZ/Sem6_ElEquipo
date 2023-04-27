@@ -3,6 +3,7 @@ import React from "react";
 // import NavBar from "../../common/NavBar/NavBar";
 import Arrow from "../../assets/icons/arrow.svg"
 import {Titulo, Texto, Codigo, InputDiv, Input, Fecha, Button, Back} from "./PerfilStyled"
+import AppBar from "../../common/AppBar/AppBar";
 
 function Perfil() {
   return (

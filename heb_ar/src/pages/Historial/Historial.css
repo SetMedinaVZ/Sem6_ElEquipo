@@ -1,0 +1,51 @@
+.Fecha{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+
+    color: #722017;
+}
+
+.Location{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 12px;
+    display: flex;
+    align-items: center;
+
+    color: rgba(0, 0, 0, 0.49);
+}
+
+.ButtonDivH{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.rectMoney{
+    width: 2px;
+    height: 90%;
+
+    background: rgba(0, 0, 0, 0.38);
+    border-radius: 5px;
+    margin-top: 7px;
+}
+
+.rectRow{
+    width: 100%;
+    height: 2px;
+
+    background: rgba(0, 0, 0, 0.38);
+}
+
+.help-icon{
+    width: 18.66px;
+    height: 18.53px;
+}

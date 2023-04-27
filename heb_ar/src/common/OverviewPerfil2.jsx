@@ -25,8 +25,13 @@ const Section = styled.div`
   border-radius: 0px 0px 20px 20px;
   color: white;
 
-  @media screen and (min-width: 768px) {
+
+    @media screen and (min-width: 768px) {
         height: 40%;
+    }
+
+    @media screen and (max-height: 800px) {
+        height: 65%;
     }
 `;
 
@@ -104,7 +109,7 @@ function OverviewPerfil2({ setOpen }) {
 
   return (
     <Section>
-        <img className="logo" src={HEBlogo} alt="heb-logo" />
+        <img className="logo2" src={HEBlogo} alt="heb-logo2" />
         <img className="user-icon"  src={UserSVG} alt="user-icon" />
         <Button>
             <Close onClick={setOpen} />
@@ -131,18 +136,18 @@ function OverviewPerfil2({ setOpen }) {
                     </a>
                 </Column>
                 <Column>
-                    <img src={CardSVG} />
-                    <h1>Método</h1>
+                    <a href="/metodo"><img src={CardSVG} />
+                    <h1>Método</h1></a>
                 </Column>
                 <Column>
                     <a href="/historial">
-                        <img src={HistorySVG} />
-                        <h1>Historial</h1>
+                        <a href="/historial"><img src={HistorySVG} />
+                        <h1>Historial</h1></a>
                     </a>
                 </Column>
                 <Column>
-                    <img src={AyudaSVG} />
-                    <h1>Ayuda</h1>
+                    <a href="/ayuda"><img src={AyudaSVG} />
+                    <h1>Ayuda</h1></a>
                 </Column>
             </SubSection1>
         </Section2>

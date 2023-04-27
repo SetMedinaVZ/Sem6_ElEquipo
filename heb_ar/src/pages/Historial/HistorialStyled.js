@@ -9,7 +9,7 @@ export const Back = styled.img`
     transform: scaleX(-1);
 `;
 
-export const Titulo = styled.text`
+export const Titulo = styled.h1`
     /* position: absolute; */
     padding-top: 44px;
     padding-bottom: 2px;
