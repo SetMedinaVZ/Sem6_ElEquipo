@@ -15,6 +15,9 @@ import "firebase/functions";
 import firebase from "firebase/app";
 import Home from "./pages/Home/home";
 import Historial from "./pages/Historial/Historial";
+import Ayuda from "./pages/Ayuda/Ayuda";
+import Metodo from "./pages/MetodoPago/MetodoPago";
+import MetodoPago from "./pages/MetodoPago/MetodoPago";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -76,6 +79,22 @@ root.render(
           element={
             <ProtectedRoute>
               <Cupones />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ayuda"
+          element={
+            <ProtectedRoute>
+              <Ayuda />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/metodo"
+          element={
+            <ProtectedRoute>
+              <MetodoPago />
             </ProtectedRoute>
           }
         />

@@ -17,6 +17,7 @@
     z-index: 1;
     transform: scale(0.9);
     filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+    cursor: pointer;
 }
 
 .menu-icon {
@@ -26,6 +27,7 @@
     z-index: 1;
     transform: scale(0.8);
     filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+    cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {
