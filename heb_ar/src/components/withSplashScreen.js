@@ -10,7 +10,6 @@ function LoadingMessage() {
               <img 
                   src={Logo} 
                   alt="" 
-                  // style={imgStyle}
               />
             </Fade>
         </div>
