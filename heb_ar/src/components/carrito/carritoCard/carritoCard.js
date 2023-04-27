@@ -1,7 +1,17 @@
 import React, { useEffect, useState} from "react";
 import "./carritoCard.css";
 
-function CarritoCard({name,priceU,amount,size}) {  
+function CarritoCard({name,priceU,amount,size}) {
+    var [priceF, setPriceF] = useState("");
+    
+    useEffect(() => {
+        setPriceF(priceU * amount);
+    });
+
+    const sumar = () => {
+        setPriceF(amount * priceU)
+    };
+
     return (
       <>
         <div className='carrito-card-container'>
@@ -15,7 +25,7 @@ function CarritoCard({name,priceU,amount,size}) {
                     <div className='close'></div>
                 </div>
                 <div className='row'>
-                    <h1 className='price'>${priceU}</h1>
+                    <h1 className='price'>${priceF}</h1>
                     <div className='amount-container'>
                         <button className='amount-button'>-</button>
                         <h1 className='amount'>{amount}</h1>
