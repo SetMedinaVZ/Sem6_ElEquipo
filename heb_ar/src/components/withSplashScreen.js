@@ -2,21 +2,21 @@ import React, {Component, useRef} from 'react';
 // import auth0Client from '../Auth';
 import './splash-screen.css';
 import Logo from "../assets/imgs/logo.svg";
-// import {useSpring, animated} from "react-spring";
+// import { useSpring, animated } from '@react-spring/web'
 
 function LoadingMessage() {
 
-    // const imgRef = useRef();
+//     const imgRef = useRef();
 
-    // const imgStyle = useSpring({
-    //     to: {
-    //         opacity: 1
-    //     },
-    //     from: {
-    //         opacity: 0
-    //     },
-    //     ref: imgRef
-    // });
+//     const imgStyle = useSpring({
+//         to: {
+//             opacity: 1
+//         },
+//         from: {
+//             opacity: 0
+//         },
+//         ref: imgRef
+//     });
 
     return (
         <div className="splash-screen">
@@ -65,3 +65,57 @@ function withSplashScreen(WrappedComponent) {
 }
 
 export default withSplashScreen;
+
+// import React, { Component, useRef } from 'react';
+// // import auth0Client from '../Auth';
+// import './splash-screen.css';
+// import Logo from '../assets/imgs/logo.svg';
+// import { useSpring, animated } from 'react-spring';
+
+// function LoadingMessage() {
+//   const imgRef = useRef();
+
+//   const imgStyle = useSpring({
+//     to: {
+//       opacity: 1,
+//     },
+//     from: {
+//       opacity: 0,
+//     },
+//     ref: imgRef,
+//   });
+
+//   return (
+//     <div className="splash-screen">
+//       <animated.img src={Logo} alt="" style={imgStyle} />
+//     </div>
+//   );
+// }
+
+// function withSplashScreen(WrappedComponent) {
+//   return function Splash(props) {
+//     const [loading, setLoading] = React.useState(true);
+
+//     React.useEffect(() => {
+//       async function checkSession() {
+//         try {
+//           // await auth0Client.loadSession();
+//           setTimeout(() => {
+//             setLoading(false);
+//           }, 1500);
+//         } catch (err) {
+//           console.log(err);
+//           setLoading(false);
+//         }
+//       }
+
+//       checkSession();
+//     }, []);
+
+//     if (loading) return <LoadingMessage />;
+
+//     return <WrappedComponent {...props} />;
+//   };
+// }
+
+// export default withSplashScreen;
