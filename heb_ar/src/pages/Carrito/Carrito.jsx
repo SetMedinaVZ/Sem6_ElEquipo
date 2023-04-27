@@ -10,7 +10,7 @@ function Carrito() {
       <AppBar />
       <div className="container">
         <Titulo>Tu Carrito</Titulo>
-        <CarritoCard name={'Leche'} size={'1L'} priceU={20.5} amount={5}></CarritoCard>
+        <CarritoCard name={'Leche'} size={'1L'} priceU={20.5} amountI={5}></CarritoCard>
       </div>
       <NavBar pagina={'carrito'}/>
     </>

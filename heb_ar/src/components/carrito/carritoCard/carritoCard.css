@@ -32,6 +32,7 @@
     background-color: #F5F5F5;
     height: 100%;
     width: 25vw;
+    border-radius: 20px 0px 0px 20px;
 }
 
 .product{
@@ -67,19 +68,19 @@
     align-items: center;
     color: #722017;
     padding: 0 10px;
-    margin-top: 20%;
+    margin-top: 15%;
+    max-width: 30px;
 }
 
 .amount-container{
     display: flex;
     flex-direction: row;
-    height: 5vh;
-    width: 25vw;
     background: #FFC0B1;
     border: 1px solid rgba(114, 32, 23, 0.3);
     border-radius: 40px;
-    margin-top: 10%;
-    margin-left: 30%;
+    margin-top: 12%;
+    margin-left: 35%;
+    height: 55%;
 
     font-family: 'Inter';
     font-style: normal;
@@ -94,8 +95,8 @@
 
 .amount-button{
     background-color: transparent;
-    box-shadow: 0 0 0 0 !important;
-    padding: 0 15px;
+    box-shadow: 0 0 0 0;
+    padding:  0px 15px;
     color: #722017;
     font-size: 25px;
 }
