@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, firestore } from "../firebase";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
@@ -29,11 +29,25 @@ export function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  function loginWithGoogle() {
+  async function loginWithGoogle() {
     const provider = new GoogleAuthProvider();
     provider.addScope("https://www.googleapis.com/auth/user.birthday.read");
-    return signInWithPopup(auth, provider);
+  
+    return signInWithPopup(auth, provider)
+      .then((userCredential) => {
+        if (userCredential.user) {
+          const user = userCredential.user;
+          return setDoc(doc(firestore, "users", userCredential.user.uid), {
+            nombre: user.displayName,
+            email: user.email,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error writing user document: ", error);
+      });
   }
+  
 
   function logout() {
     return signOut(auth);

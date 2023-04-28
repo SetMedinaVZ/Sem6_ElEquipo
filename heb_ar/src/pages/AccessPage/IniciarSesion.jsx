@@ -50,7 +50,7 @@ const Button = styled.button`
 
 function IniciarSesion() {
   const navigate = useNavigate();
-  const { login, loginWithGoogle, currentUser} = useAuth();
+  const { login, loginWithGoogle, currentUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -75,16 +75,8 @@ function IniciarSesion() {
 
   const onLoginWithGoogle = async () => {
     try {
-      await loginWithGoogle().then((userCredential) => {
-        const user = userCredential.user;
-        const profile = userCredential.additionalUserInfo.profile;
-        setDoc(doc(firestore, "users", userCredential.user.uid), {
-          nombre: user.displayName,
-          apellido: user.lastName,
-          email: user.email,
-          fechaNacimiento: profile.birthday,
-        });
-      });
+      await loginWithGoogle();
+      navigate("/");
     } catch (error) {
       toast.error(error.message, {
         position: "top-center",
