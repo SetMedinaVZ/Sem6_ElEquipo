@@ -41,7 +41,7 @@ const PasswordInput = styled(InputMail).attrs({
 })``;
 
 const Button = styled.button`
-  background-color: ${props => (props.isValid ? '#DE2B27' : 'none')};
+background-color: ${props => (props.isValid ? '#009FCE' : 'none')};
   width: 290px;
   height: 38px;
   margin-bottom: 12px;
@@ -52,52 +52,35 @@ const Button = styled.button`
 function IniciarSesion() {
   const navigate = useNavigate();
   const { login, loginWithGoogle, currentUser } = useAuth();
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  const [inputValues, setInputValues] = useState({
-    email: '',
-    password: ''
-  });
-
-  const [isValid, setIsValid] = useState(false);
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setError] = useState("");
   const [user, setUser] = useState(null);
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setInputValues(prevValues => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  }
-
-  useEffect(() => {
-    // const allValuesValid = Object.values(inputValues).every(value => value > 0);
-    // setIsValid(allValuesValid);
-    if (inputValues.email.trim().length > 0 &&
-      inputValues.password.trim().length > 0) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
-  }, [inputValues]);
 
   const onLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(inputValues.email, inputValues.password);
+      await login(email, password);
     } catch (error) {
-      toast.error(error.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      switch (error.code){
+        case "auth/user-not-found":
+          toast.error("El correo ingresado no existe");
+          break;
+        case "auth/wrong-password":
+          toast.error("Contraseña incorrecta");
+          break;
+        case "auth/missing-passwor":
+          toast.error("Ingresa tu contraseña");
+          break;
+        case "auth/invalid-email":
+          toast.error("Correo no valido");
+          break;
+        case "auth/too-many-requests":
+          toast.error("Demasiados intentos seguidos, porfavor espera unos segundos");
+          break;
+      }
     }
+  
   };
 
   const onLoginWithGoogle = async () => {
@@ -105,16 +88,7 @@ function IniciarSesion() {
       await loginWithGoogle();
       navigate("/");
     } catch (error) {
-      toast.error(error.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      console.log("Error")
     }
   };
 
@@ -139,8 +113,7 @@ function IniciarSesion() {
             type="email"
             required
             placeholder="Email address"
-            value={inputValues.email}
-            onChange={handleInputChange}
+            onChange={(e) => setEmail(e.target.value)}
           ></InputMail>
           <PasswordInput
             id="password"
@@ -148,8 +121,7 @@ function IniciarSesion() {
             type="password"
             required
             placeholder="Password"
-            value={inputValues.password}
-            onChange={handleInputChange}
+            onChange={(e) => setPassword(e.target.value)}
           ></PasswordInput>
 
           <a href="/OlvidasteContra" className="OlvidasteContra">
@@ -159,15 +131,14 @@ function IniciarSesion() {
           {/* <button className="IniciarButton">Iniciar sesión</button>
           <button className="CrearCuenta">Crear cuenta</button> */}
           <Button
-            onClick={onLogin}
-            className="IniciarButton"
-            isValid={isValid}
-            disabled={!isValid}
-          >
+            onClick={onLogin} className="IniciarButton">
             Iniciar sesión
           </Button>
           <a href="/crear-cuenta">
-            <Button style={{backgroundColor: '#009FCE'}} className="CrearCuenta">Crear Cuenta</Button>
+            <Button
+             isValid={true}
+             disabled={false}
+             className="CrearCuenta">Crear Cuenta</Button>
           </a>
 
           <div className="RectangleRow">
