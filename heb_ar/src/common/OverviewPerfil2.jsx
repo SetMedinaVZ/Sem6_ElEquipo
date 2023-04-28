@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as CloseButton } from "../assets/icons/close.svg";
 import HEBlogo from "../assets/imgs/logo.svg";
@@ -17,7 +17,7 @@ const Section = styled.div`
   position: absolute;
   width: 100%;
   height: 55%;
-  top: 0;
+  top: -100%; /* start the component offscreen */
   z-index: 3;   
 
   background: var(--hebRed);
@@ -25,15 +25,43 @@ const Section = styled.div`
   border-radius: 0px 0px 20px 20px;
   color: white;
 
+  /* slide-in animation */
+  animation: slide-in 0.5s forwards;
 
-    @media screen and (min-width: 768px) {
-        height: 40%;
-    }
+  /* slide-out animation */
+  &.slide-out {
+    animation: slide-out 0.5s forwards;
+  }
 
-    @media screen and (max-height: 800px) {
-        height: 65%;
+  @media screen and (min-width: 768px) {
+      height: 40%;
+  }
+
+  @media screen and (max-height: 800px) {
+      height: 65%;
+  }
+
+  /* slide-in animation keyframes */
+  @keyframes slide-in {
+    from {
+      top: -100%;
     }
+    to {
+      top: 0;
+    }
+  }
+
+  /* slide-out animation keyframes */
+  @keyframes slide-out {
+    from {
+      top: 0;
+    }
+    to {
+      top: -100%;
+    }
+  }
 `;
+
 
 const Close = styled(CloseButton)`
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
@@ -106,13 +134,21 @@ function OverviewPerfil2({ setOpen }) {
     const navigate = useNavigate();
     var Puntos = 1025;
     var Nombre = 'Marcelo Marquez';
+    const [isOpen, setIsOpen] = React.useState(true);
+
+
+    const handleClose = () => {
+        // set the slide-out animation
+        setIsOpen(false);      
+        setOpen();  
+    };
 
   return (
-    <Section>
+    <Section className={isOpen ? "" : "slide-out"}>
         <img className="logo2" src={HEBlogo} alt="heb-logo2" />
         <img className="user-icon"  src={UserSVG} alt="user-icon" />
         <Button>
-            <Close onClick={setOpen} />
+            <Close onClick={handleClose} />
         </Button>
         <Hola>
             <h1 className="Hola">Hola, <b>{Nombre}</b></h1>

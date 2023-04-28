@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback } from "react";
+import React, { Fragment, useState, useCallback, useEffect } from "react";
 import RedBarSVG from "../../assets/imgs/redBar.svg";
 import HEBlogo from "../../assets/imgs/logo.svg";
 import "./AppBar.css";
@@ -12,6 +12,7 @@ const AppBar = () => {
   const { currentUser } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isOverviewOpen, setIsOverViewOpen] = useState(false);
+  const [isClosingOverview, setIsClosingOverview] = useState(false);
 
   const handleSidebar = useCallback(() => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -19,6 +20,23 @@ const AppBar = () => {
 
   const handleOverview = useCallback(() => {
     setIsOverViewOpen(!isOverviewOpen);
+  }, [isOverviewOpen]);
+  
+  const handleCloseOverview = useCallback(() => {
+    setIsClosingOverview(true);
+  }, []);
+
+  useEffect(() => {
+    if (isClosingOverview) {
+      setTimeout(() => {
+        setIsOverViewOpen(false);
+        setIsClosingOverview(false);
+      }, 500);
+    }
+  }, [isClosingOverview]);
+
+  useEffect(() => {
+    console.log("overview", isOverviewOpen);
   }, [isOverviewOpen]);
 
   return (
@@ -40,7 +58,7 @@ const AppBar = () => {
               onClick={handleSidebar}
             />
             {isSidebarOpen && <Sidebar setOpen={handleSidebar} />}
-            {isOverviewOpen && <OverviewPerfil2 setOpen={handleOverview} />}
+            {isOverviewOpen && <OverviewPerfil2 setOpen={handleCloseOverview} />}
           </>
         )}
       </div>
