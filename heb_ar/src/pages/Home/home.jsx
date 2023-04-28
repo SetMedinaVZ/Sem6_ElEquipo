@@ -9,7 +9,8 @@ const Home = () => {
     <>
       <AppBar />
       <div className="container">
-				<SearchBar />
+        {/* Only decoment this line to neccecary testing */}
+        {/* <SearchBar /> */}
         <CategoryList />
       </div>
       <NavBar pagina={"home"} />
