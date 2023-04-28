@@ -1,11 +1,10 @@
 import React from "react";
 import AppBar from "../../common/AppBar/AppBar";
 import NavBar from "../../common/NavBar/NavBar";
-import CategoryList from "../../components/CategoryList/CategoryList";
 import SearchBar from "../../components/SearchProductBar/SearchBar";
+import CategoryList from "../../components/CategoryList/CategoryList";
+import ProductList from "../../components/ProductList/ProductList";
 import styled from "styled-components";
-import Card from "../../components/ProductCard/ProductCard";
-import test from '../../assets/coca.png';
 
 const HomeText = styled.p`
 	font-family: 'Inter';
@@ -31,7 +30,6 @@ const Home = () => {
       <div className="container">
         {/* Only decoment this line to neccecary testing */}
         {/* <SearchBar /> */}
-        <Card cardImg={test} cardName='Coca Cola'/>
         <WrapText>
           <HomeText>Categorías</HomeText>
         </WrapText>
@@ -39,6 +37,7 @@ const Home = () => {
         <WrapText>
           <HomeText>Los más populares de hoy</HomeText>
         </WrapText>
+        <ProductList />
       </div>
       <NavBar pagina={"home"} />
     </>
