@@ -73,10 +73,11 @@ export const InputDiv = styled.div`
   }
 `;
 
-export const Button = styled.button`
-  width: 290px;
-  height: 38px;
-  margin: 2rem 0;
-  display:flex; 
-  justify-content: center;
-`;
+// export const SignUpButton = styled.button`
+//   background-color: ${props => (props.isValid ? '#009FCE' : 'none')};
+//   width: 290px;
+//   height: 38px;
+//   margin: 2rem 0;
+//   display:flex; 
+//   justify-content: center;
+// `;

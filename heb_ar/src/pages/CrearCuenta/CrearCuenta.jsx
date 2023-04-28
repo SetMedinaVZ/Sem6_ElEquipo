@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import "./CrearCuenta.css";
 import AppBar from "../../common/AppBar/AppBar";
-// import styled from "styled-components";
+import styled from "styled-components";
 import Calendar from "../../assets/icons/calendar.svg";
-import { Titulo, Input, InputDiv, Fecha, Button } from "./CrearCuentaStyled";
+import { Titulo, Input, InputDiv, Fecha } from "./CrearCuentaStyled";
 import NavBarAccess from "../../common/NavBar/NavBarAccess";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -12,26 +12,81 @@ import "react-toastify/dist/ReactToastify.css";
 import { setDoc, doc } from "firebase/firestore";
 import { firestore } from "../../firebase";
 
+const SignUpButton = styled.button`
+  background-color: ${props => (props.isValid ? '#009FCE' : 'none')};
+  width: 290px;
+  height: 38px;
+  margin: 2rem 0;
+  display:flex; 
+  justify-content: center;
+`;
+
+
 function CrearCuenta() {
   const navigate = useNavigate();
   const { signup } = useAuth();
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [lastname, setLastName] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [name, setName] = useState("");
+  // const [lastname, setLastName] = useState("");
+  // const [password2, setPassword2] = useState("");
+  // const [password, setPassword] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState(null);
+
+  const [inputValues, setInputValues] = useState({
+    name: '',
+    lastname: '',
+    email: '',
+    password: '',
+    password2: ''
+  });
+
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    // const allValuesValid = Object.values(inputValues).every(value => value > 0);
+    // setIsValid(allValuesValid);
+    if (inputValues.name.trim().length > 0 &&
+      inputValues.lastname.trim().length > 0 &&
+      inputValues.email.trim().length > 0 &&
+      inputValues.password.trim().length > 0 &&
+      inputValues.password2.trim().length > 0 &&
+      fechaNacimiento !== null) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [inputValues, fechaNacimiento]);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setInputValues(prevValues => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  }
+
+  // const buttonDisableHandler = () => {
+  //   if (name.trim().length > 0 &&
+  //     lastname.trim().length > 0 &&
+  //     email.trim().length > 0 &&
+  //     password.trim().length > 0 &&
+  //     password2.trim().length > 0) {
+  //     setIsValid(true);
+  //   } else {
+  //     setIsValid(false);
+  //   }
+  // }
 
   const onCreateAccount = async (e) => {
     e.preventDefault();
-    if (password == password2) {
+    if (inputValues.password == inputValues.password2) {
       try {
-        await signup(email, password).then((userCredential) => {
+        await signup(inputValues.email, inputValues.password).then((userCredential) => {
           const user = userCredential.user;
           setDoc(doc(firestore, "users", userCredential.user.uid), {
-            nombre: name,
-            apellido: lastname,
-            email: email,
+            nombre: inputValues.name,
+            apellido: inputValues.lastname,
+            email: inputValues.email,
             fechaNacimiento: fechaNacimiento,
           });
         });
@@ -71,17 +126,21 @@ function CrearCuenta() {
           <Titulo>Crea tu Cuenta</Titulo>
           <Input
             id="nombre"
-            name="nombre"
+            name="name"
             required
             placeholder="Nombre"
-            onChange={(e) => setName(e.target.value)}
+            value={inputValues.name}
+            // onChange={event => {setName(event.target.value); buttonDisableHandler(); console.log(name);}}
+            onChange={handleInputChange}
           />
           <Input
             id="lastname"
-            name="lastmane"
+            name="lastname"
             required
             placeholder="Apellido"
-            onChange={(e) => setLastName(e.target.value)}
+            value={inputValues.lastname}
+            // onChange={event => {setLastName(event.target.value); buttonDisableHandler();}}
+            onChange={handleInputChange}
           />
           <Input
             id="email-address"
@@ -89,7 +148,9 @@ function CrearCuenta() {
             type="email"
             required
             placeholder="Correo electrónico"
-            onChange={(e) => setEmail(e.target.value)}
+            value={inputValues.email}
+            // onChange={event => {setEmail(event.target.value); buttonDisableHandler();}}
+            onChange={handleInputChange}
           />
 
           <Input
@@ -98,7 +159,9 @@ function CrearCuenta() {
             type="password"
             required
             placeholder="Contraseña"
-            onChange={(e) => setPassword(e.target.value)}
+            value={inputValues.password}
+            // onChange={event => {setPassword(event.target.value); buttonDisableHandler();}}
+            onChange={handleInputChange}
           />
 
           <Input
@@ -107,7 +170,9 @@ function CrearCuenta() {
             type="password"
             required
             placeholder="Confirma tu contraseña"
-            onChange={(e) => setPassword2(e.target.value)}
+            value={inputValues.password2}
+            // onChange={event => {setPassword2(event.target.value); buttonDisableHandler();}}
+            onChange={handleInputChange}
           />
 
           <InputDiv className={"inputWithIcon"}>
@@ -115,17 +180,22 @@ function CrearCuenta() {
             <Fecha
               type="date"
               id="start"
-              name="trip-start"
+              name="fechaNacimiento"
               min="1923-01-01"
               max="2023-12-31"
-              onChange={(e) => setFechaNacimiento(e.target.valueAsDate)}
+            onChange={event => {setFechaNacimiento(event.target.valueAsDate);}}
             ></Fecha>
             {/* <img className="right-icon" src={Calendar} alt="heb-logo" /> */}
           </InputDiv>
           {/* <Input placeholder="Fecha de Nacimiento"/> */}
-          <Button onClick={onCreateAccount} className="CrearCuenta">
+          <SignUpButton
+            onClick={onCreateAccount}
+            className='CrearCuenta'
+            isValid={isValid}
+            disabled={!isValid}
+          >
             Crear Cuenta
-          </Button>
+          </SignUpButton>
         </div>
       </div>
       <NavBarAccess />

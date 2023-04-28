@@ -41,6 +41,7 @@ const PasswordInput = styled(InputMail).attrs({
 })``;
 
 const Button = styled.button`
+  background-color: ${props => (props.isValid ? '#DE2B27' : 'none')};
   width: 290px;
   height: 38px;
   margin-bottom: 12px;
@@ -51,14 +52,40 @@ const Button = styled.button`
 function IniciarSesion() {
   const navigate = useNavigate();
   const { login, loginWithGoogle, currentUser } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  const [inputValues, setInputValues] = useState({
+    email: '',
+    password: ''
+  });
+
+  const [isValid, setIsValid] = useState(false);
+
   const [user, setUser] = useState(null);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setInputValues(prevValues => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  }
+
+  useEffect(() => {
+    // const allValuesValid = Object.values(inputValues).every(value => value > 0);
+    // setIsValid(allValuesValid);
+    if (inputValues.email.trim().length > 0 &&
+      inputValues.password.trim().length > 0) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [inputValues]);
 
   const onLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      await login(inputValues.email, inputValues.password);
     } catch (error) {
       toast.error(error.message, {
         position: "top-center",
@@ -112,7 +139,8 @@ function IniciarSesion() {
             type="email"
             required
             placeholder="Email address"
-            onChange={(e) => setEmail(e.target.value)}
+            value={inputValues.email}
+            onChange={handleInputChange}
           ></InputMail>
           <PasswordInput
             id="password"
@@ -120,7 +148,8 @@ function IniciarSesion() {
             type="password"
             required
             placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
+            value={inputValues.password}
+            onChange={handleInputChange}
           ></PasswordInput>
 
           <a href="/OlvidasteContra" className="OlvidasteContra">
@@ -129,11 +158,16 @@ function IniciarSesion() {
 
           {/* <button className="IniciarButton">Iniciar sesión</button>
           <button className="CrearCuenta">Crear cuenta</button> */}
-          <Button onClick={onLogin} className="IniciarButton">
+          <Button
+            onClick={onLogin}
+            className="IniciarButton"
+            isValid={isValid}
+            disabled={!isValid}
+          >
             Iniciar sesión
           </Button>
           <a href="/crear-cuenta">
-            <Button className="CrearCuenta">Crear Cuenta</Button>
+            <Button style={{backgroundColor: '#009FCE'}} className="CrearCuenta">Crear Cuenta</Button>
           </a>
 
           <div className="RectangleRow">
