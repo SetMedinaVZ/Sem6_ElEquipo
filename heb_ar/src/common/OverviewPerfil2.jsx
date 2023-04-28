@@ -116,7 +116,9 @@ const Hola = styled.div`
 
     position: absolute;
     top: 114px;
-    left: 80px;
+    width: 100%;
+    text-align: center;
+    /* left: 80px; */
 
     @media screen and (min-width: 768px) {
         left: 745px;

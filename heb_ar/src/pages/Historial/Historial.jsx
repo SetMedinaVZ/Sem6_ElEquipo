@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import AppBar from "../../common/AppBar/AppBar";
 import Arrow from "../../assets/icons/arrow.svg"
 import { Back, Titulo } from "./HistorialStyled"
@@ -13,12 +13,12 @@ import { useAuth } from "../../context/AuthContext";
 
 const Container = styled.div`
   width: 88%;
-  height: 344px;// Review for root makeing 50% possible and dynamic
+  height: 80vh;// Review for root makeing 50% possible and dynamic
 
   background: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-  overflow: hidden;
+  overflow: scroll;
 
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 `;
@@ -96,16 +96,34 @@ const Button = styled.button`
 
 function Historial() {
   const { currentUser } = useAuth();
+  const [userData, setUserData] = useState([{}]);
+  useEffect(() => {
+    getUserPurchaseHistory();
+  }, []);
 
   const getUserPurchaseHistory = async () =>{
     const userPurchaseHistoryRef = collection(firestore, 'users', currentUser.uid, 'purchase_history');
     const userPurchaseHistoryQuery = query(userPurchaseHistoryRef);
     const userPurchaseHistorySnapshot = await getDocs(userPurchaseHistoryQuery);
     const userPurchaseHistoryData = userPurchaseHistorySnapshot.docs.map(doc => doc.data());
+
+    let data = [];
+    userPurchaseHistoryData.forEach(row => {
+      let date = new Date(row.date.seconds * 1000);
+      let day = date.getDate();
+      let month = nombresMes[date.getMonth()-1];
+      let year = date.getFullYear();
+      let date2 = day + " de " + month + ", " + year;
+
+      let rowToPush = {qr: row.qr, cost: row.cost, date: date2, store: row.store};
+      data.push(rowToPush);
+    })
     
-    return userPurchaseHistoryData;
+    setUserData(data);
   }
 
+  const nombresMes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio" ,"Agosto" ,"Septiembre" ,"Octubre" ,"Noviembre" ,"Diciembre"];
+  
   return (
     <>
         {/* <AppBar/> */}
@@ -115,32 +133,36 @@ function Historial() {
           </a>
           <Titulo>Historial</Titulo>
           <Container>
-            <RowCont>
-              <QRDiv>
-                <img className="qr-image"  src={QRImage} />
-              </QRDiv>
-              <InfoDiv>
-                <div>
-                  <h1 className="Fecha">15 de Marzo, 2023</h1>
-                  <h1 className="Location">Gomez Morin</h1>
-                </div>
-                <div className="ButtonDivH">
-                  <Button onClick={getUserPurchaseHistory}>
-                      Detalles
-                  </Button>
-                  <Button>
-                    Ayuda
-                    <img className="help-icon"  src={HelpIcon} />
-                  </Button>
-                </div>
-              </InfoDiv>
-              <div className="rectMoney"></div>
-              <MoneyDiv>
-                <h1>$743</h1>
-                <h1>Mxn</h1>
-              </MoneyDiv>
-            </RowCont>
-            <div className="rectRow"></div>
+            {
+              userData.map(row => (
+              <><RowCont>
+                  <QRDiv>
+                    {/* <img className="qr-image" src={QRImage} /> */}
+                    <h1>{row.qr}</h1>
+                  </QRDiv>
+                  <InfoDiv>
+                    <div>
+                      <h1 className="Fecha">{row.date}</h1>
+                      <h1 className="Location">{row.store}</h1>
+                    </div>
+                    <div className="ButtonDivH">
+                      <Button onClick={getUserPurchaseHistory}>
+                        Detalles
+                      </Button>
+                      <Button>
+                        Ayuda
+                        <img className="help-icon" src={HelpIcon} />
+                      </Button>
+                    </div>
+                  </InfoDiv>
+                  <div className="rectMoney"></div>
+                  <MoneyDiv>
+                    <h1>{row.cost}</h1>
+                    <h1>Mxn</h1>
+                  </MoneyDiv>
+                </RowCont><div className="rectRow"></div></>
+              ))
+            }
           </Container>
         </div>
     </>
