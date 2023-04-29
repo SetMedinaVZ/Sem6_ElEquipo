@@ -65,21 +65,9 @@ function CrearCuenta() {
     }));
   }
 
-  // const buttonDisableHandler = () => {
-  //   if (name.trim().length > 0 &&
-  //     lastname.trim().length > 0 &&
-  //     email.trim().length > 0 &&
-  //     password.trim().length > 0 &&
-  //     password2.trim().length > 0) {
-  //     setIsValid(true);
-  //   } else {
-  //     setIsValid(false);
-  //   }
-  // }
-
   const onCreateAccount = async (e) => {
     e.preventDefault();
-    if (inputValues.password == inputValues.password2) {
+    if (inputValues.password === inputValues.password2) {
       try {
         await signup(inputValues.email, inputValues.password).then((userCredential) => {
           const user = userCredential.user;
@@ -92,30 +80,52 @@ function CrearCuenta() {
         });
         navigate("/perfil");
       } catch (error) {
-        toast.error(error.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        switch (error.code) {
+          case "auth/email-already-in-use":
+            toast.error("Correo ingresado ya existe");
+            setInputValues(prevValues => ({
+              ...prevValues,
+              email: '',
+            }))
+            break;
+          case "auth/invalid-email":
+            toast.error("Correo ingresado es inválido");
+            setInputValues(prevValues => ({
+              ...prevValues,
+              email: '',
+            }))
+            break;
+          case "auth/weak-password":
+            toast.error("Contraseña debe ser más de 6 caracteres");
+            setInputValues(prevValues => ({
+              ...prevValues,
+              password: '',
+              password2: ''
+            }))
+            break;
+          default:
+            toast.error("Hubo un error inesperado, intenta más tarde");
+            break;
+        }
       }
     } else {
-      toast.error("Las contraseñas deben de coincidir", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.error("Las contraseñas deben de coincidir"
+      );
     }
   };
+
+  // Viejo código de toast.error, no parece ver cambio cuando se quita.
+  //   , {
+  //   position: "top-center",
+  //   autoClose: 5000,
+  //   hideProgressBar: false,
+  //   closeOnClick: true,
+  //   pauseOnHover: true,
+  //   draggable: true,
+  //   progress: undefined,
+  //   theme: "light",
+  // }
+
 
   return (
     <>

@@ -41,7 +41,7 @@ const PasswordInput = styled(InputMail).attrs({
 })``;
 
 const Button = styled.button`
-background-color: ${props => (props.isValid ? '#009FCE' : 'none')};
+  background-color: ${props => (props.isValid ? '#DE2B27' : 'none')};
   width: 290px;
   height: 38px;
   margin-bottom: 12px;
@@ -52,35 +52,72 @@ background-color: ${props => (props.isValid ? '#009FCE' : 'none')};
 function IniciarSesion() {
   const navigate = useNavigate();
   const { login, loginWithGoogle, currentUser } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
   const [errorMsg, setError] = useState("");
   const [user, setUser] = useState(null);
+
+  const [inputValues, setInputValues] = useState({
+    email: '',
+    password: ''
+  });
+  const [isValid, setIsValid] = useState(false);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setInputValues(prevValues => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  }
+
+  useEffect(() => {
+    if (inputValues.email.trim().length > 0 &&
+      inputValues.password.trim().length > 0) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [inputValues]);
 
   const onLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      await login(inputValues.email, inputValues.password);
     } catch (error) {
-      switch (error.code){
+      switch (error.code) {
         case "auth/user-not-found":
           toast.error("El correo ingresado no existe");
+          setInputValues(prevValues => ({
+            ...prevValues,
+            email: '',
+          }))
           break;
         case "auth/wrong-password":
           toast.error("Contraseña incorrecta");
+          setInputValues(prevValues => ({
+            ...prevValues,
+            password: '',
+          }))
           break;
-        case "auth/missing-passwor":
-          toast.error("Ingresa tu contraseña");
-          break;
+        // case "auth/missing-password":
+        //   toast.error("Ingresa tu contraseña");
+        //   break;
         case "auth/invalid-email":
           toast.error("Correo no valido");
+          setInputValues(prevValues => ({
+            ...prevValues,
+            email: '',
+          }))
           break;
         case "auth/too-many-requests":
           toast.error("Demasiados intentos seguidos, porfavor espera unos segundos");
           break;
+        default:
+          toast.error("Hubo un error inesperado, intenta más tarde");
       }
     }
-  
+
   };
 
   const onLoginWithGoogle = async () => {
@@ -113,7 +150,9 @@ function IniciarSesion() {
             type="email"
             required
             placeholder="Email address"
-            onChange={(e) => setEmail(e.target.value)}
+            // onChange={(e) => setEmail(e.target.value)}
+            value={inputValues.email}
+            onChange={handleInputChange}
           ></InputMail>
           <PasswordInput
             id="password"
@@ -121,7 +160,9 @@ function IniciarSesion() {
             type="password"
             required
             placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
+            // onChange={(e) => setPassword(e.target.value)}
+            value={inputValues.password}
+            onChange={handleInputChange}
           ></PasswordInput>
 
           <a href="/OlvidasteContra" className="OlvidasteContra">
@@ -131,14 +172,22 @@ function IniciarSesion() {
           {/* <button className="IniciarButton">Iniciar sesión</button>
           <button className="CrearCuenta">Crear cuenta</button> */}
           <Button
-            onClick={onLogin} className="IniciarButton">
+            onClick={onLogin}
+            className="IniciarButton"
+            isValid={isValid}
+            disabled={!isValid}
+          >
             Iniciar sesión
           </Button>
           <a href="/crear-cuenta">
             <Button
-             isValid={true}
-             disabled={false}
-             className="CrearCuenta">Crear Cuenta</Button>
+              style={{
+                backgroundColor:
+                  '#009FCE'
+              }}
+              className="CrearCuenta">Crear
+              Cuenta</Button
+            >
           </a>
 
           <div className="RectangleRow">
