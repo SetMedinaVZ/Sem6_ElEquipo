@@ -177,3 +177,8 @@ button:hover {
     width: 290px;
     align-items: center;
 }
+
+#errorMessage{
+    height: 0;
+    color: rgba(0, 0, 0, 0.000001);
+}

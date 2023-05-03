@@ -85,6 +85,7 @@ function IniciarSesion() {
     try {
       await login(inputValues.email, inputValues.password);
     } catch (error) {
+      setError(error.code)
       switch (error.code) {
         case "auth/user-not-found":
           toast.error("El correo ingresado no existe");
@@ -139,6 +140,7 @@ function IniciarSesion() {
     <>
       <AppBar />
       <ToastContainer />
+      <div id="errorMessage">{errorMsg}</div>
       <div className="container">
         <div className="column">
           <h1 className="Title">Iniciar Sesión</h1>

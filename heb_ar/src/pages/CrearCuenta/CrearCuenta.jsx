@@ -23,6 +23,7 @@ const SignUpButton = styled.button`
 
 
 function CrearCuenta() {
+  const [errorMsg, setError] = useState("");
   const navigate = useNavigate();
   const { signup } = useAuth();
   // const [email, setEmail] = useState("");
@@ -80,6 +81,7 @@ function CrearCuenta() {
         });
         navigate("/perfil");
       } catch (error) {
+        setError(error.code)
         switch (error.code) {
           case "auth/email-already-in-use":
             toast.error("Correo ingresado ya existe");
@@ -109,6 +111,7 @@ function CrearCuenta() {
         }
       }
     } else {
+      setError("Las contraseñas deben de coincidir")
       toast.error("Las contraseñas deben de coincidir"
       );
     }
@@ -131,6 +134,7 @@ function CrearCuenta() {
     <>
       <AppBar />
       <ToastContainer />
+      <div id="errorMessage">{errorMsg}</div>
       <div className="container">
         <div className="column">
           <Titulo>Crea tu Cuenta</Titulo>
