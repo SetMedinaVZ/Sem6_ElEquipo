@@ -1,0 +1,81 @@
+.Tiempo{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 66px;
+
+    /* identical to box height */
+    display: flex;
+    align-items: center;
+    text-align: center; 
+    justify-content:center;
+    width: 100%;
+
+    color: #000000;
+}
+
+.TimeVar{
+    margin-left: 16px;
+    margin-right: 40px;
+}
+
+.InfoSvg{
+    /* background: #000000; */
+    filter:drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.25));
+}
+
+.CuponesLayout{
+    /* background-color: yellow; */
+    width: 100%;
+    height: 154px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.NivelCupon{
+    width: 100%;
+    display: flex;
+    padding-left: 30px;
+    margin-bottom: 10px;
+    
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #787878;
+}
+
+.cupon {
+
+}
+
+.cupon-img {
+    z-index: 0;
+    bottom: 0;
+}
+
+.cupon-heb {
+    /* position: absolute; */
+    z-index: 1;
+    width: 100px;
+}
+
+.InfoCupon{
+    position: absolute;
+    background-color: yellow;
+    width: 100%;
+    /* padding-left: 20px; */
+}
+
+/* .Cupones{
+    filter:drop-shadow(0px  4px 4px rgba(0, 0, 0, 0.25));
+    width: 100%;
+    background: url("../../assets/imgs/coupon.svg") no-repeat center;
+    height: 130px;
+} */

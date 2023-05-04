@@ -149,10 +149,12 @@ function Historial() {
                       <Button onClick={getUserPurchaseHistory}>
                         Detalles
                       </Button>
-                      <Button>
-                        Ayuda
-                        <img className="help-icon" src={HelpIcon} />
-                      </Button>
+                      <a href="/ayuda">
+                        <Button>
+                          Ayuda
+                          <img className="help-icon" src={HelpIcon} />
+                        </Button>
+                      </a>
                     </div>
                   </InfoDiv>
                   <div className="rectMoney"></div>
