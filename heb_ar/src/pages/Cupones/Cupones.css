@@ -1,81 +1,83 @@
-.Tiempo{
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 44px;
-    line-height: 66px;
+.Tiempo {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 66px;
 
-    /* identical to box height */
-    display: flex;
-    align-items: center;
-    text-align: center; 
-    justify-content:center;
-    width: 100%;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
 
-    color: #000000;
+  color: #000000;
 }
 
-.TimeVar{
-    margin-left: 16px;
-    margin-right: 40px;
+.TimeVar {
+  margin-left: 16px;
+  margin-right: 40px;
 }
 
-.InfoSvg{
-    /* background: #000000; */
-    filter:drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.25));
+.InfoSvg {
+  /* background: #000000; */
+  filter: drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.25));
 }
 
-.CuponesLayout{
-    /* background-color: yellow; */
-    width: 100%;
-    height: 154px;
+.CuponesLayout {
+  width: 100%;
+  height: 100%;
+  /* 
+  display: flex;
+  flex-direction: column; */
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-.NivelCupon{
-    width: 100%;
+.NivelCupon {
+  /* width: 100%;
     display: flex;
     padding-left: 30px;
-    margin-bottom: 10px;
-    
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 24px;
-    color: #787878;
+    margin-bottom: 10px; */
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #787878;
 }
 
 .cupon {
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
 }
 
-.cupon-img {
-    z-index: 0;
-    bottom: 0;
+.cupon-info {
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
-.cupon-heb {
-    /* position: absolute; */
-    z-index: 1;
-    width: 100px;
-}
-
-.InfoCupon{
-    position: absolute;
-    background-color: yellow;
-    width: 100%;
-    /* padding-left: 20px; */
-}
-
-/* .Cupones{
-    filter:drop-shadow(0px  4px 4px rgba(0, 0, 0, 0.25));
-    width: 100%;
-    background: url("../../assets/imgs/coupon.svg") no-repeat center;
-    height: 130px;
+/* .cupon-img {
+  
 } */
+
+.heb-img {
+  width: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(30%, 65%);
+}
