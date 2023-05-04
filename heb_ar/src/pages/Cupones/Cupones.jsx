@@ -18,7 +18,7 @@ function Cupones() {
       <div className="container">
         <Titulo>Cupones por tiempo</Titulo>
         <div className="Tiempo">
-          <img src={Info} className="InfoSvg" />
+          <img src={Info} className="InfoSvg" alt="info"/>
           <h1 className="TimeVar">{minutes + ":" + seconds}</h1>
         </div>
         <div className="CuponesLayout">
@@ -29,7 +29,7 @@ function Cupones() {
             <div className="cupon-info">
               <img src={CuponImg} alt="Cupon" className="cupon-img" />
               <img src={HebIMG} alt="HEB" className="heb-img" />
-              {/* <p>5% de descuento en la compra de un paquete de tortillas de maiz de marcas HEB</p> */}
+              <p className="cupon-text">5% de descuento en la compra de un paquete de tortillas de maiz de marca HEB.</p>
             </div>
           </div>
         </div>
