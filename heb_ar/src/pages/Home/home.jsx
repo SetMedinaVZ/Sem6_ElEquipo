@@ -5,16 +5,18 @@ import SearchBar from "../../components/SearchProductBar/SearchBar";
 import CategoryList from "../../components/CategoryList/CategoryList";
 import ProductList from "../../components/ProductList/ProductList";
 import styled from "styled-components";
+import { useQuery } from "@apollo/client";
+import { GET_PRODUCTO } from "../../graphql/queries/getProducto";
 
 const HomeText = styled.p`
-	font-family: 'Inter';
-	font-style: normal;
-	font-weight: 700;
-	font-size: 20px;
-	line-height: 24px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
 
-	color: #787878;
-	margin: 15px;
+  color: #787878;
+  margin: 15px;
 `;
 
 const WrapText = styled.div`
@@ -24,21 +26,28 @@ const WrapText = styled.div`
 `;
 
 const Home = () => {
+  const { loading, error, data } = useQuery(GET_PRODUCTO);
+
   return (
     <>
       <AppBar />
-      <div className="container">
-        {/* Only decoment this line to neccecary testing */}
-        {/* <SearchBar /> */}
-        <WrapText>
-          <HomeText>Categorías</HomeText>
-        </WrapText>
-        <CategoryList />
-        <WrapText>
-          <HomeText>Los más populares de hoy</HomeText>
-        </WrapText>
-        <ProductList />
-      </div>
+      {loading && <p>Loading...</p>}
+      {error && <>Error! ${error.message}</>}
+      {data && (
+        <div className="container">
+          {console.log(data.producto)}
+          {/* Only decoment this line to neccecary testing */}
+          {/* <SearchBar /> */}
+          <WrapText>
+            <HomeText>Categorías</HomeText>
+          </WrapText>
+          <CategoryList />
+          <WrapText>
+            <HomeText>Los más populares de hoy</HomeText>
+          </WrapText>
+          <ProductList />
+        </div>
+      )}
       <NavBar pagina={"home"} />
     </>
   );
