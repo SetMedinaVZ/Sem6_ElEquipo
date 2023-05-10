@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_PRODUCTO = gql`
-    query getProducto {
+    query getProductos {
         producto {
             categoria
             marca

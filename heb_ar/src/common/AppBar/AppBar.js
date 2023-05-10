@@ -35,9 +35,9 @@ const AppBar = () => {
     }
   }, [isClosingOverview]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     console.log("overview", isOverviewOpen);
-  }, [isOverviewOpen]);
+  }, [isOverviewOpen]);*/
 
   return (
     <Fragment>
