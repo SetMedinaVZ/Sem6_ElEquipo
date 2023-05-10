@@ -80,7 +80,7 @@ function Cupones() {
                 <h1>25:00</h1>
             </div>
             }
-            <div className="cupon-info" style={{filter: isActive1 ? '' : 'blur(10px)', pointerEvents: isActive2 ? '':'none'}} onClick={() => CuponSelected('5% de descuento en la compra de un paquete de tortillas de maiz de marca HEB.')}>
+            <div className="cupon-info" style={{filter: isActive1 ? '' : 'blur(10px)', pointerEvents: isActive1 ? '':'none'}} onClick={() => CuponSelected('5% de descuento en la compra de un paquete de tortillas de maiz de marca HEB.')}>
               <img src={CuponImg} alt="Cupon" className="cupon-img" />
               <img src={HebIMG} alt="HEB" className="heb-img" />
               <p className="cupon-text">5% de descuento en la compra de un paquete de tortillas de maiz de marca HEB.</p>
