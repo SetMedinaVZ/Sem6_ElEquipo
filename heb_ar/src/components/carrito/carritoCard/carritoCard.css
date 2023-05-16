@@ -61,6 +61,11 @@
     padding: 0 10px;
 }
 
+.price-row{
+    position: relative;
+    padding: 5px;
+}
+
 .price{
     font-family: 'Inter';
     font-style: normal;
@@ -71,8 +76,8 @@
     align-items: center;
     color: #722017;
     padding: 0 10px;
-    margin-top: 15%;
     max-width: 30px;
+    bottom: 0;
 }
 
 .amount-container{
@@ -81,9 +86,8 @@
     background: #FFC0B1;
     border: 1px solid rgba(114, 32, 23, 0.3);
     border-radius: 40px;
-    margin-top: 12%;
     margin-left: 35%;
-    height: 55%;
+    height: 100%;
 
     font-family: 'Inter';
     font-style: normal;

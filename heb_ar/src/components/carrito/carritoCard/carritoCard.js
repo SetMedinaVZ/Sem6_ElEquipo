@@ -33,7 +33,7 @@ function CarritoCard({name,priceU,amountI,size}) {
                     </div>
                     <div className='close'></div>
                 </div>
-                <div className='row'>
+                <div className='row price-row'>
                     <h1 className='price'>${priceF}</h1>
                     <div className='amount-container'>
                         <button onClick={restar} className='amount-button'>-</button>
