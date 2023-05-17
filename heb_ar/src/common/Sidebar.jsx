@@ -78,10 +78,10 @@ function Sidebar({ setOpen }) {
         <SidebarButton buttonIcon={<Chart />} buttonText="Gastos Mensuales" />
         <SidebarButton buttonIcon={<Quest />} buttonText="Quests" />
       </AllButtons>
-      <LogOut onClick={logout}>
+      <a href="/"><LogOut onClick={logout}>
         <LogOutButton />
         <LogOutText>Cerrar Sesión</LogOutText>
-      </LogOut>
+      </LogOut></a>
     </Section>
   );
 }

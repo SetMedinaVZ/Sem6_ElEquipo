@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as CloseButton } from "../assets/icons/close.svg";
-import { Link } from "react-router-dom";
 import HEBlogo from "../assets/imgs/logo.svg";
 import UserSVG from "../assets/icons/user.svg";
 import Info from "../assets/icons/info2.svg";
@@ -11,7 +10,7 @@ import HistorySVG from "../assets/icons/history.svg";
 import AyudaSVG from "../assets/icons/ayuda.svg";
 
 import "./OverViewPerfil2.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Section = styled.div`
   position: absolute;

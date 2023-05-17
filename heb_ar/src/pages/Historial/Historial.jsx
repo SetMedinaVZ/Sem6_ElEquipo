@@ -10,6 +10,7 @@ import { collection, getDocs, query } from "firebase/firestore";
 
 import { firestore } from '../../firebase';
 import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 88%;
@@ -128,9 +129,9 @@ function Historial() {
     <>
         {/* <AppBar/> */}
         <div className="container">
-          <a href="/">
+          <Link to={"/"}>
             <Back src={Arrow} alt="Regresar"/>
-          </a>
+          </Link>
           <Titulo>Historial</Titulo>
           <Container>
             {
@@ -149,12 +150,12 @@ function Historial() {
                       <Button onClick={getUserPurchaseHistory}>
                         Detalles
                       </Button>
-                      <a href="/ayuda">
+                      <Link to="/ayuda">
                         <Button>
                           Ayuda
                           <img className="help-icon" src={HelpIcon} />
                         </Button>
-                      </a>
+                      </Link>
                     </div>
                   </InfoDiv>
                   <div className="rectMoney"></div>

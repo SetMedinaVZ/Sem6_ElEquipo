@@ -7,6 +7,7 @@ import UserSVG from "../../assets/icons/user.svg";
 import MenuSVG from "../../assets/icons/menu.svg";
 import Sidebar from "../Sidebar";
 import OverviewPerfil2 from "../OverviewPerfil2";
+import { Link } from "react-router-dom";
 
 const AppBar = () => {
   const { currentUser } = useAuth();
@@ -43,7 +44,7 @@ const AppBar = () => {
     <Fragment>
       <div className="app-bar">
         <img className="red-bar-svg" src={RedBarSVG} alt="reb-bar" />
-        <a href="/"><img className="logo" src={HEBlogo} alt="heb-logo" /></a>
+        <Link to="/"><img className="logo" src={HEBlogo} alt="heb-logo" /></Link>
         {currentUser && (
           <>
             <img

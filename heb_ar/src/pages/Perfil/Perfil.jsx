@@ -4,15 +4,16 @@ import React from "react";
 import Arrow from "../../assets/icons/arrow.svg"
 import {Titulo, Texto, Codigo, InputDiv, Input, Fecha, Button, Back} from "./PerfilStyled"
 import AppBar from "../../common/AppBar/AppBar";
+import { Link } from "react-router-dom";
 
 function Perfil() {
   return (
     <>
       {/* <AppBar /> */}
       <div className="container">
-        <a href="/">
+        <Link to="/">
           <Back src={Arrow} alt="Regresar"/>
-        </a>
+        </Link>
         <Titulo>Mi Perfil</Titulo>
         
         <InputDiv className="CodigoUsuario">

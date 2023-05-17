@@ -46,7 +46,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ApolloProvider client={client}>
     <AuthProvider>
-      <ClockTime/>
     <BrowserRouter>
         <Routes>
           <Route path="/iniciar-sesion" element={<IniciarSesion />} />
@@ -133,6 +132,7 @@ root.render(
           />
         </Routes>
       </BrowserRouter>
+      <ClockTime/>
     </AuthProvider>
   </ApolloProvider>
 );
