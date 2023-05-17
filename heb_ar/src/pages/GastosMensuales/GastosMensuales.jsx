@@ -19,7 +19,7 @@ function GastosMensuales() {
         datasets: [
             {
                 data: [5, 5, 5, 5, 5, 5, 5, 5],
-                backgroundColor: ['#F85A46', '#CAFFB1', '#FFB1B1', '#FFC0B1', '#FFD7B1', '#FFFCB1', '#F85A16', '#CAFFF1']
+                backgroundColor: ['#F85A46', '#CAFFB1', '#FFB1B1', '#FFC0B1', '#FFD7B1', '#FFFCB1', '#F85A16', '#CAFFE1']
             }
         ]
     };
