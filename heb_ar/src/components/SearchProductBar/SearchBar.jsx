@@ -12,18 +12,18 @@ const SearchBar = () => {
 
   const searchClient = algoliasearch(
     "M771IO5IGR",
-    "109dc70929910a60d7bfe9727fedf07d"
+    "bd944d31db1d25fa2f64acaeb3263cb1"
   );
 
   return (
     <div className="my-7">
       <InstantSearch
         searchClient={searchClient}
-        indexName="products"
+        indexName="productsV2"
         onSearchStateChange={({ query }) => setSearchState({ query })}
         searchState={searchState}
       >
-        <Configure hitsPerPage={5} />
+        <Configure hitsPerPage={3} />
         <CustomSearchBox defaultRefinement="iphone" />
         {searchState.query && <CustomHits />}
         

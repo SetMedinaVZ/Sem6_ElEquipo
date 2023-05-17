@@ -15,7 +15,7 @@ const Hits = ({ hits }) => {
   return (
     <ol>
       {hits.map((hit) => (
-        <li key={hit.objectID}>{hit.Producto}</li>
+        <li key={hit.objectID}>{hit.name}</li>
       ))}
     </ol>
   );

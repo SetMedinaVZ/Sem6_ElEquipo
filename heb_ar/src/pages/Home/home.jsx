@@ -37,7 +37,7 @@ const Home = () => {
         <div className="container">
           {console.log(data.producto)}
           {/* Only decoment this line to neccecary testing */}
-          {/* <SearchBar /> */}
+          <SearchBar />
           <WrapText>
             <HomeText>Pasillos</HomeText>
           </WrapText>
