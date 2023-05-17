@@ -41,25 +41,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const httpLink = createHttpLink({
-  uri: 'https://strong-polliwog-81.hasura.app/v1/graphql',
-});
-
-const authLink = setContext((_, { headers }) => {
-  const token = 'IgayxJEcbgTwLd4Dp72wzzTr2xncoykU5f8GqRGuBLoIKvhotuVtUxPHfuJ1yW6u';
-  return {
-    headers: {
-      ...headers,
-      "x-hasura-admin-secret": token
-    }
-  }
-});
-
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
-});
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ApolloProvider client={client}>
