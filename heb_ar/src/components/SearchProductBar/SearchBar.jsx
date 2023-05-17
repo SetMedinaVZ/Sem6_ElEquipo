@@ -16,7 +16,7 @@ const SearchBar = () => {
   );
 
   return (
-    <div className="my-7">
+    <div className="my-2">
       <InstantSearch
         searchClient={searchClient}
         indexName="productsV2"
@@ -26,7 +26,6 @@ const SearchBar = () => {
         <Configure hitsPerPage={3} />
         <CustomSearchBox defaultRefinement="iphone" />
         {searchState.query && <CustomHits />}
-        
       </InstantSearch>
     </div>
   );

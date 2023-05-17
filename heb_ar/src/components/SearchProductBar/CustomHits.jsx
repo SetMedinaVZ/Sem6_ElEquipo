@@ -1,7 +1,7 @@
 import React from "react";
 import { connectHits } from "react-instantsearch-dom";
+import { useNavigate } from "react-router-dom";
 
-//TODO FrontEnd: Create a component to render each product prettier
 /**
  * Component to render each hit from the search bar.
  * @param {hit} hit have the data of the product like capacidad, departamento,
@@ -11,11 +11,19 @@ import { connectHits } from "react-instantsearch-dom";
  */
 
 const Hits = ({ hits }) => {
-    console.log(hits)
+  const navigate = useNavigate();
+
+  //Function to navigate to the product page passing the hit data
+  const navigateToProduct = (hit) => {
+    return () => {
+      navigate("/producto", { state: { hit } });
+    };
+  };
+
   return (
     <ol>
       {hits.map((hit) => (
-        <li key={hit.objectID}>{hit.name}</li>
+        <li key={hit.objectID} onClick={navigateToProduct(hit)}>{hit.name}</li>
       ))}
     </ol>
   );

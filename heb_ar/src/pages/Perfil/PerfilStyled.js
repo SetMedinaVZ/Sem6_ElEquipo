@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Titulo = styled.text`
+export const Titulo = styled.p`
     /* position: absolute; */
     padding-top: 44px;
     padding-bottom: 2px;
@@ -9,6 +9,7 @@ export const Titulo = styled.text`
     font-style: normal;
     font-weight: 600;
     font-size: 28px;
+    text-align: center;
 
     color: #722017;
 `;

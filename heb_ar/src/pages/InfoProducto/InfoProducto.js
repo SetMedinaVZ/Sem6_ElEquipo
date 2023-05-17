@@ -1,32 +1,93 @@
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
-import { firestore } from "../../firebase";
-import catalogoJSON from "./productos_eq5.json";
-import { Back, Titulo, Button } from "../Perfil/PerfilStyled";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Back, Titulo } from "../Perfil/PerfilStyled";
 import Arrow from "../../assets/icons/arrow.svg";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  NutritionContainer,
+  PriceContainer,
+  PriceFooter,
+  Text,
+  TextSpan,
+  ScanButton,
+} from "./InfoProducto.styled";
 
-const InfoProducto = (props) => {
-//   function uploadProducts() {
-//     const products = catalogoJSON;
-//     const collectionRef = collection(firestore, "catalogo");
-//     try {
-//       products.forEach(async (product) => {
-//         console.log(product);
-//         await addDoc(collectionRef, product);
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
+const InfoProducto = ({ productInfo }) => {
+  //   function uploadProducts() {
+  //     const products = catalogoJSON;
+  //     const collectionRef = collection(firestore, "catalogo");
+  //     try {
+  //       products.forEach(async (product) => {
+  //         console.log(product);
+  //         await addDoc(collectionRef, product);
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  //Extract the state from the router location
+  const location = useLocation();
+  const { hit } = location.state;
+
+  //Function to add .00 to the price if it doesnt is float
+  function addZero(price) {
+    if (price % 1 === 0) {
+      return price + ".00";
+    } else {
+      return price;
+    }
+  }
+
+  useEffect(() => {
+    if (hit) {
+      setProduct(hit);
+      setLoading(false);
+      console.log("hay hit");
+    }
+    if (productInfo) {
+      setProduct(product);
+      console.log("hay productInfo");
+    }
+  }, []);
+
+  console.log(product);
 
   return (
     <div className="container">
-      <Link to="/">
-        <Back src={Arrow} alt="Regresar" />
-      </Link>
-      <Titulo>PRODUCTO</Titulo>
-      {/* <Button onClick={uploadProducts}>Subir productos</Button> */}
+      {loading ? (
+        <p>Cargando...</p>
+      ) : (
+        <>
+          <Link to="/">
+            <Back src={Arrow} alt="Regresar" />
+          </Link>
+          <Titulo>{product.name}</Titulo>
+          <img src={product.url_img} alt={product.name} />
+          <Text>{product.description}</Text>
+          <NutritionContainer>
+            <Text>Calorias: {product.calories}</Text>
+            <Text>Proteinas: {product.protein}</Text>
+            <Text>Carbohidratos: {product.carbs}</Text>
+            <Text>Azucares: {product.sugars}</Text>
+            <Text>Grasas: {product.fats}</Text>
+            <Text>Sodio: {product.sodium}</Text>
+          </NutritionContainer>
+          <PriceFooter>
+            <PriceContainer>
+              <TextSpan>Precio</TextSpan>
+              <Text textColor="black" textSize="2rem" textWeight="800">
+                ${addZero(product.price)}
+              </Text>
+            </PriceContainer>
+            <Link to="/escaneo">
+              <ScanButton />
+            </Link>
+          </PriceFooter>
+        </>
+      )}
     </div>
   );
 };
