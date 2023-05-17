@@ -12,7 +12,7 @@ function Carrito() {
   let carritoList = [];
   if (data !== undefined) {
     data.carrito.forEach(product => {
-      carritoList.push(<CarritoCard name={product.name} size={product.size} priceU={product.precioU} amountI={product.cantidad}></CarritoCard>);
+      carritoList.push(<CarritoCard name={product.name} size={product.size} priceU={product.precioU} amountI={product.cantidad} uid={product.uid}></CarritoCard>);
       newPriceTotal = newPriceTotal + (product.precioU * product.cantidad);
     });
   }

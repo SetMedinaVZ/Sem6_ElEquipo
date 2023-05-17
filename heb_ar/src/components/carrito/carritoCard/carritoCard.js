@@ -1,9 +1,25 @@
 import React, { useEffect, useState} from "react";
+import { useMutation } from '@apollo/client';
+import { POST_CARRITO } from "../../../graphql/mutations/postCarrito";
 import "./carritoCard.css";
 
-function CarritoCard({name,priceU,amountI,size}) {
+function CarritoCard({name,priceU,amountI,size,uid}) {
+    const [postCarrito] = useMutation(POST_CARRITO);
     var [priceF, setPriceF] = useState("");
     var [amount, setAmount] = useState(amountI);
+
+    const handleUpdateCarrito = async (cantidad) => {
+        try {
+          const { data } = await postCarrito({
+            variables: {
+              uid: uid,
+              cantidad: cantidad,
+            },
+          });
+        } catch (error) {
+          console.error('Error updating carrito:', error);
+        }
+    };
     
     useEffect(() => {
         setPriceF(priceU * amount);
@@ -12,12 +28,14 @@ function CarritoCard({name,priceU,amountI,size}) {
     const sumar = () => {
         setAmount(amount + 1);
         setPriceF(amount * priceU);
+        handleUpdateCarrito(amount+1)
     };
 
     const restar = () => {
         if (amount > 0) {
             setAmount(amount - 1);
             setPriceF(amount);
+            handleUpdateCarrito(amount-1)
         }
     };
 
