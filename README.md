@@ -4,7 +4,7 @@ La aplicación permitirá a los usuarios escanear y pagar por sus productos mien
 
 
 ## Tecnologias utilizadas
-- Flutter: un framework de desarrollo de aplicaciones móviles multiplataforma.
+- React: librearia de Javascript para la creación de interfaces de usuario, usada ampliamente para desarrollo de aplicaciones web.
 - Firebase: una plataforma de desarrollo de aplicaciones móviles que ofrece una variedad de herramientas y servicios, como almacenamiento en la nube, autenticación, análisis y más.
 
 ## Casos de prueba Sprint1
