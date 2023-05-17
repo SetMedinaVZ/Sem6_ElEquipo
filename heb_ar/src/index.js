@@ -22,6 +22,7 @@ import Metodo from "./pages/MetodoPago/MetodoPago";
 import MetodoPago from "./pages/MetodoPago/MetodoPago";
 import { ClockTime } from "./context/timeContext";
 import GastosMensuales from "./pages/GastosMensuales/GastosMensuales";
+import InfoProducto from "./pages/InfoProducto/InfoProducto";
 import Aisle from "./pages/Aisle/Aisle";
 
 const httpLink = createHttpLink({
@@ -47,7 +48,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ApolloProvider client={client}>
     <AuthProvider>
-      <ClockTime/>
     <BrowserRouter>
         <Routes>
           <Route path="/iniciar-sesion" element={<IniciarSesion />} />
@@ -140,8 +140,17 @@ root.render(
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/producto"
+            element={
+              <ProtectedRoute>
+                <InfoProducto />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
+      <ClockTime/>
     </AuthProvider>
   </ApolloProvider>
 );

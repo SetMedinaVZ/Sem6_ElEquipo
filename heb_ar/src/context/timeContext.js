@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const TimeContext = createContext();
 
@@ -6,7 +7,7 @@ export function useTimeContext() {
     return useContext(TimeContext);
   }
 
-export function ClockTime() {
+export function ClockTime() {  
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
     const [loginDate, setLoginDate] = useState(Date.now());
@@ -27,6 +28,7 @@ export function ClockTime() {
 
     useEffect(() => {
         console.log("From Clock M:"+minutes+" From Clock S:"+seconds);
+        
         localStorage.setItem('clockMinutes',minutes);
         localStorage.setItem('clockSeconds',seconds);
     },[minutes, seconds]);
