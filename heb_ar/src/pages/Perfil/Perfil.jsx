@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 function Perfil() {
   return (
     <>
-      {/* <AppBar /> */}
       <div className="container">
         <Link to="/">
           <Back src={Arrow} alt="Regresar"/>
