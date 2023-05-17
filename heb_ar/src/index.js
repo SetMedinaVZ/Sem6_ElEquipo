@@ -20,7 +20,11 @@ import Historial from "./pages/Historial/Historial";
 import Ayuda from "./pages/Ayuda/Ayuda";
 import Metodo from "./pages/MetodoPago/MetodoPago";
 import MetodoPago from "./pages/MetodoPago/MetodoPago";
+<<<<<<< Updated upstream
 import { ClockTime } from "./context/timeContext";
+=======
+import GastosMensuales from "./pages/GastosMensuales/GastosMensuales";
+>>>>>>> Stashed changes
 
 const httpLink = createHttpLink({
   uri: 'https://strong-polliwog-81.hasura.app/v1/graphql',
@@ -71,6 +75,14 @@ root.render(
             element={
               <ProtectedRoute>
                 <Historial />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/gastos-mensuales"
+            element={
+              <ProtectedRoute>
+                <GastosMensuales />
               </ProtectedRoute>
             }
           />
