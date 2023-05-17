@@ -18,10 +18,12 @@ import Historial from "./pages/Historial/Historial";
 import Ayuda from "./pages/Ayuda/Ayuda";
 import Metodo from "./pages/MetodoPago/MetodoPago";
 import MetodoPago from "./pages/MetodoPago/MetodoPago";
+import { ClockTime } from "./context/timeContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <AuthProvider>
+    <ClockTime/>
     <BrowserRouter>
       <Routes>
         <Route path="/iniciar-sesion" element={<IniciarSesion />} />

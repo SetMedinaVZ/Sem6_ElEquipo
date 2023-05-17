@@ -10,9 +10,11 @@ import HebIMG from "../../assets/imgs/logo.svg";
 import BlurPage from "../../common/BlurPage";
 
 function Cupones() {
-  const [hours, setHours] = useState(0);
+  // const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+  const [timeSeconds, setTimeSec] = useState(localStorage.getItem('clockSeconds'));
+  const [timeMinutes, setTimeMin] = useState(localStorage.getItem('clockMinutes'));
   const [loginDate, setLoginDate] = useState(Date.now());
   const [isActive1, setActive1] = useState(false);
   const [isActive2, setActive2] = useState(false);
@@ -34,7 +36,7 @@ function Cupones() {
   const getTime = () => {
     const time = Date.now() - loginDate;
 
-    setHours(Math.floor((time / (1000 * 60 * 60)) % 24));
+    // setHours(Math.floor((time / (1000 * 60 * 60)) % 24));
     setMinutes(Math.floor((time / 1000 / 60) % 60));
     setSeconds(Math.floor((time / 1000) % 60));
   };
@@ -47,7 +49,10 @@ function Cupones() {
   }, []);
 
   useEffect(() =>{
-    console.log(seconds);
+    setTimeSec(localStorage.getItem("clockSeconds"));
+    setTimeMin(localStorage.getItem("clockMinutes"));
+    // console.log("UseContextSecs: "+timeSeconds);
+    // console.log(seconds);
     if(seconds >= 10){
       setActive1(true);
     }
@@ -67,7 +72,7 @@ function Cupones() {
         <Titulo>Cupones por tiempo</Titulo>
         <div className="Tiempo" id="tiempo">
           <img src={Info} className="InfoSvg" alt="info"/>
-          <h1 className="TimeVar">{minutes + ":" + seconds}</h1>
+          <h1 className="TimeVar">{timeMinutes   + ":" + timeSeconds}</h1>
         </div>
         <div className="CuponesLayout">
           <div className="cupon">
