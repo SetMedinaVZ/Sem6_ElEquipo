@@ -3,8 +3,31 @@ import React from "react";
 // import NavBar from "../../common/NavBar/NavBar";
 import Arrow from "../../assets/icons/arrow.svg"
 import {Titulo, Back} from "./GastosMensualesStyled"
+import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
+import {Pie} from 'react-chartjs-2';
+
+ChartJS.register(
+    ArcElement,
+    Tooltip,
+    Legend
+)
 
 function GastosMensuales() {
+
+    const data = {
+        labels: ['Frutas Y Verduras', 'Carnes Y Pescados', 'Jamones, Quesos Y Deli', 'Pan Y Tortillas', 'Lácteos Y Huevo', 'Vinos, Licores Y Cervezas', 'Alimentos Congelados', 'Bebidas Y Snacks'],
+        datasets: [
+            {
+                data: [5, 5, 5, 5, 5, 5, 5, 5],
+                backgroundColor: ['#F85A46', '#CAFFB1', '#FFB1B1', '#FFC0B1', '#FFD7B1', '#FFFCB1', '#F85A16', '#CAFFF1']
+            }
+        ]
+    };
+
+    const options = {
+
+    }
+
     return (
       <>
         {/* <AppBar /> */}
@@ -13,6 +36,11 @@ function GastosMensuales() {
             <Back src={Arrow} alt="Regresar"/>
           </a>
           <Titulo>Gastos Mensuales</Titulo>
+
+          <Pie
+            data = {data}
+            options = {options}
+          />
           
           
         </div>
