@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
 const Card = styled.div`
   width: 170px;
-  height: 200px;
+  height: 220px;
   position: relative;
   /* margin: 10px; */
 
@@ -14,26 +14,61 @@ const Card = styled.div`
 
 const CardSection = styled.div`
   width: 140px;
-  height: 40px;
+  height: 60px;
 
   position: absolute;
-  top: 85%;
+  top: 80%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 10px;
 `;
 
 const CardSectionText = styled.p`
-  font-family: 'Inter';
+  font-family: "Inter";
+  width: 100%;
   font-style: normal;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 17px;
   text-align: center;
 
   position: absolute;
-  top: 50%;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  color: #787878;
+`;
+
+const CardSectionCategoryText = styled.p`
+  font-family: "Inter";
+  font-style: normal;
+  width: 100%;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 17px;
+  text-align: center;
+
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  color: #787878;
+`;
+
+const CardSectionSubCategoryText = styled.p`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  width: 100%;
+  font-size: 12px;
+  line-height: 17px;
+  text-align: center;
+
+  position: absolute;
+  top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
 
@@ -43,7 +78,7 @@ const CardSectionText = styled.p`
 const CardImg = styled.img`
   height: 130px;
   position: absolute;
-  bottom: -40%;
+  bottom: 5%;
   left: 50%;
   transform: translate(-50%, -50%);
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -54,12 +89,12 @@ const ProductCard = (props) => {
     <Card>
       <CardSection>
         <CardImg src={props.cardImg} />
-        <CardSectionText>
-          {props.cardName}
-        </CardSectionText>
+        <CardSectionText>{props.cardName}</CardSectionText>
+        <CardSectionCategoryText>{props.cardCategory}</CardSectionCategoryText>
+        <CardSectionSubCategoryText>{props.cardSubCategory}</CardSectionSubCategoryText>
       </CardSection>
     </Card>
-  )
-}
+  );
+};
 
-export default ProductCard
+export default ProductCard;

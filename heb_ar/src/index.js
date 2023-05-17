@@ -22,6 +22,7 @@ import Metodo from "./pages/MetodoPago/MetodoPago";
 import MetodoPago from "./pages/MetodoPago/MetodoPago";
 import { ClockTime } from "./context/timeContext";
 import GastosMensuales from "./pages/GastosMensuales/GastosMensuales";
+import Aisle from "./pages/Aisle/Aisle";
 
 const httpLink = createHttpLink({
   uri: 'https://strong-polliwog-81.hasura.app/v1/graphql',
@@ -72,6 +73,14 @@ root.render(
             element={
               <ProtectedRoute>
                 <Historial />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pasillo/:aisle_name"
+            element={
+              <ProtectedRoute>
+                <Aisle />
               </ProtectedRoute>
             }
           />

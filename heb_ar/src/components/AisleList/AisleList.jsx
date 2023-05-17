@@ -1,5 +1,5 @@
 import React from "react";
-import CategoryButton from "../CategoryButton/CategoryButton";
+import AisleButton from "../AisleButton/AisleButton";
 import styled from "styled-components";
 
 // Icons
@@ -13,14 +13,14 @@ import PanTortillas from "../../assets/imgs/pan-tortillas.svg";
 import VinosLicoresCervezas from "../../assets/imgs/vinos-licores-cervezas.svg";
 
 const allButtons = [
-  { name: "Alimentos Congelados", svg: AlimentosCongelados },
-  { name: "Bebidas y Snacks", svg: BebidasSnacks },
-  { name: "Canres y Pescados", svg: CarnesPescados },
-  { name: "Frutas y Verduras", svg: FrutasVerduras },
-  { name: "Jamones, Quesos y Deli", svg: JamonesQuesosDeli },
-  { name: "Lácteos y Huevo", svg: LacteosHuevo },
-  { name: "Pan y Tortillas", svg: PanTortillas },
-  { name: "Vinos, Licores y Cervezas", svg: VinosLicoresCervezas },
+  { name: "Alimentos Congelados", svg: AlimentosCongelados, redirect: "/pasillo/alimentos-congelados" },
+  { name: "Bebidas y Snacks", svg: BebidasSnacks, redirect: "/pasillo/bebidas-y-snacks" },
+  { name: "Carnes y Pescados", svg: CarnesPescados, redirect: "/pasillo/carnes-y-pescados" },
+  { name: "Frutas y Verduras", svg: FrutasVerduras, redirect: "/pasillo/frutas-y-verduras" },
+  { name: "Jamones, Quesos y Deli", svg: JamonesQuesosDeli, redirect: "/pasillo/jamones-quesos-y-deli" },
+  { name: "Lácteos y Huevo", svg: LacteosHuevo, redirect: "/pasillo/lacteos-y-huevo" },
+  { name: "Pan y Tortillas", svg: PanTortillas, redirect: "/pasillo/pan-y-tortillas" },
+  { name: "Vinos, Licores y Cervezas", svg: VinosLicoresCervezas, redirect: "/pasillo/vinos-licores-y-cervezas" },
 ];
 
 const Row = styled.div`
@@ -36,15 +36,16 @@ const Row = styled.div`
   scrollbar-width: none;
 `;
 
-const CategoryList = () => {
+const AisleList = () => {
   return (
     <>
       <Row>
         {allButtons.map((data) => (
-          <CategoryButton
+          <AisleButton
             key={data.name}
             buttonSVG={data.svg}
             categoryName={data.name}
+            redirect={data.redirect}
           />
         ))}
       </Row>
@@ -52,4 +53,4 @@ const CategoryList = () => {
   );
 };
 
-export default CategoryList;
+export default AisleList;
