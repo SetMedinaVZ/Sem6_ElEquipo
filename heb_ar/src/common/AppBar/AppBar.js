@@ -43,7 +43,7 @@ const AppBar = () => {
     <Fragment>
       <div className="app-bar">
         <img className="red-bar-svg" src={RedBarSVG} alt="reb-bar" />
-        <img className="logo" src={HEBlogo} alt="heb-logo" />
+        <a href="/"><img className="logo" src={HEBlogo} alt="heb-logo" /></a>
         {currentUser && (
           <>
             <img
