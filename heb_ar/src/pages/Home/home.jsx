@@ -39,7 +39,7 @@ const Home = () => {
           {/* Only decoment this line to neccecary testing */}
           {/* <SearchBar /> */}
           <WrapText>
-            <HomeText>Categorías</HomeText>
+            <HomeText>Pasillos</HomeText>
           </WrapText>
           <CategoryList />
           <WrapText>

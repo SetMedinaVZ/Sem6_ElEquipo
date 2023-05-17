@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as CloseButton } from "../assets/icons/close.svg";
+import { Link } from "react-router-dom";
 import HEBlogo from "../assets/imgs/logo.svg";
 import UserSVG from "../assets/icons/user.svg";
 import Info from "../assets/icons/info2.svg";
@@ -9,8 +10,7 @@ import CardSVG from "../assets/icons/card.svg";
 import HistorySVG from "../assets/icons/history.svg";
 import AyudaSVG from "../assets/icons/ayuda.svg";
 
-
-import './OverViewPerfil2.css';
+import "./OverViewPerfil2.css";
 import { useNavigate } from "react-router-dom";
 
 const Section = styled.div`
@@ -18,7 +18,7 @@ const Section = styled.div`
   width: 100%;
   height: 55%;
   top: -100%; /* start the component offscreen */
-  z-index: 3;   
+  z-index: 3;
 
   background: var(--hebRed);
   box-shadow: -4px 0px 4px rgba(0, 0, 0, 0.25);
@@ -34,11 +34,11 @@ const Section = styled.div`
   }
 
   @media screen and (min-width: 768px) {
-      height: 40%;
+    height: 40%;
   }
 
   @media screen and (max-height: 800px) {
-      height: 65%;
+    height: 65%;
   }
 
   /* slide-in animation keyframes */
@@ -62,7 +62,6 @@ const Section = styled.div`
   }
 `;
 
-
 const Close = styled(CloseButton)`
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
 `;
@@ -76,119 +75,124 @@ const Button = styled.button`
 `;
 
 const SubSection1 = styled.div`
-    display: flex;
-    justify-content: space-between;
-    background: rgba(255, 255, 255, 0.2);
-    mix-blend-mode: normal;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
-    height: 109px;
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.2);
+  mix-blend-mode: normal;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  height: 109px;
 
-    margin-bottom: 15px;
-    width: 90%;
+  margin-bottom: 15px;
+  width: 90%;
 
-    @media screen and (min-width: 768px) {
-        margin: 10px;
-    }
+  @media screen and (min-width: 768px) {
+    margin: 10px;
+  }
 `;
 
 const Section2 = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    position: absolute;
-    top: 180px;
-    width: 100%;
+  position: absolute;
+  top: 180px;
+  width: 100%;
 
-    @media screen and (min-width: 768px) {
-        flex-direction: row;
-    }
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
 const Hola = styled.div`
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 30px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
 
-    position: absolute;
-    top: 114px;
-    width: 100%;
-    text-align: center;
-    /* left: 80px; */
+  position: absolute;
+  top: 114px;
+  width: 100%;
+  text-align: center;
+  /* left: 80px; */
 
-    @media screen and (min-width: 768px) {
-        left: 745px;
-        top: 130px;
-    }
+  @media screen and (min-width: 768px) {
+    left: 745px;
+    top: 130px;
+  }
 `;
 
 const Column = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 function OverviewPerfil2({ setOpen }) {
-    const navigate = useNavigate();
-    var Puntos = 1025;
-    var Nombre = 'Marcelo Marquez';
-    const [isOpen, setIsOpen] = React.useState(true);
+  const navigate = useNavigate();
+  var Puntos = 1025;
+  var Nombre = "Marcelo Marquez";
+  const [isOpen, setIsOpen] = React.useState(true);
 
-
-    const handleClose = () => {
-        // set the slide-out animation
-        setIsOpen(false);      
-        setOpen();  
-    };
+  const handleClose = () => {
+    // set the slide-out animation
+    setIsOpen(false);
+    setOpen();
+  };
 
   return (
     <Section className={isOpen ? "" : "slide-out"}>
-        <img className="logo2" src={HEBlogo} alt="heb-logo2" />
-        <img className="user-icon"  src={UserSVG} alt="user-icon" />
-        <Button>
-            <Close onClick={handleClose} />
-        </Button>
-        <Hola>
-            <h1 className="Hola">Hola, <b>{Nombre}</b></h1>
-        </Hola>
-        <Section2>
-            <SubSection1>
-                <Column className="PuntosDiv">
-                    <h1>Puntos Acumulados:</h1>
-                    <img className="info-svg" src={Info} />
-                </Column>
-                <Column className="PuntosDiv2">
-                    <h1>{Puntos}</h1>
-                    <h1> Puntos</h1>
-                </Column>
-            </SubSection1>
-            <SubSection1 className="SubItemsDiv">
-                <Column >
-                    <a href="/perfil">
-                        <img src={User3SVG} />
-                        <h1>Perfil</h1>
-                    </a>
-                </Column>
-                <Column>
-                    <a href="/metodo"><img src={CardSVG} />
-                    <h1>Método</h1></a>
-                </Column>
-                <Column>
-                    <a href="/historial">
-                        <a href="/historial"><img src={HistorySVG} />
-                        <h1>Historial</h1></a>
-                    </a>
-                </Column>
-                <Column>
-                    <a href="/ayuda"><img src={AyudaSVG} />
-                    <h1>Ayuda</h1></a>
-                </Column>
-            </SubSection1>
-        </Section2>
+      <img className="logo2" src={HEBlogo} alt="heb-logo2" />
+      <img className="user-icon" src={UserSVG} alt="user-icon" />
+      <Button>
+        <Close onClick={handleClose} />
+      </Button>
+      <Hola>
+        <h1 className="Hola">
+          Hola, <b>{Nombre}</b>
+        </h1>
+      </Hola>
+      <Section2>
+        <SubSection1>
+          <Column className="PuntosDiv">
+            <h1>Puntos Acumulados:</h1>
+            <img className="info-svg" src={Info} />
+          </Column>
+          <Column className="PuntosDiv2">
+            <h1>{Puntos}</h1>
+            <h1> Puntos</h1>
+          </Column>
+        </SubSection1>
+        <SubSection1 className="SubItemsDiv">
+          <Column>
+            <Link to="/perfil">
+              <img src={User3SVG} />
+              <h1>Perfil</h1>
+            </Link>
+          </Column>
+          <Column>
+            <Link to="/metodo">
+              <img src={CardSVG} />
+              <h1>Método</h1>
+            </Link>
+          </Column>
+          <Column>
+            <Link to="/historial">
+              <img src={HistorySVG} />
+              <h1>Historial</h1>
+            </Link>
+          </Column>
+          <Column>
+            <Link to="/ayuda">
+              <img src={AyudaSVG} />
+              <h1>Ayuda</h1>
+            </Link>
+          </Column>
+        </SubSection1>
+      </Section2>
     </Section>
   );
 }
