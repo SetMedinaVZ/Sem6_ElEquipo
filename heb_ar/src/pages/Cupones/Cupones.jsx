@@ -9,18 +9,22 @@ import CuponImg from "../../assets/imgs/coupon.svg";
 import HebIMG from "../../assets/imgs/logo.svg";
 import BlurPage from "../../common/BlurPage";
 import { CuponesLayout, Cupon, NivelCupon } from "./CuponesStyled";
+import { collection, getDocs, query } from "firebase/firestore";
+
+import { firestore } from '../../firebase';
 
 function Cupones() {
-  // const [hours, setHours] = useState(0);
-  // const [minutes, setMinutes] = useState(0);
+  
   const [seconds, setSeconds] = useState(0);
   const [timeSeconds, setTimeSec] = useState(localStorage.getItem('clockSeconds'));
   const [timeMinutes, setTimeMin] = useState(localStorage.getItem('clockMinutes'));
   const [loginDate, setLoginDate] = useState(Date.now());
 
-  const [isActive1, setActive1] = useState(false);
-  const [isActive2, setActive2] = useState(false);
-  const [isActive3, setActive3] = useState(false);
+  const [cuponToUse, setCuponData] = useState([]);
+
+  // const [isActive1, setActive1] = useState(false);
+  // const [isActive2, setActive2] = useState(false);
+  // const [isActive3, setActive3] = useState(false);
 
   const [Popup, setPopUp] = useState(false);
   const [PopupText, setPopUpText] = useState("");
@@ -48,18 +52,74 @@ function Cupones() {
     return () => clearInterval(interval);
   }, []);
 
+  const getCuponesDisp = async () =>{
+    const userCuponAvailableRef = collection(firestore, 'cupones');
+    const userCuponAvailableQuery = query(userCuponAvailableRef);
+    const userCuponAvailableSnapShot = await getDocs(userCuponAvailableQuery);
+    const cuponData = userCuponAvailableSnapShot.docs.map(doc => doc.data());
+    
+    let nivel1 = [];
+    let nivel2 = [];
+    let nivel3 = [];
+    cuponData.forEach(row => {
+      if(row.nivel == 1){
+        let rowToPush = {nivel: row.nivel, porcValor: row.porcValor, textoCupon: row.textoCupon, isactive:false, tiempoDesb:"25:00"};
+        nivel1.push(rowToPush);
+      } else if(row.nivel == 2){
+        let rowToPush = {nivel: row.nivel, porcValor: row.porcValor, textoCupon: row.textoCupon, isactive:false, tiempoDesb:"40:00"};
+        nivel2.push(rowToPush);
+      }else{
+        let rowToPush = {nivel: row.nivel, porcValor: row.porcValor, textoCupon: row.textoCupon, isactive:false, tiempoDesb:"60:00"};
+        nivel3.push(rowToPush);
+      }
+    })
+    
+    let length1 = Math.floor(Math.random() * nivel1.length);
+    let length2 = Math.floor(Math.random() * nivel2.length);
+    let length3 = Math.floor(Math.random() * nivel3.length);
+
+    let finalCupones = [];
+    finalCupones.push(nivel1[length1]);
+    finalCupones.push(nivel2[length2]);
+    finalCupones.push(nivel3[length3]);
+
+    console.log(finalCupones);
+    setCuponData(finalCupones);
+  }
+  useEffect(()=>{
+    getCuponesDisp();
+  },[]);
+
   useEffect(() =>{
     setTimeSec(localStorage.getItem("clockSeconds"));
     setTimeMin(localStorage.getItem("clockMinutes"));
 
-    if(timeSeconds >= 10){
-      setActive1(true);
+    if(timeSeconds >= 6){
+      // setActive1(true);
+      // cuponToUse[0].isactive = true;
+      cuponToUse.forEach(row => {
+        if(row.nivel == 1){
+          row.isactive = true;
+        }
+      })
     }
-    if(timeMinutes >= 1 && timeSeconds >= 10){
-      setActive2(true);
+    if(timeMinutes >= 0 && timeSeconds >= 11){
+      // setActive2(true);
+      // cuponToUse[1].isactive = true;
+      cuponToUse.forEach(row => {
+        if(row.nivel == 2){
+          row.isactive = true;
+        }
+      })
     }
-    if(timeMinutes >= 2 && timeSeconds >= 30){
-      setActive3(true);
+    if(timeMinutes >= 0 && timeSeconds >= 20){
+      // setActive3(true);
+      // cuponToUse[2].isactive = true;
+      cuponToUse.forEach(row => {
+        if(row.nivel == 3){
+          row.isactive = true;
+        }
+      })
     }
     return;
   },[seconds]);
@@ -73,7 +133,31 @@ function Cupones() {
           <img src={Info} className="InfoSvg" alt="info"/>
           <h1 className="TimeVar">{timeMinutes   + ":" + timeSeconds}</h1>
         </div>
-        <CuponesLayout>
+        {
+              cuponToUse.map(row => (
+              <>
+              <CuponesLayout>
+                <Cupon>
+                  <NivelCupon>
+                    <h1>Nivel {row.nivel}</h1>
+                  </NivelCupon>
+                  {!row.isactive &&
+                  <TimeText>
+                      <h1>Desbloquea:</h1>
+                      <h1>{row.tiempoDesb}</h1>
+                  </TimeText>
+                  }
+                  <CuponInfo style={{filter: row.isactive ? '' : 'blur(10px)', pointerEvents: row.isactive ? '':'none'}} onClick={() => CuponSelected(row.textoCupon)}>
+                    <img src={CuponImg} alt="Cupon" className="cupon-img" />
+                    <img src={HebIMG} alt="HEB" className="heb-img" />
+                    <p className="cupon-text">{row.textoCupon}</p>
+                  </CuponInfo>
+                </Cupon>
+              </CuponesLayout>
+              </>
+              ))
+            }
+        {/* <CuponesLayout>
           <Cupon>
             <NivelCupon>
               <h1>Nivel 1</h1>
@@ -126,7 +210,7 @@ function Cupones() {
               <p className="cupon-text">12% de descuento en la compra de productos higienicos, marca HEB.</p>
             </CuponInfo>
           </Cupon>
-        </CuponesLayout>
+        </CuponesLayout> */}
       </div>
       <NavBar pagina={'cupones'} />
       {Popup && <div className="CuponPopup" id="CuponPopup">
