@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Arrow from "../../assets/icons/arrow.svg";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import ProductsList from "../../components/ProductsList/ProductsList";
+import { firestore } from "../../firebase";
+import { collection, doc, getDocs, query, where } from "firebase/firestore";
 
 const Back = styled.img`
   position: absolute;
@@ -27,15 +29,60 @@ const Titulo = styled.text`
 `;
 
 const Aisle = (props) => {
+  const { aisleName } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
+
+  let aisle;
+  if (aisleName === "alimentos-congelados") {
+    aisle = "Alimentos Congelados";
+  } else if (aisleName === "bebidas-y-snacks") {
+    aisle = "Bebidas Y Snacks";
+  } else if (aisleName === "carnes-y-pescados") {
+    aisle = "Carnes Y Pescados";
+  } else if (aisleName === "frutas-y-verduras") {
+    aisle = "Frutas Y Verduras";
+  } else if (aisleName === "jamones-quesos-y-deli") {
+    aisle = "Jamones, Quesos Y Deli";
+  } else if (aisleName === "lacteos-y-huevo") {
+    aisle = "Lácteos Y Huevo";
+  } else if (aisleName === "pan-y-tortillas") {
+    aisle = "Pan Y Tortillas";
+  } else if (aisleName === "vinos-licores-y-cervezas") {
+    aisle = "Vinos, Licores Y Cervezas";
+  }
+
+  const callDB = async () => {
+    let dataAux = [];
+    const products = collection(firestore, "catalogo");
+    const aisleQuery = query(products, where("aisle", "==", aisle));
+    const aisleSnapShot = await getDocs(aisleQuery);
+    aisleSnapShot.forEach((doc) => {
+      dataAux.push({ id: doc.id, ...doc.data() });
+    });
+    setData(dataAux);
+    // console.log(data)
+  };
+
+  useEffect(() => {
+    callDB().then(() => {
+      setLoading(false);
+    })
+  }, []);
+
   return (
     <>
-      <div className="container">
-        <Link to="/">
-          <Back src={Arrow} />
-        </Link>
-        <Titulo>Pasillo</Titulo>
-        <ProductsList />
-      </div>
+      {loading ? (
+        <p>loading...</p>
+      ) : (
+        <div className="container">
+          <Link to="/">
+            <Back src={Arrow} />
+          </Link>
+          <Titulo>{aisle}</Titulo>
+          <ProductsList data={data} />
+        </div>
+      )}
     </>
   );
 };

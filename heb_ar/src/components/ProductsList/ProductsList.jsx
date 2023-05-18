@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ProductCard from "../ProductCard/ProductCard";
 
-import test from "../../assets/coca.png";
-
 const CardListContainer = styled.div`
   overflow-y: scroll;
   width: 100%;
@@ -18,14 +16,35 @@ const CardListContainer = styled.div`
 `;
 
 const ProductsList = (props) => {
+  // return (
+  //   <CardListContainer>
+  //     {props.data.map((product) => {
+  //       return (
+  //         <ProductCard
+  //           key={product.id}
+  //           cardImg={product.url_img}
+  //           cardName={product.name}
+  //           cardCategory={product.category}
+  //           cardSubCategory={product.subcategory}
+  //         />
+  //       );
+  //     })}
+  //   </CardListContainer>;
+  // );
+  console.log(props.data);
   return (
     <CardListContainer>
-      <ProductCard
-        cardImg={test}
-        cardName="Coca Cola"
-        cardCategory="Category"
-        cardSubCategory="Subcategory"
-      />
+      {props.data.map((product) => {
+        return (
+          <ProductCard
+            key={product.id}
+            cardImg={product.url_img}
+            cardName={product.name}
+            cardCategory={product.category}
+            cardSubCategory={product.subcategory}
+          />
+        );
+      })}
     </CardListContainer>
   );
 };

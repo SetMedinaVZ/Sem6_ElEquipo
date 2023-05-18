@@ -2,8 +2,6 @@ import React from 'react'
 import PopProductCard from '../PopProductCard/PopProductCard'
 import styled from 'styled-components'
 
-import test from '../../assets/coca.png';
-
 const CardListContainer = styled.div`
   overflow-y: scroll;
   width: 100%;
@@ -18,14 +16,16 @@ const CardListContainer = styled.div`
 const PopProductList = (props) => {
   return (
     <CardListContainer>
-        <PopProductCard cardImg={test} cardName='Coca Cola' />
-        <PopProductCard cardImg={test} cardName='Coca Cola' />
-        <PopProductCard cardImg={test} cardName='Coca Cola' />
-        <PopProductCard cardImg={test} cardName='Coca Cola' />
-        <PopProductCard cardImg={test} cardName='Coca Cola' />
-        <PopProductCard cardImg={test} cardName='Coca Cola' />
-        <PopProductCard cardImg={test} cardName='Coca Cola' />
-        <PopProductCard cardImg={test} cardName='Coca Cola' />
+        {/* <PopProductCard cardImg={test} cardName='Coca Cola' /> */}
+        {props.data.map((product) => {
+          return (
+            <PopProductCard 
+              key={product.id}
+              cardImg={product.url_img}
+              cardName={product.name}
+            />
+          );
+        })}
     </CardListContainer>
   )
 }

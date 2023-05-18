@@ -29,7 +29,7 @@ const CardSectionText = styled.p`
   width: 100%;
   font-style: normal;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 17px;
   text-align: center;
 
@@ -46,7 +46,7 @@ const CardSectionCategoryText = styled.p`
   font-style: normal;
   width: 100%;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 17px;
   text-align: center;
 
@@ -63,7 +63,7 @@ const CardSectionSubCategoryText = styled.p`
   font-style: normal;
   font-weight: 700;
   width: 100%;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 17px;
   text-align: center;
 
@@ -80,8 +80,9 @@ const CardImg = styled.img`
   position: absolute;
   bottom: 5%;
   left: 50%;
+  border-radius: 20px;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const ProductCard = (props) => {

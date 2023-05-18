@@ -77,7 +77,7 @@ root.render(
             }
           />
           <Route
-            path="/pasillo/:aisle_name"
+            path="/pasillo/:aisleName"
             element={
               <ProtectedRoute>
                 <Aisle />
