@@ -83,7 +83,7 @@ function Cupones() {
     finalCupones.push(nivel2[length2]);
     finalCupones.push(nivel3[length3]);
 
-    console.log(finalCupones);
+    // console.log(finalCupones);
     setCuponData(finalCupones);
   }
   useEffect(()=>{
@@ -93,17 +93,17 @@ function Cupones() {
   useEffect(() =>{
     setTimeSec(localStorage.getItem("clockSeconds"));
     setTimeMin(localStorage.getItem("clockMinutes"));
-
-    if(timeSeconds >= 6){
-      // setActive1(true);
-      // cuponToUse[0].isactive = true;
+    
+    // console.log(cuponToUse);
+    
+    if(timeMinutes > 0 || timeSeconds >= 30){
       cuponToUse.forEach(row => {
         if(row.nivel == 1){
           row.isactive = true;
         }
       })
     }
-    if(timeMinutes >= 0 && timeSeconds >= 11){
+    if(timeMinutes >= 1){
       // setActive2(true);
       // cuponToUse[1].isactive = true;
       cuponToUse.forEach(row => {
@@ -112,7 +112,7 @@ function Cupones() {
         }
       })
     }
-    if(timeMinutes >= 0 && timeSeconds >= 20){
+    if(timeMinutes >= 2){
       // setActive3(true);
       // cuponToUse[2].isactive = true;
       cuponToUse.forEach(row => {

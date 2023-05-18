@@ -27,7 +27,7 @@ export function ClockTime() {
     }, []);
 
     useEffect(() => {
-        // console.log("From Clock M:"+minutes+" From Clock S:"+seconds);
+        console.log("From Clock M:"+minutes+" From Clock S:"+seconds);
         
         localStorage.setItem('clockMinutes',minutes);
         localStorage.setItem('clockSeconds',seconds);

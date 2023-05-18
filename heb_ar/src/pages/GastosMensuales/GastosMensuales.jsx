@@ -6,6 +6,8 @@ import {Titulo, Back} from "./GastosMensualesStyled"
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import {Pie} from 'react-chartjs-2';
 
+import { Link } from "react-router-dom";
+
 ChartJS.register(
     ArcElement,
     Tooltip,
@@ -32,9 +34,9 @@ function GastosMensuales() {
       <>
         {/* <AppBar /> */}
         <div className="container">
-          <a href="/">
+          <Link to="/">
             <Back src={Arrow} alt="Regresar"/>
-          </a>
+          </Link>
           <Titulo>Gastos Mensuales</Titulo>
 
           <Pie

@@ -7,6 +7,7 @@ import { ReactComponent as User } from "../assets/icons/user2.svg";
 import { ReactComponent as Chart } from "../assets/icons/chart.svg";
 import { ReactComponent as Quest } from "../assets/icons/quest.svg";
 import { useAuth } from "../context/AuthContext";
+import { Link, useNavigate} from 'react-router-dom';
 
 const Section = styled.div`
   position: absolute;
@@ -14,7 +15,7 @@ const Section = styled.div`
   height: 100%;
   right: 0;
   top: 0;
-  z-index: 3;
+  z-index: 4;
 
   background: var(--hebRed);
   box-shadow: -4px 0px 4px rgba(0, 0, 0, 0.25);
@@ -67,16 +68,16 @@ const Button = styled.button`
 
 function Sidebar({ setOpen }) {
   const { logout } = useAuth();
-
+  
   return (
     <Section>
       <Button>
         <Close onClick={setOpen} />
       </Button>
       <AllButtons>
-        <SidebarButton buttonIcon={<User />} buttonText="Mi Perfil" />
-        <SidebarButton buttonIcon={<Chart />} buttonText="Gastos Mensuales" />
-        <SidebarButton buttonIcon={<Quest />} buttonText="Quests" />
+        <SidebarButton buttonIcon={<User />} buttonText="Mi Perfil" buttonLink="/perfil"/>
+        <SidebarButton buttonIcon={<Chart />} buttonText="Gastos Mensuales" buttonLink="/gastos-mensuales"/>
+        <SidebarButton buttonIcon={<Quest />} buttonText="Quests" buttonLink="/perfil"/>
       </AllButtons>
       <LogOut onClick={logout}>
         <LogOutButton />

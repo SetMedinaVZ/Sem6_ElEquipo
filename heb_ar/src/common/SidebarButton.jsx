@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { useNavigate} from 'react-router-dom';
 
 const Button = styled.button`
   box-sizing: border-box;
@@ -39,15 +40,19 @@ const ButtonText = styled.p`
 `;
 
 function SidebarButton(props) {
+  const navigate = useNavigate();
+
+  const navToPage = () =>{
+    navigate(props.buttonLink);
+  }
+
   return (
-    <>
-      <Button>
-        <ButtonIcon>
-          {props.buttonIcon}
-        </ButtonIcon>
-        <ButtonText>{props.buttonText}</ButtonText>
-      </Button>
-    </>
+    <Button onClick={navToPage}>
+      <ButtonIcon>
+        {props.buttonIcon}
+      </ButtonIcon>
+      <ButtonText>{props.buttonText}</ButtonText>
+    </Button>
   )
 }
 
