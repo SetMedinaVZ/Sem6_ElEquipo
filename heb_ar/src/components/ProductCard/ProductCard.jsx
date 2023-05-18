@@ -34,7 +34,7 @@ const CardSectionText = styled.p`
   text-align: center;
 
   position: absolute;
-  top: 20%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
 
@@ -51,7 +51,7 @@ const CardSectionCategoryText = styled.p`
   text-align: center;
 
   position: absolute;
-  top: 55%;
+  top: 75%;
   left: 50%;
   transform: translate(-50%, -50%);
 
@@ -92,7 +92,7 @@ const ProductCard = (props) => {
         <CardImg src={props.cardImg} />
         <CardSectionText>{props.cardName}</CardSectionText>
         <CardSectionCategoryText>{props.cardCategory}</CardSectionCategoryText>
-        <CardSectionSubCategoryText>{props.cardSubCategory}</CardSectionSubCategoryText>
+        {/* <CardSectionSubCategoryText>{props.cardSubCategory}</CardSectionSubCategoryText> */}
       </CardSection>
     </Card>
   );

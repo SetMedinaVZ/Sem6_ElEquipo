@@ -31,6 +31,7 @@ const CardSectionText = styled.p`
   font-size: 14px;
   line-height: 17px;
   text-align: center;
+  width: 100%;
 
   position: absolute;
   top: 50%;
