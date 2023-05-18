@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Back, Titulo } from "../Perfil/PerfilStyled";
 import Arrow from "../../assets/icons/arrow.svg";
 import {
@@ -25,6 +25,7 @@ const InfoProducto = ({ productInfo }) => {
   //     }
   //   }
 
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -62,9 +63,11 @@ const InfoProducto = ({ productInfo }) => {
         <p>Cargando...</p>
       ) : (
         <>
-          <Link to="/">
+          {/* <Link to="/"> */}
+          <div onClick={() => navigate(-1)}>
             <Back src={Arrow} alt="Regresar" />
-          </Link>
+          </div>
+          {/* </Link> */}
           <Titulo>{product.name}</Titulo>
           <img src={product.url_img} alt={product.name} />
           <Text>{product.description}</Text>

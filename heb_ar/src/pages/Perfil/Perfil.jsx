@@ -4,15 +4,19 @@ import React from "react";
 import Arrow from "../../assets/icons/arrow.svg"
 import {Titulo, Texto, Codigo, InputDiv, Input, Fecha, Button, Back} from "./PerfilStyled"
 import AppBar from "../../common/AppBar/AppBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Perfil() {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="container">
-        <Link to="/">
+        {/* <Link to="/"> */}
+        <div onClick={() => navigate(-1)}>
           <Back src={Arrow} alt="Regresar"/>
-        </Link>
+        </div>
+        {/* </Link> */}
         <Titulo>Mi Perfil</Titulo>
         
         <InputDiv className="CodigoUsuario">

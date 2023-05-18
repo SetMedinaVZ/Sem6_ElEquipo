@@ -10,7 +10,7 @@ import { collection, getDocs, query } from "firebase/firestore";
 
 import { firestore } from '../../firebase';
 import { useAuth } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 88%;
@@ -96,6 +96,8 @@ const Button = styled.button`
 `;
 
 function Historial() {
+  const navigate = useNavigate();
+
   const { currentUser } = useAuth();
   const [userData, setUserData] = useState([{}]);
   useEffect(() => {
@@ -129,9 +131,11 @@ function Historial() {
     <>
         {/* <AppBar/> */}
         <div className="container">
-          <Link to={"/"}>
+          {/* <Link to={"/"}> */}
+          <div onClick={() => navigate(-1)}>
             <Back src={Arrow} alt="Regresar"/>
-          </Link>
+          </div>
+          {/* </Link> */}
           <Titulo>Historial</Titulo>
           <Container>
             {

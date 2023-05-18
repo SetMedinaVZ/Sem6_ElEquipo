@@ -22,7 +22,7 @@ import {
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import {Pie} from 'react-chartjs-2';
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 ChartJS.register(
     ArcElement,
@@ -31,6 +31,8 @@ ChartJS.register(
 )
 
 function GastosMensuales() {
+
+  const navigate = useNavigate();
 
     const data = {
         // labels: ['Frutas Y Verduras', 'Panadería', 'Carnes Y Pescados', 'Licores Y Cervezas', 'Lácteos', 'Dulcería'],
@@ -50,9 +52,11 @@ function GastosMensuales() {
       <>
         {/* <AppBar /> */}
         <div className="container">
-          <Link to="/">
+          {/* <Link to="/"> */}
+          <div onClick={() => navigate(-1)}>
             <Back src={Arrow} alt="Regresar"/>
-          </Link>
+          </div>
+          {/* </Link> */}
           <Titulo>Gastos Mensuales</Titulo>
           <Total>$1350</Total>
           <PieDiv>
