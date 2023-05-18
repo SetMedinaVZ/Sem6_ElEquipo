@@ -12,6 +12,7 @@ import Perfil from "./pages/Perfil/Perfil";
 import Carrito from "./pages/Carrito/Carrito";
 import Escaneo from "./pages/Escaneo/Escaneo";
 import Quests from "./pages/Quests/Quests";
+import ScavengerHunt from "./pages/ScavengerHunt/ScavengerHunt"
 import Cupones from "./pages/Cupones/Cupones";
 import "firebase/functions";
 import firebase from "firebase/app";
@@ -113,6 +114,14 @@ root.render(
             element={
               <ProtectedRoute>
                 <Quests />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/scavenger-hunt"
+            element={
+              <ProtectedRoute>
+                <ScavengerHunt />
               </ProtectedRoute>
             }
           />

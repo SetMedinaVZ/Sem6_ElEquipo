@@ -54,13 +54,6 @@ export const FyVLegendDiv = styled.div`
     height: 36px;
 `;
 
-export const FyVColorDiv = styled.div`
-    height: 25px;
-    width: 25px;
-    background-color: #F85A46;
-    margin-right: 10px;
-`;
-
 export const LegendDiv = styled.div`
     position: relative;
     display: flex;
@@ -71,6 +64,13 @@ export const LegendDiv = styled.div`
     align-items: center;
     width: 300px;
     height: 36px;
+`;
+
+export const FyVColorDiv = styled.div`
+    height: 25px;
+    width: 25px;
+    background-color: #F85A46;
+    margin-right: 10px;
 `;
 
 export const PColorDiv = styled.div`
