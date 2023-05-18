@@ -48,7 +48,8 @@ const InfoProducto = ({ productInfo }) => {
       console.log("hay hit");
     }
     if (productInfo) {
-      setProduct(product);
+      setProduct(productInfo);
+      setLoading(false);
       console.log("hay productInfo");
     }
   }, []);
