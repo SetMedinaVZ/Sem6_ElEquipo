@@ -1,9 +1,11 @@
 import React, { useEffect, useState} from "react";
 import { useMutation } from '@apollo/client';
 import { POST_CARRITO } from "../../../graphql/mutations/postCarrito";
+import { DELETE_CARRITO } from "../../../graphql/mutations/deleteCarrito";
 import "./carritoCard.css";
 
 function CarritoCard({name,priceU,amountI,size,uid}) {
+    const [deleteCarrito] = useMutation(DELETE_CARRITO);
     const [postCarrito] = useMutation(POST_CARRITO);
     var [priceF, setPriceF] = useState("");
     var [amount, setAmount] = useState(amountI);
@@ -19,6 +21,20 @@ function CarritoCard({name,priceU,amountI,size,uid}) {
         } catch (error) {
           console.error('Error updating carrito:', error);
         }
+    };
+
+    const handleDeleteCarrito = async () => {
+      try {
+        const { data } = await deleteCarrito({
+          variables: {
+            uid: uid,
+          },
+        });
+
+        console.log('Deleted carrito:', data.uid);
+      } catch (error) {
+        console.error('Error deleting user:', error);
+      }
     };
     
     useEffect(() => {
@@ -49,7 +65,7 @@ function CarritoCard({name,priceU,amountI,size,uid}) {
                         <h1 className='product'>{name}</h1>
                         <h1 className='size'>{size}</h1>
                     </div>
-                    <div className='close'></div>
+                    <div onClick={handleDeleteCarrito} className='close'></div>
                 </div>
                 <div className='row price-row'>
                     <h1 className='price'>${priceF}</h1>
