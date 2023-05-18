@@ -58,7 +58,7 @@ const Home = () => {
       {data && (
         <div className="container">
           {console.log(data.producto)}
-          {/* <SearchBar /> */}
+          <SearchBar />
           <WrapText>
             <HomeText>Pasillos</HomeText>
           </WrapText>
