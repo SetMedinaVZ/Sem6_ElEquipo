@@ -36,19 +36,28 @@ const Home = () => {
   const callDB = async () => {
     let dataAux = [];
     const products = collection(firestore, "catalogo");
-    const popularQuery = query(products, orderBy("pop_index", "desc"), limit(6));
+    const popularQuery = query(
+      products,
+      orderBy("pop_index", "desc"),
+      limit(6)
+    );
     const popularSnapshot = await getDocs(popularQuery);
     popularSnapshot.forEach((doc) => {
-      dataAux.push({id: doc.id, ...doc.data()});
-    })
+      // dataAux.push({id: doc.id, ...doc.data()});
+      let auxObj = { id: doc.id, ...doc.data() };
+      if (auxObj.pop_index !== 0) {
+        dataAux.push(auxObj);
+      }
+    });
     setPopularData(dataAux);
+    // console.log(dataAux);
   };
 
   useEffect(() => {
     callDB().then(() => {
       setLoadingPopular(false);
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <>
@@ -66,9 +75,14 @@ const Home = () => {
           <WrapText>
             <HomeText>Los más populares de hoy</HomeText>
           </WrapText>
-          {loadingPopular ? (<p>Cargando productos populares</p>) : 
+          {loadingPopular ? (
+            <p>Cargando productos populares</p>
+          ) : // <PopProductsList data={popularData} />
+          popularData.length === 0 ? (
+            <p>No hay productos populares</p>
+          ) : (
             <PopProductsList data={popularData} />
-          }
+          )}
         </div>
       )}
       <NavBar pagina={"home"} />
