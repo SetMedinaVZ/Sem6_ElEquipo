@@ -70,6 +70,8 @@ const InfoProducto = ({ productInfo }) => {
           {/* </Link> */}
           <Titulo>{product.name}</Titulo>
           <img src={product.url_img} alt={product.name} />
+          <Text>Marca: {product.brand}</Text>
+          <Text>Contenido Neto: {product.net_cont}</Text>
           <Text>{product.description}</Text>
           <NutritionContainer>
             <Text>Calorias: {product.calories}</Text>

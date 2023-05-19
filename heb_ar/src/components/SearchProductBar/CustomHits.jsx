@@ -22,6 +22,7 @@ const Hits = ({ hits }) => {
 
   return (
     <ol>
+      {hits.length === 0 && <li>No hay resultados</li>}
       {hits.map((hit) => (
         <li key={hit.objectID} onClick={navigateToProduct(hit)}>{hit.name}</li>
       ))}
