@@ -84,7 +84,7 @@ const Home = () => {
             <PopProductsList data={popularData} />
           )}
         </div>
-      )}
+      )} 
       <NavBar pagina={"home"} />
     </>
   );
