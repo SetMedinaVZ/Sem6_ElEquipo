@@ -10,6 +10,7 @@ export const GET_CARRITO = gql`
             userId
             name
             size
+            url_img
         }
     }
 `;

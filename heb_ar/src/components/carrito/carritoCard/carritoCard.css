@@ -36,6 +36,17 @@
     background-color: #F5F5F5;
     width: 25vw;
     border-radius: 20px 0px 0px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.img-placeholder img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
 }
 
 .product{

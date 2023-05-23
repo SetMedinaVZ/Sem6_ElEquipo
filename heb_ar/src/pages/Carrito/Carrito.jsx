@@ -18,7 +18,7 @@ function Carrito() {
 
   if (data !== undefined) {
     data.carrito.forEach(product => {
-      carritoList.push(<CarritoCard onChange={handleChildChange} name={product.name} size={product.size} priceU={product.precioU} amountI={product.cantidad} uid={product.uid}></CarritoCard>);
+      carritoList.push(<CarritoCard onChange={handleChildChange} name={product.name} size={product.size} priceU={product.precioU} amountI={product.cantidad} uid={product.uid} url_img={product.url_img}></CarritoCard>);
       newPriceTotal = newPriceTotal + (product.cantidad * product.precioU);
     });
   }

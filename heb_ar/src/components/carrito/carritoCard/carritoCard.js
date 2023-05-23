@@ -4,7 +4,7 @@ import { POST_CARRITO } from "../../../graphql/mutations/postCarrito";
 import { DELETE_CARRITO } from "../../../graphql/mutations/deleteCarrito";
 import "./carritoCard.css";
 
-function CarritoCard({name,priceU,amountI,size,uid, onChange}) {
+function CarritoCard({name,priceU,amountI,size,uid,url_img,onChange}) {
     const [deleteCarrito] = useMutation(DELETE_CARRITO);
     const [postCarrito] = useMutation(POST_CARRITO);
     const [isVisible, setIsVisible] = useState(true);
@@ -67,7 +67,7 @@ function CarritoCard({name,priceU,amountI,size,uid, onChange}) {
       <>
        {isVisible && (
           <div className='carrito-card-container'>
-              <div className='img-placeholder'></div>
+              <div className='img-placeholder'><img src={url_img} alt={name} /></div>
               <div className='col'>
                   <div className='row'>
                       <div className='col'>
