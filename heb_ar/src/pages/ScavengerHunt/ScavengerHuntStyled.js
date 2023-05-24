@@ -66,3 +66,56 @@ export const AccordionWrapper = styled.div`
     width: 350px;
     margin-top: 30px;
 `;
+
+export const Label = styled.text`
+    font-weight: bold;
+`;
+
+export const Actividad = styled.text`
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+
+    color: #787878;
+`;
+
+export const ActividadDesc = styled.text`
+    font-family: 'Inter';
+    font-style: normal;
+`;
+
+export const Camara = styled.button`
+    margin-top: 30px;
+    box-sizing: border-box;
+    background-color: white;
+
+    color: #FCB716;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    display: flex;
+    padding-left: 15px;
+    align-items: center;
+
+    width: 350px;
+    height: 50px;
+
+    border: 1px solid #FCB716;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 10px;
+`;
+
+export const Completo = styled.div`
+    background: #59FF88;
+    border-radius: 10px;
+    /* width: 40px;
+    display: flex;
+    justify-content: center; */
+`;

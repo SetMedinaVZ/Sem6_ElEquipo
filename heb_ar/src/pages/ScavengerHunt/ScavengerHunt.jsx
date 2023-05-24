@@ -2,8 +2,9 @@ import React from "react";
 // import AppBar from "../../common/AppBar/AppBar";
 // import NavBar from "../../common/NavBar/NavBar";
 import Arrow from "../../assets/icons/arrow.svg"
-import {Titulo, Back, Progress, ProgressTxt, Txt, AccordionWrapper} from "./ScavengerHuntStyled"
-import { Link, useNavigate} from "react-router-dom";
+import Scan from "../../assets/icons/scan_filled.svg"
+import {Titulo, Back, Progress, ProgressTxt, Txt, AccordionWrapper, Camara, Label, Actividad, ActividadDesc, Completo} from "./ScavengerHuntStyled"
+import {Link, useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -31,29 +32,34 @@ function QuestTemplate() {
           <AccordionWrapper>
             <Accordion>
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={
+                  <Completo>
+                    <ExpandMoreIcon />
+                  </Completo>
+                }
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography>Objeto Escondido # 1</Typography>
+                
+                <Actividad>Objeto Escondido # 1</Actividad>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
-                  <h1>Pistas</h1>
+                <ActividadDesc>
+                  <Label>Pistas</Label>
                   <ul>
                     <li>Color de objeto: naranja</li>
                     <li>Forma de objeto: trofeo</li>
                   </ul>
                   
                   <br></br>
-                  
-                  <h1>Premio - escoger entre...</h1>
+
+                  <Label>Premio - escoger entre...</Label>
                   <ul>
                     <li>300 puntos</li>
                     <li>Un producto marca HEB gratis</li>
                     <li>Un cupón de descuento</li>
                   </ul>
-                </Typography>
+                </ActividadDesc>
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -62,14 +68,54 @@ function QuestTemplate() {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <Typography>Objeto Escondido # 2</Typography>
+                <Actividad>Objeto Escondido # 2</Actividad>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>Marcelo MLP</Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Actividad>Objeto Escondido # 3</Actividad>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>Marcelo MLP</Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Actividad>Objeto Escondido # 4</Actividad>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>Marcelo MLP</Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Actividad>Objeto Escondido # 5</Actividad>
               </AccordionSummary>
               <AccordionDetails>
                 <Typography>Marcelo MLP</Typography>
               </AccordionDetails>
             </Accordion>
           </AccordionWrapper>
-
+          
+          <Camara>
+            <img src={Scan} alt="Camara"/>
+            Ir a la cámara
+          </Camara>
           {/* </Link> */}
         </div>
     </>
