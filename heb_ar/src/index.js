@@ -161,5 +161,6 @@ root.render(
       </BrowserRouter>
       <ClockTime/>
     </AuthProvider>
+    <script src="html5-qrcode.min.js"></script>
   </ApolloProvider>
 );

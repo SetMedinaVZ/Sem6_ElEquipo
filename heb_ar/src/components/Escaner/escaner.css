@@ -1,0 +1,24 @@
+#html5-qrcode-anchor-scan-type-change{
+    display: none !important;
+}
+
+#qrcode-region{
+    position: absolute;
+    border: none !important;
+    width: 100%;
+    z-index: -1;
+}
+
+#qrcode-region video {
+    width: 100vw;
+
+    object-fit: cover;
+  }
+
+#qrcode-region div img{
+    display: none !important;
+}
+
+#qrcode-region__dashboard{
+    display: none !important;
+}
