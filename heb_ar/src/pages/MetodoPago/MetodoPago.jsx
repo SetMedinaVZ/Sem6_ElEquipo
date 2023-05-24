@@ -42,6 +42,7 @@ function MetodoPago() {
   const [loading, setLoading] = useState(true);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [addPaymentMethod, setAddPaymentMethod] = useState(false);
+  const [delPaymentMethod, setDelPaymentMethod] = useState(false);
 
   const fetchPaymentMethods = async () => {
     const collectionRef = collection(
@@ -52,6 +53,10 @@ function MetodoPago() {
     );
     const snapshot = await getDocs(collectionRef);
     const paymentMethods = snapshot.docs.map((doc) => doc.data());
+    //add uid of the doc to the payment method
+    paymentMethods.forEach((paymentMethod, index) => {
+      paymentMethod.id = snapshot.docs[index].id;
+    });
     setPaymentMethods(paymentMethods);
   };
 
@@ -64,6 +69,11 @@ function MetodoPago() {
   useEffect(() => {
     fetchPaymentMethods();
   }, [addPaymentMethod]);
+
+  //Fetch payment methods on delete
+  useEffect(() => {
+    fetchPaymentMethods();
+  }, [delPaymentMethod]);
 
   return (
     <>
@@ -78,8 +88,10 @@ function MetodoPago() {
           <MetodoPagoContainer>
             {paymentMethods.map((paymentMethod) => (
               <MetodoPagoItem
-                key={paymentMethod.number}
+                key={paymentMethod.id}
+                userId={currentUser.uid}
                 metodoPago={paymentMethod}
+                setDelPaymentMethod={setDelPaymentMethod}
               />
             ))}
           </MetodoPagoContainer>

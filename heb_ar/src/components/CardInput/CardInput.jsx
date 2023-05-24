@@ -109,7 +109,6 @@ const CreditCardInput = ({ uid, setAddPaymentMethod }) => {
     });
     setLoadingAddPaymentMethod(false);
     setAddPaymentMethod(false);
-    console.log("Document written with ID: ", docRef.id);
   };
 
   return (
