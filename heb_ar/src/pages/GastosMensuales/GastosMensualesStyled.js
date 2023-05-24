@@ -41,6 +41,7 @@ export const Total = styled.text`
 export const PieDiv = styled.div`
     position: relative;
     top: 10px;
+    margin-top: 11px;
 `;
 
 export const FyVLegendDiv = styled.div`
@@ -149,7 +150,7 @@ export const Spent = styled.text`
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 20px;
     line-height: 36px;
 `;
 

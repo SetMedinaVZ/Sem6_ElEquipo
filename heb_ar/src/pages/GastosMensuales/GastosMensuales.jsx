@@ -53,9 +53,30 @@ function GastosMensuales() {
   const [PVino, setPVino] = useState(0);
   const [PJamon, setPJamon] = useState(0);
 
+  const [PercLacto, setPercLacto] = useState(0);
+  const [PercConge, setPercConge] = useState(0);
+  const [PercBebida, setPercBebida] = useState(0);
+  const [PercPan, setPercPan] = useState(0);
+  const [PercFrutas, setPercFrutas] = useState(0);
+  const [PercCarne, setPercCarne] = useState(0);
+  const [PercVino, setPercVino] = useState(0);
+  const [PercJamon, setPercJamon] = useState(0);
+
   useEffect(() => {
     getUserPurchaseHistory();
+
   }, [mesIdx]);
+
+  useEffect(() =>{
+    setPercLacto((PLacto/total*100).toFixed(1));
+    setPercConge((PConge/total*100).toFixed(1));
+    setPercBebida((PBebida/total*100).toFixed(1));
+    setPercPan((PPan/total*100).toFixed(1));
+    setPercFrutas((PFrutas/total*100).toFixed(1));
+    setPercCarne((PCarne/total*100).toFixed(1));
+    setPercVino((PVino/total*100).toFixed(1));
+    setPercJamon((PJamon/total*100).toFixed(1));
+  },[PLacto,PConge, PBebida, PPan, PFrutas, PCarne, PVino, PJamon])
 
   const getUserPurchaseHistory = async () =>{
     const userPurchaseHistoryRef = collection(firestore, 'users', currentUser.uid, 'purchase_history');
@@ -109,31 +130,32 @@ function GastosMensuales() {
 
   const navigate = useNavigate();
 
-    const data = {
-        datasets: [
-            {
-                data: [PLacto, PConge, PBebida, PPan, PFrutas, PCarne, PVino, PJamon], 
-                backgroundColor: ['#F85A46', '#FFFCB1', '#FFD7B1', '#FFB1B1', '#CAFFB1', '#FFC0B1', 'purple', 'yellow'],
-            }
-        ]
-    };
-
-    const options = {
-      tooltips:{
-        callbacks:{
-          label: function(value, data){
-            var dataset = data.datasets[value.datasetIndex];
-            var meta = dataset._meta[Object.keys(dataset._meta)[0]];
-            var total = meta.total;
-            var currentValue = dataset.data[value.index];
-            var percentage = parseFloat((currentValue/total*100).toFixed(1));
-            return currentValue + ' (' + percentage + '%)';
-            // var currValue = 
-            // var percentage = parseFloat((value))
+  const data = {
+    labels:[
+      'Lácteos y Huevos',
+      'Alimentos Congelados',
+      'Bebidas y Snacks',
+      'Pan y Tortillas',
+      'Frutas y Verduras',
+      'Carnes y Pescados',
+      'Vinos, Licores y Cervezas',
+      'Jamones, Quesos y Deli'
+    ],
+      datasets: [
+          {
+              data: [PLacto, PConge, PBebida, PPan, PFrutas, PCarne, PVino, PJamon], 
+              backgroundColor: ['#F85A46', '#FFFCB1', '#FFD7B1', '#FFB1B1', '#CAFFB1', '#FFC0B1', 'purple', 'yellow'],
           }
-        }
-      }
-    }
+      ],
+  };
+
+  const option = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
 
   const backMes = () =>{
     setTotal(0);
@@ -145,6 +167,16 @@ function GastosMensuales() {
     setPLacto(0);
     setPPan(0);
     setPVino(0);
+
+    setPercBebida(0);
+    setPercCarne(0);
+    setPercConge(0);
+    setPercFrutas(0);
+    setPercJamon(0);
+    setPercLacto(0);
+    setPercPan(0);
+    setPercVino(0);
+
     if(mesIdx == 0){
       setMesIdx(11);
     }else{
@@ -162,6 +194,16 @@ function GastosMensuales() {
     setPLacto(0);
     setPPan(0);
     setPVino(0);
+
+    setPercBebida(0);
+    setPercCarne(0);
+    setPercConge(0);
+    setPercFrutas(0);
+    setPercJamon(0);
+    setPercLacto(0);
+    setPercPan(0);
+    setPercVino(0);
+    
     if(mesIdx == 11){
       setMesIdx(0);
     }else{
@@ -182,9 +224,8 @@ function GastosMensuales() {
           <Total>${total}</Total>
           <PieDiv>
             <Pie
-              // config = {config.options}
               data = {data}
-              options={options}
+              options = {option}
             />
           </PieDiv>
           <DivMesEscoger>
@@ -195,8 +236,8 @@ function GastosMensuales() {
           <FyVLegendDiv>
             <FyVColorDiv></FyVColorDiv>
             <TextDiv>
-              <Cat>Lácteos y Huevo</Cat>
-              <PorDesc>40% de tu total del mes</PorDesc>
+              <Cat>Lácteos y Huevos</Cat>
+              <PorDesc>{PercLacto === 'NaN' ?  '0': PercLacto}% de tu total del mes</PorDesc>
             </TextDiv>
             <Spent>${PLacto}</Spent>
           </FyVLegendDiv>
@@ -205,7 +246,7 @@ function GastosMensuales() {
             <PColorDiv></PColorDiv>
             <TextDiv>
               <Cat>Alimentos Congelados</Cat>
-              <PorDesc>20% de tu total del mes</PorDesc>
+              <PorDesc>{PercConge === 'NaN' ?  '0': PercConge}% de tu total del mes</PorDesc>
             </TextDiv>
             <Spent>${PConge}</Spent>
           </LegendDiv>
@@ -214,7 +255,7 @@ function GastosMensuales() {
             <CyPColorDiv></CyPColorDiv>
             <TextDiv>
               <Cat>Bebidas y Snacks</Cat>
-              <PorDesc>15% de tu total del mes</PorDesc>
+              <PorDesc>{PercBebida === 'NaN' ?  '0': PercBebida}% de tu total del mes</PorDesc>
             </TextDiv>
             <Spent>${PBebida}</Spent>
           </LegendDiv>
@@ -223,7 +264,7 @@ function GastosMensuales() {
             <PyTColorDiv></PyTColorDiv>
             <TextDiv>
               <Cat>Pan y Tortillas</Cat>
-              <PorDesc>10% de tu total del mes</PorDesc>
+              <PorDesc>{PercPan === 'NaN' ?  '0': PercPan}% de tu total del mes</PorDesc>
             </TextDiv>
             <Spent>${PPan}</Spent>
           </LegendDiv>
@@ -232,7 +273,7 @@ function GastosMensuales() {
             <LColorDiv></LColorDiv>
             <TextDiv>
               <Cat>Frutas y Verduras</Cat>
-              <PorDesc>10% de tu total del mes</PorDesc>
+              <PorDesc>{PercFrutas === 'NaN' ?  '0': PercFrutas}% de tu total del mes</PorDesc>
             </TextDiv>
             <Spent>${PFrutas}</Spent>
           </LegendDiv>
@@ -241,7 +282,7 @@ function GastosMensuales() {
             <DColorDiv></DColorDiv>
             <TextDiv>
               <Cat>Carnes y Pescados</Cat>
-              <PorDesc>5% de tu total del mes</PorDesc>
+              <PorDesc>{PercCarne === 'NaN' ?  '0': PercCarne}% de tu total del mes</PorDesc>
             </TextDiv>
             <Spent>${PCarne}</Spent>
           </LegendDiv>
@@ -250,7 +291,7 @@ function GastosMensuales() {
             <VColorDiv></VColorDiv>
             <TextDiv>
               <Cat>Vinos, Licores y Cervezas</Cat>
-              <PorDesc>2% de tu total del mes</PorDesc>
+              <PorDesc>{PercVino === 'NaN' ?  '0': PercVino}% de tu total del mes</PorDesc>
             </TextDiv>
             <Spent>${PVino}</Spent>
           </LegendDiv>
@@ -259,7 +300,7 @@ function GastosMensuales() {
             <YColorDiv></YColorDiv>
             <TextDiv>
               <Cat>Jamones, Quesos y Deli</Cat>
-              <PorDesc>1% de tu total del mes</PorDesc>
+              <PorDesc>{PercJamon === 'NaN' ?  '0': PercJamon}% de tu total del mes</PorDesc>
             </TextDiv>
             <Spent>${PJamon}</Spent>
           </LegendDiv>
