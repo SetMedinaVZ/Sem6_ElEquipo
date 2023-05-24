@@ -110,18 +110,30 @@ function GastosMensuales() {
   const navigate = useNavigate();
 
     const data = {
-        // labels: ['Frutas Y Verduras', 'Panadería', 'Carnes Y Pescados', 'Licores Y Cervezas', 'Lácteos', 'Dulcería'],
         datasets: [
             {
                 data: [PLacto, PConge, PBebida, PPan, PFrutas, PCarne, PVino, PJamon], 
-                backgroundColor: ['#F85A46', '#FFFCB1', '#FFD7B1', '#FFB1B1', '#CAFFB1', '#FFC0B1', 'purple', 'yellow']
+                backgroundColor: ['#F85A46', '#FFFCB1', '#FFD7B1', '#FFB1B1', '#CAFFB1', '#FFC0B1', 'purple', 'yellow'],
             }
-        ],
+        ]
     };
 
     const options = {
-
-    };
+      tooltips:{
+        callbacks:{
+          label: function(value, data){
+            var dataset = data.datasets[value.datasetIndex];
+            var meta = dataset._meta[Object.keys(dataset._meta)[0]];
+            var total = meta.total;
+            var currentValue = dataset.data[value.index];
+            var percentage = parseFloat((currentValue/total*100).toFixed(1));
+            return currentValue + ' (' + percentage + '%)';
+            // var currValue = 
+            // var percentage = parseFloat((value))
+          }
+        }
+      }
+    }
 
   const backMes = () =>{
     setTotal(0);
@@ -170,8 +182,9 @@ function GastosMensuales() {
           <Total>${total}</Total>
           <PieDiv>
             <Pie
+              // config = {config.options}
               data = {data}
-              options = {options}
+              options={options}
             />
           </PieDiv>
           <DivMesEscoger>
