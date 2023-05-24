@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { useEffect } from "react";
 import { firestore } from "../../firebase";
 import { collection, limit, orderBy, query, getDocs } from "firebase/firestore";
+import Carousel from "../../components/Carousel/Carousel";
 
 const HomeText = styled.p`
   font-family: "Inter";
@@ -27,10 +28,13 @@ const WrapText = styled.div`
 `;
 
 const Home = () => {
+  const [loadingCarousel, setLoadingCarousel] = useState(true);
   const [loadingPopular, setLoadingPopular] = useState(true);
   const [popularData, setPopularData] = useState(null);
+  const [carouselData, setCarouselData] = useState(null);
 
   const callDB = async () => {
+    // Get popular data
     let dataAux = [];
     const products = collection(firestore, "catalogo");
     const popularQuery = query(
@@ -39,6 +43,7 @@ const Home = () => {
       limit(6)
     );
     const popularSnapshot = await getDocs(popularQuery);
+    // console.log(popularSnapshot)
     popularSnapshot.forEach((doc) => {
       // dataAux.push({id: doc.id, ...doc.data()});
       let auxObj = { id: doc.id, ...doc.data() };
@@ -48,11 +53,21 @@ const Home = () => {
     });
     setPopularData(dataAux);
     // console.log(dataAux);
+
+    // Get carousel data
+    let carAux = [];
+    const carousel = collection(firestore, "anuncios");
+    const carouselSnapshot = await getDocs(carousel);
+    carouselSnapshot.forEach((doc) => {
+      carAux.push({ ...doc.data() });
+    });
+    setCarouselData(carAux);
   };
 
   useEffect(() => {
     callDB().then(() => {
       setLoadingPopular(false);
+      setLoadingCarousel(false);
     });
   }, []);
 
@@ -60,6 +75,7 @@ const Home = () => {
     <>
       <AppBar />
       <div className="container">
+        {loadingCarousel ? (<p>Cargando carrusel</p>) : (<Carousel data={carouselData}/>)}
         <SearchBar />
         <WrapText>
           <HomeText>Pasillos</HomeText>
