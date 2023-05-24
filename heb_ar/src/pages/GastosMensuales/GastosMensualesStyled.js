@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Titulo = styled.text`
     /* position: absolute; */
-    padding-top: 44px;
+    padding-top: 15px;
     padding-bottom: 2px;
    
     font-family: 'Poppins';
@@ -28,7 +28,7 @@ export const Total = styled.text`
     height: 40px;
     text-align: center;
     /* left: 20px; */
-    top: 21px;
+    top: 10px;
 
     font-family: 'Poppins';
     font-style: normal;
@@ -40,13 +40,13 @@ export const Total = styled.text`
 
 export const PieDiv = styled.div`
     position: relative;
-    top: 21px;
+    top: 10px;
 `;
 
 export const FyVLegendDiv = styled.div`
     display: flex;
     flex-direction: row;
-    margin-top: 65px;
+    margin-top: 30px;
     
     justify-content: space-between;
     align-items: center;
@@ -108,6 +108,20 @@ export const DColorDiv = styled.div`
     margin-right: 10px;
 `;
 
+export const VColorDiv = styled.div`
+    height: 25px;
+    width: 25px;
+    background-color: purple;
+    margin-right: 10px;
+`;
+
+export const YColorDiv = styled.div`
+    height: 25px;
+    width: 25px;
+    background-color: yellow;
+    margin-right: 10px;
+`;
+
 export const TextDiv = styled.div`
     position: relative;
     display: flex;
@@ -139,3 +153,32 @@ export const Spent = styled.text`
     line-height: 36px;
 `;
 
+export const DivMesEscoger = styled.div`
+    width: 150px;
+    height: 23px;
+    padding-top: 40px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+
+    display: flex;
+    justify-content: space-around;
+`;
+
+export const BackMes = styled.img`
+    width: 24px;
+    height: 24px;
+    transform: scaleX(-1);
+`;
+
+export const FrontMes = styled.img`
+    width: 24px;
+    height: 24px;
+`;

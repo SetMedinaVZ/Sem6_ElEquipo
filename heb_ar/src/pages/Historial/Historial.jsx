@@ -118,10 +118,18 @@ function Historial() {
       let year = date.getFullYear();
       let date2 = day + " de " + month + ", " + year;
 
-      let rowToPush = {qr: row.qr, cost: row.cost, date: date2, store: row.store};
+      Object.values(row.productos).forEach(prod => {
+        if(typeof prod == "object"){
+          console.log(prod);
+        }
+      })
+
+      let rowToPush = {qr: row.qr, cost: row.cost, date: date2, store: row.store, productos: row.productos};
       data.push(rowToPush);
     })
     
+    // console.log("Data: ");
+    // console.log(data);
     setUserData(data);
   }
 
