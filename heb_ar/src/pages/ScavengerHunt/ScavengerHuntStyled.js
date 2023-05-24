@@ -49,6 +49,9 @@ export const ProgressTxt = styled.text`
 export const Txt = styled.text` 
     display: flex;
     width: 350px;
+    margin-top: 19px;
+
+    text-align: justify;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
@@ -57,4 +60,9 @@ export const Txt = styled.text`
 
 
     color: #787878;
+`;
+
+export const AccordionWrapper = styled.div`
+    width: 350px;
+    margin-top: 30px;
 `;
