@@ -66,7 +66,9 @@ function GastosMensuales() {
     let data = [];
     userPurchaseHistoryData.forEach(row => {
       let date = new Date(row.date.seconds * 1000);
-      let month = nombresMes[date.getMonth()-1];
+      // console.log(date.getMonth()+1);
+      let month = nombresMes[date.getMonth()];
+      // console.log(month);
       
       if(month === nombresMes[mesIdx]){
         // console.log("TOTAL: "+total+" Mes: "+nombresMes[mesIdx] + " PROD: "+row.qr + " COSTs: "+row.cost);
