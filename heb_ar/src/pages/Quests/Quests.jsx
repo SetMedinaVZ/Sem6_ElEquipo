@@ -9,6 +9,8 @@ import QB from "../../assets/imgs/quest_img_1.svg"
 import Light from "../../assets/imgs/quest_img_5.svg"
 import { 
   Titulo, 
+  ProgressDiv,
+  Percentage,
   Progress,
   Column, 
   Row, 
@@ -30,13 +32,19 @@ import {
 } from "./QuestsStyled"
 
 function Quests() {
+
+  const count = "50";
+
   return (
     <>
       <AppBar />
       <div className="container">
         <Titulo>Tus Quests</Titulo>
 
-        <Progress variant='determinate' value={50} />
+        <ProgressDiv>
+          <Percentage>{count}%</Percentage>
+          <Progress color='inherit' variant='determinate' value={count} />
+        </ProgressDiv>
 
         <Column>
           <Row>

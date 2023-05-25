@@ -1,5 +1,6 @@
 import { LinearProgress } from "@mui/material";
 import styled from "styled-components";
+import {styled as StyledMUI} from "@mui/system"
 
 export const Titulo = styled.text`
     /* position: absolute; */
@@ -13,16 +14,27 @@ export const Titulo = styled.text`
     color: #722017;
 `;
 
-export const Progress = styled(LinearProgress)`
-    width: 353px;
-    height: 55px;
-    margin-top: 41px;
-    margin-bottom: 21px;
-
-    :hover {
-        color: #FCB716;
-    }
+export const ProgressDiv = styled.div`
+    color: #FCB716;
 `;
+
+export const Percentage = styled.text`
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 39px;
+
+    color: #3F3838;
+`;
+
+export const Progress = StyledMUI(LinearProgress)`
+    width: 353px;
+    height: 25px;
+    border-radius: 15px;
+    margin-bottom: 21px;
+`;
+
 
 export const Column = styled.div`
     //
