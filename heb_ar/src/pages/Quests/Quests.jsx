@@ -1,6 +1,7 @@
 import React from "react";
 import AppBar from "../../common/AppBar/AppBar";
 import NavBar from "../../common/NavBar/NavBar";
+import { Link } from "react-router-dom";
 import SP from "../../assets/imgs/quest_img_4.svg"
 import SH from "../../assets/imgs/quest_img_3.svg"
 import BP from "../../assets/imgs/quest_img_2.svg"
@@ -43,10 +44,12 @@ function Quests() {
               <SPimg src={SP} />
             </ScanProducts>
             
-            <ScavengerHunt>
-              <Counter>1/5</Counter>
-              <SHimg src={SH} />
-            </ScavengerHunt>
+            <Link to="/scavenger-hunt">
+              <ScavengerHunt>
+                <Counter>1/5</Counter>
+                <SHimg src={SH} />
+              </ScavengerHunt>
+            </Link>
           </Row>
 
           <Row>
