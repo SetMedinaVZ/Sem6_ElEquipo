@@ -1,3 +1,4 @@
+import { LinearProgress } from "@mui/material";
 import styled from "styled-components";
 
 export const Titulo = styled.text`
@@ -10,6 +11,17 @@ export const Titulo = styled.text`
     font-size: 28px;
 
     color: #722017;
+`;
+
+export const Progress = styled(LinearProgress)`
+    width: 353px;
+    height: 55px;
+    margin-top: 41px;
+    margin-bottom: 21px;
+
+    :hover {
+        color: #FCB716;
+    }
 `;
 
 export const Column = styled.div`

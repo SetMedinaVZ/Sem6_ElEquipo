@@ -9,6 +9,7 @@ import QB from "../../assets/imgs/quest_img_1.svg"
 import Light from "../../assets/imgs/quest_img_5.svg"
 import { 
   Titulo, 
+  Progress,
   Column, 
   Row, 
   ScanProducts, 
@@ -35,7 +36,7 @@ function Quests() {
       <div className="container">
         <Titulo>Tus Quests</Titulo>
 
-        {/* Progres Bar */}
+        <Progress variant='determinate' value={50} />
 
         <Column>
           <Row>
@@ -73,7 +74,7 @@ function Quests() {
           <ConsejoImgDiv>
             
             <ConsejoImg>
-              <img src={Light}/>
+              <img src={Light} alt="Consejo"/>
             </ConsejoImg>
             
             <ConsejoDesc>Para completar las misiones de escaneo puedes usar el croquis incluido en la app</ConsejoDesc>
