@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import ProductsList from "../../components/ProductsList/ProductsList";
 import { firestore } from "../../firebase";
-import { collection, doc, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const Back = styled.img`
   position: absolute;
@@ -67,7 +67,7 @@ const Aisle = (props) => {
   useEffect(() => {
     callDB().then(() => {
       setLoading(false);
-    })
+    });
   }, []);
 
   return (
