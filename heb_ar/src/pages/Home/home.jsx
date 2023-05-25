@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import { firestore } from "../../firebase";
 import { collection, limit, orderBy, query, getDocs } from "firebase/firestore";
 import Carousel from "../../components/Carousel/Carousel";
-import ScannerProductInfo from "../../components/ScannerProductInfo/ScannerProductInfo";
 
 const HomeText = styled.p`
   font-family: "Inter";
@@ -76,7 +75,6 @@ const Home = () => {
     <>
       <AppBar />
       <div className="container">
-        <ScannerProductInfo />
         {loadingCarousel ? (<p>Cargando carrusel</p>) : (<Carousel data={carouselData}/>)}
         <SearchBar />
         <WrapText>
