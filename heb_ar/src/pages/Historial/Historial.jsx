@@ -118,19 +118,24 @@ function Historial() {
       let year = date.getFullYear();
       let date2 = day + " de " + month + ", " + year;
 
-      Object.values(row.productos).forEach(prod => {
-        if(typeof prod == "object"){
-          console.log(prod);
-        }
-      })
+      // Object.values(row.productos).forEach(prod => {
+      //   if(typeof prod == "object"){
+      //     console.log(prod);
+      //   }
+      // })
 
       let rowToPush = {qr: row.qr, cost: row.cost, date: date2, store: row.store, productos: row.productos};
       data.push(rowToPush);
     })
     
     // console.log("Data: ");
-    // console.log(data);
+    console.log(data);
     setUserData(data);
+  }
+
+  const getPurchaseSingle = async (history) => {
+    // const ref = firebase.firestore().collection("purchase_history").doc(_id); 
+    console.log(history);
   }
 
   const nombresMes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio" ,"Agosto" ,"Septiembre" ,"Octubre" ,"Noviembre" ,"Diciembre"];
@@ -159,7 +164,7 @@ function Historial() {
                       <h1 className="Location">{row.store}</h1>
                     </div>
                     <div className="ButtonDivH">
-                      <Button onClick={getUserPurchaseHistory}>
+                      <Button onClick={()=>getPurchaseSingle(row.id)}>
                         Detalles
                       </Button>
                       <Link to="/ayuda">

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as CloseButton } from "../assets/icons/close.svg";
 import HEBlogo from "../assets/imgs/logo.svg";
@@ -11,6 +11,10 @@ import AyudaSVG from "../assets/icons/ayuda.svg";
 
 import "./OverViewPerfil2.css";
 import { Link, useNavigate } from "react-router-dom";
+import { collection, getDoc, doc } from "firebase/firestore";
+
+import { firestore } from '../firebase';
+import { useAuth } from "../context/AuthContext";
 
 const Section = styled.div`
   position: absolute;
@@ -131,7 +135,27 @@ const Column = styled.div`
 `;
 
 function OverviewPerfil2({ setOpen }) {
-  const navigate = useNavigate();
+
+  const { currentUser } = useAuth();
+  const [userData, setUserData] = useState([{}]);
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  const getUserInfo = async () =>{
+    const userPurchaseHistoryRef = doc(firestore, 'users', currentUser.uid);
+    // const userPurchaseHistoryQuery = query(userPurchaseHistoryRef);
+    const userPurchaseHistorySnapshot = await getDoc(userPurchaseHistoryRef);
+    // userPurchaseHistorySnapshot.forEach((doc) => {
+      //   console.log(doc);
+      // });
+    // const userPurchaseHistoryData = userPurchaseHistorySnapshot.docs.map(doc => doc.data());
+    const userPurchaseHistoryData = userPurchaseHistorySnapshot.docs;
+    console.log("HERE: "+userPurchaseHistoryData);
+    // console.log("NEXT: "+userPurchaseHistorySnapshot)
+
+  }
+  
   var Puntos = 1025;
   var Nombre = "Marcelo Marquez";
   const [isOpen, setIsOpen] = React.useState(true);
