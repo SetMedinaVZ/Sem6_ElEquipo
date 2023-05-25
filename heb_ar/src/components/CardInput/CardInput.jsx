@@ -11,7 +11,7 @@ const CreditCardForm = styled.div`
   margin: 3vh 0;
 `;
 
-const InputWrapper = styled.div`
+const InputWrapper = styled.form`
   display: flex;
   width: 100%;
   margin: 0 -3vw;
