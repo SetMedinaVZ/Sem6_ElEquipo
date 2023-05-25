@@ -4,7 +4,7 @@ import React from "react";
 import Arrow from "../../assets/icons/arrow.svg"
 import Scan from "../../assets/icons/scan_filled.svg"
 import {Titulo, Back, Progress, ProgressTxt, Txt, AccordionWrapper, Camara, Label, Actividad, ActividadDesc, Completo} from "./ScavengerHuntStyled"
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";

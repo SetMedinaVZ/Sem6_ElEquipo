@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from "react";
 import AppBar from "../../common/AppBar/AppBar";
 import NavBar from "../../common/NavBar/NavBar";
 import Escaner from "../../components/Escaner/escaner";
@@ -8,20 +8,6 @@ import "./Escaneo.css";
 
 function Escaneo() {
 
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    const enableCamera = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      } catch (error) {
-        console.error('Error accessing camera:', error);
-      }
-    };
-
-    enableCamera();
-  }, []);
-
   const onNewScanResult = (decodedText, decodedResult) => {
     console.log(decodedText);
     console.log(decodedResult);
@@ -30,7 +16,7 @@ function Escaneo() {
   return (
     <>
       <AppBar />
-      <div className="container">
+      <div>
         <Escaner
           fps={10}
           qrbox={250}

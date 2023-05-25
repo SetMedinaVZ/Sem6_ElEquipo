@@ -1,7 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from "@apollo/client";
-import { setContext } from '@apollo/client/link/context';
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import IniciarSesion from "./pages/AccessPage/IniciarSesion";
@@ -12,7 +17,7 @@ import Perfil from "./pages/Perfil/Perfil";
 import Carrito from "./pages/Carrito/Carrito";
 import Escaneo from "./pages/Escaneo/Escaneo";
 import Quests from "./pages/Quests/Quests";
-import ScavengerHunt from "./pages/ScavengerHunt/ScavengerHunt"
+import ScavengerHunt from "./pages/ScavengerHunt/ScavengerHunt";
 import Cupones from "./pages/Cupones/Cupones";
 import "firebase/functions";
 import firebase from "firebase/app";
@@ -25,31 +30,33 @@ import { ClockTime } from "./context/timeContext";
 import GastosMensuales from "./pages/GastosMensuales/GastosMensuales";
 import InfoProducto from "./pages/InfoProducto/InfoProducto";
 import Aisle from "./pages/Aisle/Aisle";
+import Pago from "./pages/Pago/Pago";
 
 const httpLink = createHttpLink({
-  uri: 'https://strong-polliwog-81.hasura.app/v1/graphql',
+  uri: "https://strong-polliwog-81.hasura.app/v1/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = 'IgayxJEcbgTwLd4Dp72wzzTr2xncoykU5f8GqRGuBLoIKvhotuVtUxPHfuJ1yW6u';
+  const token =
+    "IgayxJEcbgTwLd4Dp72wzzTr2xncoykU5f8GqRGuBLoIKvhotuVtUxPHfuJ1yW6u";
   return {
     headers: {
       ...headers,
-      "x-hasura-admin-secret": token
-    }
-  }
+      "x-hasura-admin-secret": token,
+    },
+  };
 });
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ApolloProvider client={client}>
     <AuthProvider>
-    <BrowserRouter>
+      <BrowserRouter>
         <Routes>
           <Route path="/iniciar-sesion" element={<IniciarSesion />} />
           <Route path="/crear-cuenta" element={<CrearCuenta />} />
@@ -157,9 +164,17 @@ root.render(
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/pago"
+            element={
+              <ProtectedRoute>
+                <Pago />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
-      <ClockTime/>
+      <ClockTime />
     </AuthProvider>
     <script src="html5-qrcode.min.js"></script>
   </ApolloProvider>
