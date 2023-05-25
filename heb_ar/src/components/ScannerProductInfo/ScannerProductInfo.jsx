@@ -6,8 +6,10 @@ import Minus from "../../assets/icons/minus.svg";
 
 const ProductModal = styled.div`
   position: relative;
-  width: 270px;
-  height: 527px;
+  /* width: 270px; */
+  width: 80vw;
+  /* max-height: 527px; */
+  height: 70vh;
   background: #ffffff;
   border: 10px solid #fcb716;
   border-radius: 25px;
@@ -76,6 +78,9 @@ const ProductInfo = styled.ul`
   flex-direction: column;
   justify-content: flex-start;
   overflow-y: scroll;
+  margin-bottom: 90px;
+  /* width: 100%; */
+  padding: 0 10px;
 
   & li {
     font-family: "Inter";
@@ -106,7 +111,7 @@ const Price = styled.span`
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   display: flex;
   margin-top: auto;
   color: #000000;
@@ -175,41 +180,41 @@ const AddToCart = styled.button`
   }
 `;
 
-const ScannerProductInfo = (props) => {
+const ScannerProductInfo = ({ data, onButtonClose }) => {
   const [amount, setAmount] = useState(1);
-  const [price, setPrice] = useState(props.price);
+  const [price, setPrice] = useState(data.price);
 
   const minusHandler = () => {
     if (amount > 1) {
       setAmount((prev) => prev - 1);
-      setPrice(prev => prev - props.price);
+      setPrice((prev) => prev - data.price);
     }
   };
 
   const addHandler = () => {
     setAmount((prev) => prev + 1);
-    setPrice(prev => prev + props.price);
+    setPrice((prev) => prev + data.price);
   };
 
   return (
     <ProductModal>
-      <CloseButton>
+      <CloseButton onClick={onButtonClose}>
         <img src={CloseImg} alt="" />
       </CloseButton>
-      <ProductImg src={props.url_img} alt="Product img" />
+      <ProductImg src={data.url_img} alt="Product img" />
       <ContainerName>
         {/* <ProductName>{props.name}</ProductName> */}
-        <ProductName>{props.name}</ProductName>
+        <ProductName>{data.name}</ProductName>
         <Hr />
         {/* <NetCount>{props.net_count}</NetCount> */}
-        <NetCount>{props.net_count}</NetCount>
+        <NetCount>{data.net_count}</NetCount>
       </ContainerName>
       <ProductInfo>
-        <li>Calorias: {props.calories}</li>
-        <li>Azucares: {props.sugars}</li>
-        <li>Carbs: {props.carbs}</li>
-        <li>Grasas: {props.fats}</li>
-        <li>Proteina: {props.protein}</li>
+        <li>Calorias: {data.calories}</li>
+        <li>Azucares: {data.sugars}</li>
+        <li>Carbs: {data.carbs}</li>
+        <li>Grasas: {data.fats}</li>
+        <li>Proteina: {data.protein}</li>
       </ProductInfo>
       <ButtonsContainer>
         <PriceAmountContainer>
