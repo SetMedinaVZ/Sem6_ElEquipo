@@ -11,7 +11,7 @@ import AyudaSVG from "../assets/icons/ayuda.svg";
 
 import "./OverViewPerfil2.css";
 import { Link, useNavigate } from "react-router-dom";
-import { collection, getDoc, doc } from "firebase/firestore";
+import { collection, getDoc, doc, getDocs, query } from "firebase/firestore";
 
 import { firestore } from '../firebase';
 import { useAuth } from "../context/AuthContext";
@@ -137,27 +137,31 @@ const Column = styled.div`
 function OverviewPerfil2({ setOpen }) {
 
   const { currentUser } = useAuth();
-  const [userData, setUserData] = useState([{}]);
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [puntos, setPuntos] = useState(0);
+
   useEffect(() => {
     getUserInfo();
   }, []);
 
   const getUserInfo = async () =>{
-    const userPurchaseHistoryRef = doc(firestore, 'users', currentUser.uid);
-    // const userPurchaseHistoryQuery = query(userPurchaseHistoryRef);
-    const userPurchaseHistorySnapshot = await getDoc(userPurchaseHistoryRef);
-    // userPurchaseHistorySnapshot.forEach((doc) => {
-      //   console.log(doc);
-      // });
-    // const userPurchaseHistoryData = userPurchaseHistorySnapshot.docs.map(doc => doc.data());
-    const userPurchaseHistoryData = userPurchaseHistorySnapshot.docs;
-    console.log("HERE: "+userPurchaseHistoryData);
-    // console.log("NEXT: "+userPurchaseHistorySnapshot)
+    const userRef = doc(firestore, 'users', currentUser.uid);
+    const userSnap = await getDoc(userRef);
+
+    if(userSnap.exists()){
+      // console.log(userSnap.data());
+
+      setApellido(userSnap.data().apellido);
+      setNombre(userSnap.data().nombre);
+      setPuntos(userSnap.data().puntos)
+
+    }else{
+      console.log("undefined");
+    }
 
   }
   
-  var Puntos = 1025;
-  var Nombre = "Marcelo Marquez";
   const [isOpen, setIsOpen] = React.useState(true);
 
   const handleClose = () => {
@@ -175,7 +179,7 @@ function OverviewPerfil2({ setOpen }) {
       </Button>
       <Hola>
         <h1 className="Hola">
-          Hola, <b>{Nombre}</b>
+          Hola, <b>{nombre +" "+ apellido}</b>
         </h1>
       </Hola>
       <Section2>
@@ -185,7 +189,7 @@ function OverviewPerfil2({ setOpen }) {
             <img className="info-svg" src={Info} />
           </Column>
           <Column className="PuntosDiv2">
-            <h1>{Puntos}</h1>
+            <h1>{puntos}</h1>
             <h1> Puntos</h1>
           </Column>
         </SubSection1>

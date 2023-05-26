@@ -53,3 +53,40 @@
 .qr-image{
     cursor: pointer;
 }
+
+.MoneySelected{
+    background-color: #F5F5F5;
+}
+
+.InfoSelected{
+    background-color: #F5F5F5;
+    justify-content: center;
+}
+
+.InfoN{
+    justify-content: space-between;
+}
+
+.FechaSelected{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+
+    color: #722017;
+}
+
+.LocationSelected{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+
+    color: rgba(0, 0, 0, 0.49);
+}

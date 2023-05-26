@@ -6,11 +6,12 @@ import styled from "styled-components";
 import QRImage from "../../assets/imgs/qr.svg";
 import HelpIcon from "../../assets/icons/help.svg";
 import "./Historial.css";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, query, where, getDoc } from "firebase/firestore";
 
 import { firestore } from '../../firebase';
 import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import SpecData from "../../components/PurhcaseHistorySpec/SpecData";
 
 const Container = styled.div`
   width: 88%;
@@ -44,9 +45,9 @@ const InfoDiv = styled.div`
   width: 50%;
   height: 100%;
 
-  align-items: start;
+  /* align-items: start; */
   padding-left: 10px;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   display: flex;
   flex-direction: column;
   padding-top:10px;
@@ -63,7 +64,7 @@ const MoneyDiv = styled.div`
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 15px;
   line-height: 24px;
   display: flex;
   align-items: center;
@@ -81,18 +82,18 @@ const Button = styled.button`
   border-radius: 41px;
 
   @media screen and (max-width: 768px) {
-        width: 65px;
-        height: 18px;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 10px;
+    width: 65px;
+    height: 18px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 10px;
 
-          .help-icon{
-              width: 10.66px;
-              height: 10.53px;
-          }
+    .help-icon{
+        width: 10.66px;
+        height: 10.53px;
     }
+  }
 `;
 
 function Historial() {
@@ -100,6 +101,9 @@ function Historial() {
 
   const { currentUser } = useAuth();
   const [userData, setUserData] = useState([{}]);
+  const [userSpecData, setUserSpecData] = useState([{}]);
+  const [showDetail, setShowDetail] = useState([false]);
+
   useEffect(() => {
     getUserPurchaseHistory();
   }, []);
@@ -108,63 +112,85 @@ function Historial() {
     const userPurchaseHistoryRef = collection(firestore, 'users', currentUser.uid, 'purchase_history');
     const userPurchaseHistoryQuery = query(userPurchaseHistoryRef);
     const userPurchaseHistorySnapshot = await getDocs(userPurchaseHistoryQuery);
-    const userPurchaseHistoryData = userPurchaseHistorySnapshot.docs.map(doc => doc.data());
+    let dataAux = [];
+    userPurchaseHistorySnapshot.docs.map((doc) => dataAux.push({ id:doc.id, ...doc.data()}));
 
     let data = [];
-    userPurchaseHistoryData.forEach(row => {
+    let det = [];
+    
+    dataAux.forEach(row => {
       let date = new Date(row.date.seconds * 1000);
       let day = date.getDate();
       let month = nombresMes[date.getMonth()-1];
       let year = date.getFullYear();
       let date2 = day + " de " + month + ", " + year;
+      
+      det.push(false);
+      setShowDetail(det);
 
-      // Object.values(row.productos).forEach(prod => {
-      //   if(typeof prod == "object"){
-      //     console.log(prod);
-      //   }
-      // })
-
-      let rowToPush = {qr: row.qr, cost: row.cost, date: date2, store: row.store, productos: row.productos};
+      let rowToPush = {id:row.id, qr: row.qr, cost: row.cost, date: date2, store: row.store, productos: row.productos};
+      
       data.push(rowToPush);
     })
-    
-    // console.log("Data: ");
-    console.log(data);
+
     setUserData(data);
   }
 
-  const getPurchaseSingle = async (history) => {
-    // const ref = firebase.firestore().collection("purchase_history").doc(_id); 
-    console.log(history);
+  const getPurchaseSingle = (history, idx) => {
+    let aux = showDetail;
+    aux.forEach((bol,idx2)=>{
+      bol = false
+      if(idx2 == idx){
+        aux[idx2] = aux[idx];
+      }else{
+        aux[idx2] = bol
+      }
+    }
+    );
+    aux[idx] = !aux[idx];
+    setShowDetail(aux);
+
+    userData.forEach((row)=>{
+      if(row.id === history){
+        let data = [];
+        Object.values(row.productos).forEach(prod => {
+          data.push(prod);
+        });
+        // console.log(data);
+        setUserSpecData(data);
+      }
+    })
   }
+
+  // useEffect(()=>{
+  //   console.log(userSpecData)
+  //   // console.log(showDetail);
+  // },[userSpecData])
 
   const nombresMes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio" ,"Agosto" ,"Septiembre" ,"Octubre" ,"Noviembre" ,"Diciembre"];
   
   return (
     <>
-        {/* <AppBar/> */}
         <div className="container">
-          {/* <Link to={"/"}> */}
           <div onClick={() => navigate(-1)}>
             <Back src={Arrow} alt="Regresar"/>
           </div>
-          {/* </Link> */}
           <Titulo>Historial</Titulo>
           <Container>
             {
-              userData.map(row => (
+              userData.map((row, idx) => (
               <><RowCont>
                   <QRDiv>
                     {/* <img className="qr-image" src={QRImage} /> */}
                     <h1>{row.qr}</h1>
                   </QRDiv>
-                  <InfoDiv>
+                  <InfoDiv className={showDetail[idx] ? "InfoSelected":"InfoN"}>
                     <div>
-                      <h1 className="Fecha">{row.date}</h1>
-                      <h1 className="Location">{row.store}</h1>
+                      <h1 className={showDetail[idx] ? "FechaSelected":"Fecha"}>{row.date}</h1>
+                      <h1 className={showDetail[idx] ? "LocationSelected":"Location"}>{row.store}</h1>
                     </div>
-                    <div className="ButtonDivH">
-                      <Button onClick={()=>getPurchaseSingle(row.id)}>
+                    {!showDetail[idx] && <div className="ButtonDivH">
+                      <Button onClick={()=>getPurchaseSingle(row.id, idx)}>
                         Detalles
                       </Button>
                       <Link to="/ayuda">
@@ -173,14 +199,16 @@ function Historial() {
                           <img className="help-icon" src={HelpIcon} />
                         </Button>
                       </Link>
-                    </div>
+                    </div>}
                   </InfoDiv>
-                  <div className="rectMoney"></div>
-                  <MoneyDiv>
-                    <h1>{row.cost}</h1>
+                  {!showDetail[idx] && <div className="rectMoney"></div>}
+                  <MoneyDiv className={showDetail[idx] ? "MoneySelected":"MoneyN"}>
+                    <h1>${row.cost}</h1>
                     <h1>Mxn</h1>
                   </MoneyDiv>
-                </RowCont><div className="rectRow"></div></>
+                </RowCont><div className="rectRow"></div>
+                {showDetail[idx] && <SpecData data={userSpecData}></SpecData>}
+                </>
               ))
             }
           </Container>
