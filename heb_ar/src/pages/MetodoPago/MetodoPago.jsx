@@ -21,7 +21,7 @@ export const AddPaymentMethodButton = styled.button`
 
   color: white;
   background-color: #de2b27;
-  margin: 3vh 0;
+  margin: 1vh 0 2vh 0;
 
   &:disabled {
     background-color: #c5c5c5;

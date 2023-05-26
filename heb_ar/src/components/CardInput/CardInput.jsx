@@ -8,7 +8,7 @@ const CreditCardForm = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 3vh 0;
+  margin: 3vh 0 1vh 0;
 `;
 
 const InputWrapper = styled.form`
@@ -24,11 +24,20 @@ const Input = styled.input`
   border-radius: 5px;
 `;
 
-const CreditCardInput = ({ uid, setAddPaymentMethod }) => {
+
+/**
+ * 
+ * @param {string} uid - User ID 
+ * @param {function} setAddPaymentMethod - Function to set the state of addPaymentMethod in MetodoPago.jsx
+ * @param {function} setAddedCard - Function to set the state of addedCard in Pago.jsx
+ * @returns {JSX.Element}
+ */
+const CreditCardInput = ({ uid, setAddPaymentMethod, setAddedCard }) => {
   const [loadingAddPaymentMethod, setLoadingAddPaymentMethod] = useState(false);
   const [cardNumber, setCardNumber] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
   const [cvv, setCvv] = useState("");
+  const [isCardDefault, setIsCardDefault] = useState(false);
 
   const formatCardNumber = (value) => {
     // Remove all non-digits
@@ -101,14 +110,20 @@ const CreditCardInput = ({ uid, setAddPaymentMethod }) => {
       uid,
       "payment_methods"
     );
-    const docRef = await addDoc(collectionRef, {
+    await addDoc(collectionRef, {
       number: cardNumber,
       expiracy_date: expirationDate,
       type: obtainCardType(cardNumber),
       cvv: cvv,
+      default: isCardDefault,
     });
     setLoadingAddPaymentMethod(false);
-    setAddPaymentMethod(false);
+    if (setAddPaymentMethod !== undefined) {
+      setAddPaymentMethod(false);
+    }
+    if (setAddedCard !== undefined) {
+      setAddedCard(true);
+    }
   };
 
   return (
@@ -131,7 +146,7 @@ const CreditCardInput = ({ uid, setAddPaymentMethod }) => {
           name="expirationDate"
           value={expirationDate}
           onChange={handleInputChange}
-          placeholder="Fecha de vencimiento"
+          placeholder="MM/AAAA"
           maxLength={7}
           minLength={7}
           required
@@ -147,6 +162,15 @@ const CreditCardInput = ({ uid, setAddPaymentMethod }) => {
           required
         />
       </InputWrapper>
+      <label htmlFor="default" style={{ margin: "1.2vh 0" }}>
+        <input
+          type="checkbox"
+          name="default"
+          id="default"
+          onChange={() => setIsCardDefault(!isCardDefault)}
+        />{" "}
+        ¿Tarjeta por defecto?
+      </label>
       <AddPaymentMethodButton
         onClick={addPaymentMethodToFirebase}
         disabled={cardNumber === "" || expirationDate === "" || cvv === ""}

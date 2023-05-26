@@ -13,6 +13,7 @@ export const TextG = styled.span`
   font-size: 1rem;
   color: #787878;
   font-weight: bold;
+  margin: 1rem 0;
 `;
 
 export const TextB = styled.span`
@@ -32,7 +33,7 @@ export const Footer = styled.footer`
   width: 100%;
   height: 100px;
   position: fixed;
-  bottom: 10px;
+  bottom: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,7 +62,8 @@ export const CheckoutButton = styled.button`
 
 export const ButtonContainers = styled.div`
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
 `;
 

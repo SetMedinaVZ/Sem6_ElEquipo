@@ -45,10 +45,23 @@ export const CloseIMG = styled.img`
   margin-top: 5px;
 `;
 
-const MetodoPagoItem = ({ metodoPago, userId, setDelPaymentMethod }) => {
+/**
+ * 
+ * @param metodoPago - Objeto con la información del método de pago
+ * @param userId - Id del usuario
+ * @param setDelPaymentMethod - Función para actualizar el estado de la lista de métodos de pago al componente padre
+ * @param disableDelete - Booleano para deshabilitar el botón de eliminar
+ * @returns 
+ */
+const MetodoPagoItem = ({
+  metodoPago,
+  userId,
+  setDelPaymentMethod,
+  disableDelete,
+}) => {
   const lastFourDigits = metodoPago.number.slice(-4);
 
-  const deletePaymentMethod = async() => {
+  const deletePaymentMethod = async () => {
     const collectionRef = collection(
       firestore,
       "users",
@@ -74,7 +87,9 @@ const MetodoPagoItem = ({ metodoPago, userId, setDelPaymentMethod }) => {
         <p>Visa {lastFourDigits}</p>
         <p>Fecha de exp. {metodoPago.expiracy_date}</p>
       </MetodoPagoList>
-      <CloseIMG src={closeIMG} onClick={deletePaymentMethod} />
+      {disableDelete ? null : (
+        <CloseIMG src={closeIMG} onClick={deletePaymentMethod} />
+      )}
     </MetodoPagoItemContainer>
   );
 };

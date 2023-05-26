@@ -16,12 +16,24 @@ import Toggle from "../../components/Toggle/Toggle";
 import { useAuth } from "../../context/AuthContext";
 import GooglePayButton from "@google-pay/button-react";
 import CreditCardInput from "../../components/CardInput/CardInput";
+import { firestore } from "../../firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import MetodoPagoItem from "../../components/MetodoPagoItem/MetodoPagoItem";
 
-const Pago = ({ cantidadCobrar }) => {
+/**
+ *
+ * @param {number} cantidadCobrar - Cantidad a cobrar
+ * @param {array} carrito - Array de objetos con los productos del carrito
+ * @returns JSX.Element
+ */
+const Pago = ({ cantidadCobrar, carrito }) => {
   const navigate = useNavigate();
-  const { userDoc } = useAuth();
+  const { userDoc, currentUser } = useAuth();
 
   const [toggle, setToggle] = useState(true);
+  const [defaultCard, setDefaultCard] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [addedCard, setAddedCard] = useState(false);
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -50,7 +62,8 @@ const Pago = ({ cantidadCobrar }) => {
     if (
       cantidadCobrar === 0 ||
       cantidadCobrar === null ||
-      cantidadCobrar === undefined
+      cantidadCobrar === undefined ||
+      !defaultCard
     ) {
       return true;
     } else {
@@ -58,87 +71,175 @@ const Pago = ({ cantidadCobrar }) => {
     }
   };
 
+  const fetchDefaultCard = async () => {
+    const collectionRef = collection(
+      firestore,
+      "users",
+      currentUser.uid,
+      "payment_methods"
+    );
+    const q = query(collectionRef, where("default", "==", true));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setDefaultCard(doc.data());
+    });
+  };
+
+  const handleCheckout = () => {
+    navigate("/compra-exitosa", {
+      state: {
+        cantidadCobrar: cantidadCobrar,
+        carrito: carrito,
+        defaultCard: defaultCard,
+      },
+    });
+  };
+  //TODO: Descomentar cuando se implemente el carrito
+  // useEffect(() => {
+  //   if (!cantidadCobrar) {
+  //     navigate("/carrito");
+  //   } else {
+  //     fetchDefaultCard().then(() => {
+  //       setLoading(false);
+  //     });
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    fetchDefaultCard().then(() => {
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    fetchDefaultCard();
+  }, [addedCard]);
+
   return (
-    <div className="w-full ">
-      <div onClick={() => navigate(-1)}>
-        <Back src={Arrow} alt="Regresar" />
-      </div>
-      <Titulo>Pago</Titulo>
-      <ButtonContainers>
-        <GooglePayButton
-          environment="TEST"
-          buttonType="plain"
-          paymentRequest={{
-            apiVersion: 2,
-            apiVersionMinor: 0,
-            allowedPaymentMethods: [
-              {
-                type: "CARD",
-                parameters: {
-                  allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-                  allowedCardNetworks: ["MASTERCARD", "VISA"],
-                },
-                tokenizationSpecification: {
-                  type: "PAYMENT_GATEWAY",
-                  parameters: {
-                    gateway: "example",
-                    gatewayMerchantId: "exampleGatewayMerchantId",
+    <>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <div onClick={() => navigate(-1)}>
+            <Back src={Arrow} alt="Regresar" />
+          </div>
+          <Titulo>Pago</Titulo>
+          <ButtonContainers>
+            <GooglePayButton
+              environment="TEST"
+              style={{
+                width: "85%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#000000",
+                borderRadius: "4px",
+              }}
+              buttonSizeMode="static"
+              buttonType="plain"
+              paymentRequest={{
+                apiVersion: 2,
+                apiVersionMinor: 0,
+                allowedPaymentMethods: [
+                  {
+                    type: "CARD",
+                    parameters: {
+                      allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                      allowedCardNetworks: ["MASTERCARD", "VISA"],
+                    },
+                    tokenizationSpecification: {
+                      type: "PAYMENT_GATEWAY",
+                      parameters: {
+                        gateway: "example",
+                        gatewayMerchantId: "exampleGatewayMerchantId",
+                      },
+                    },
                   },
+                ],
+                merchantInfo: {
+                  merchantId: "12345678901234567890",
+                  merchantName: "Demo Merchant",
                 },
-              },
-            ],
-            merchantInfo: {
-              merchantId: "12345678901234567890",
-              merchantName: "Demo Merchant",
-            },
-            transactionInfo: {
-              totalPriceStatus: "FINAL",
-              totalPriceLabel: "Total",
-              totalPrice: "100.00",
-              currencyCode: "USD",
-              countryCode: "US",
-            },
-          }}
-          onLoadPaymentData={(paymentRequest) => {
-            console.log("load payment data", paymentRequest);
-          }}
-        />
-      </ButtonContainers>
-      <TextG>Agrega la información de tu tarjeta</TextG>
-      <CreditCardInput />
-      <ToggleContainer>
-        <TextG>¿Quieres utilizar tus puntos en esta compra?</TextG>
-        <Toggle handler={handleToggle} />{" "}
-        {toggle && userDoc.puntos > 0 && (
-          <>
+                transactionInfo: {
+                  totalPriceStatus: "FINAL",
+                  totalPriceLabel: "Total",
+                  totalPrice: "100.00",
+                  currencyCode: "USD",
+                  countryCode: "US",
+                },
+              }}
+              onLoadPaymentData={(paymentRequest) => {
+                console.log("load payment data", paymentRequest);
+              }}
+            />
+
+            {defaultCard ? (
+              <>
+                <TextG>O puedes continuar con tu tarjeta</TextG>
+                <MetodoPagoItem metodoPago={defaultCard} disableDelete />
+              </>
+            ) : (
+              <>
+                <TextG>O agrega la información de tu tarjeta</TextG>
+                <CreditCardInput
+                  uid={currentUser.uid}
+                  setAddedCard={setAddedCard}
+                />
+              </>
+            )}
+          </ButtonContainers>
+
+          <ToggleContainer>
+            <TextG>¿Quieres utilizar tus puntos en esta compra?</TextG>
+            <Toggle handler={handleToggle} />{" "}
+            {toggle && userDoc.puntos > 0 && (
+              <>
+                <TextWrapper>
+                  <TextB>Puntos a redimir</TextB>
+                  <TextB>{userDoc.puntos}</TextB>
+                </TextWrapper>
+                <TextWrapper>
+                  <TextB>Descuento</TextB>
+                  <TextB>{obtainDiscount()}</TextB>
+                </TextWrapper>
+                <TextWrapper>
+                  <TextB>Cupón aplicado</TextB>
+                  {/* TODO:DESCONTAR CUPON */}
+                </TextWrapper>
+                <div
+                  style={{
+                    height: "1px",
+                    width: "80%",
+                    margin: "10px 0",
+                    backgroundColor: "#787878",
+                  }}
+                />
+                <TextWrapper>
+                  <TextB>Total a pagar</TextB>
+                  <TextB>{obtainTotal()}</TextB>
+                </TextWrapper>
+              </>
+            )}
+            {toggle && userDoc.puntos === 0 && (
+              <TextB>No tienes puntos acumulados</TextB>
+            )}
+          </ToggleContainer>
+          <Footer>
             <TextWrapper>
-              <TextB>Puntos a redimir</TextB>
-              <TextB>{userDoc.puntos}</TextB>
+              <TextB>Total a pagar</TextB>
+              <TextB>{obtainTotal()}</TextB>
             </TextWrapper>
-            <TextWrapper>
-              <TextB>Descuento</TextB>
-              <TextB>{obtainDiscount()}</TextB>
-            </TextWrapper>
-            <TextWrapper>
-              <TextB>Cupón aplicado</TextB>
-              {/* TODO:DESCONTAR CUPON */}
-            </TextWrapper>
-          </>
-        )}
-        {toggle && userDoc.puntos === 0 && (
-          <TextB>No tienes puntos acumulados</TextB>
-        )}
-      </ToggleContainer>
-      <Footer>
-        <TextWrapper>
-          <TextB>Total a pagar</TextB>
-          <TextB>{obtainTotal()}</TextB>
-        </TextWrapper>
-        <CheckoutButton disabled={buttonIsDisabled()}>
-          Pagar {obtainTotal()}
-        </CheckoutButton>
-      </Footer>
-    </div>
+            <CheckoutButton
+              onClick={handleCheckout}
+              disabled={buttonIsDisabled()}
+            >
+              Pagar {obtainTotal()}
+            </CheckoutButton>
+          </Footer>
+        </>
+      )}
+    </>
   );
 };
 

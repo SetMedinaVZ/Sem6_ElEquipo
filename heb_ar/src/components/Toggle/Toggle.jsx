@@ -16,6 +16,7 @@ const StyledToggle = styled.div`
   height: 5vh;
   display: flex;
   align-items: center;
+  margin-bottom: 2rem;
 
   > input[type="radio"] {
     display: none;
