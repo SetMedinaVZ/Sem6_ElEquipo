@@ -3,6 +3,8 @@ import styled from "styled-components";
 import CloseImg from "../../assets/icons/close3.svg";
 import Add from "../../assets/icons/add.svg";
 import Minus from "../../assets/icons/minus.svg";
+import { useMutation } from '@apollo/client';
+import { CREATE_CARRITO } from "../../graphql/mutations/createCarrito";
 
 const ProductModal = styled.div`
   position: relative;
@@ -181,8 +183,33 @@ const AddToCart = styled.button`
 `;
 
 const ScannerProductInfo = ({ data, onButtonClose }) => {
+  const [createCarrito] = useMutation(CREATE_CARRITO);
   const [amount, setAmount] = useState(1);
   const [price, setPrice] = useState(data.price);
+
+  const handleCreateCarrito = async () => {
+    console.log("cantidad",amount);
+    console.log("productId",data.id);
+    console.log("name",data.name);
+    console.log("url_img",data.url_img);
+    console.log("precioU",data.price);
+    console.log("size",data.net_cont);
+    try {
+      const { dataC } = await createCarrito({
+        variables: {
+          cantidad: amount,
+          productId: data.id,
+          name: data.name,
+          size: data.net_cont,
+          url_img: data.url_img,
+          precioU: data.price,
+          userId: "7pl31793utYIH5Y5mFvGC2fg53X2",
+        },
+      });
+    } catch (error) {
+      console.error('Error updating carrito:', error);
+    }
+  };
 
   const minusHandler = () => {
     if (amount > 1) {
@@ -207,14 +234,12 @@ const ScannerProductInfo = ({ data, onButtonClose }) => {
         <ProductName>{data.name}</ProductName>
         <Hr />
         {/* <NetCount>{props.net_count}</NetCount> */}
-        <NetCount>{data.net_count}</NetCount>
+        <NetCount>{data.net_cont}</NetCount>
       </ContainerName>
       <ProductInfo>
         <li>Calorias: {data.calories}</li>
         <li>Azucares: {data.sugars}</li>
-        <li>Carbs: {data.carbs}</li>
         <li>Grasas: {data.fats}</li>
-        <li>Proteina: {data.protein}</li>
       </ProductInfo>
       <ButtonsContainer>
         <PriceAmountContainer>
@@ -229,7 +254,7 @@ const ScannerProductInfo = ({ data, onButtonClose }) => {
             </button>
           </AmountButton>
         </PriceAmountContainer>
-        <AddToCart>
+        <AddToCart onClick={handleCreateCarrito}>
           <span>Agregar al carrito</span>
         </AddToCart>
       </ButtonsContainer>

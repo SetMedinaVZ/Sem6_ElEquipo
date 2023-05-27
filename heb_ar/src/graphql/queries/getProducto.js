@@ -1,20 +1,17 @@
 import { gql } from "@apollo/client";
 
 export const GET_PRODUCTO = gql`
-    query getProductos {
-        producto {
-            categoria
-            marca
-            nombre
-            pasillo
-            subcategoria
-            unidad
-            numero_pasillo
-            popularidad_index
-            precio
-            UPC
-            url_img
-            id
-        }
+query GetProducto($upc: String!) {
+    producto(where: {upc: {_eq: $upc}}) {
+      net_cont
+      price
+      calories
+      fats
+      id
+      name
+      sugars
+      upc
+      url_img
     }
+  } 
 `;
