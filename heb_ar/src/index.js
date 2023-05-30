@@ -32,7 +32,6 @@ import InfoProducto from "./pages/InfoProducto/InfoProducto";
 import Aisle from "./pages/Aisle/Aisle";
 import Pago from "./pages/Pago/Pago";
 import ScavengeTest from "./pages/testQuest/ScavengeTest";
-import { Canvas } from "@react-three/fiber";
 
 const httpLink = createHttpLink({
   uri: "https://strong-polliwog-81.hasura.app/v1/graphql",

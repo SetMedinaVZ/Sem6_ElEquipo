@@ -26,7 +26,7 @@ import MetodoPagoItem from "../../components/MetodoPagoItem/MetodoPagoItem";
  * @param {array} carrito - Array de objetos con los productos del carrito
  * @returns JSX.Element
  */
-const Pago = ({ cantidadCobrar, carrito }) => {
+const Pago = ({ cantidadCobrar, carrito, onClose }) => {
   const navigate = useNavigate();
   const { userDoc, currentUser } = useAuth();
 
@@ -121,7 +121,7 @@ const Pago = ({ cantidadCobrar, carrito }) => {
         <p>Loading...</p>
       ) : (
         <>
-          <div onClick={() => navigate(-1)}>
+          <div onClick={() => onClose()}>
             <Back src={Arrow} alt="Regresar" />
           </div>
           <Titulo>Pago</Titulo>

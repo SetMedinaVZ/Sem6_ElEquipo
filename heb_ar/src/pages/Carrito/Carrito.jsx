@@ -6,12 +6,13 @@ import { CarritoList, Next, Price, Titulo, Space } from "./CarritoStyled"
 import { useQuery } from "@apollo/client";
 import { GET_CARRITO } from "../../graphql/queries/getCarrito";
 import { useAuth } from "../../context/AuthContext";
+import Pago from "../Pago/Pago";
 
 function Carrito() {
   const { currentUser } = useAuth();
+  const [goToCheckout, setgoToCheckout] = useState(false);
   var [PriceTotal, setPriceTotal] = useState(0);
   var newPriceTotal = 0;
-  console.log(currentUser.uid);
   const { loading, error, data } = useQuery(GET_CARRITO,{ variables: { userId: currentUser.uid},fetchPolicy: 'network-only',});
   let carritoList = [];
 
@@ -21,7 +22,7 @@ function Carrito() {
 
   if (data !== undefined) {
     data.carrito.forEach(product => {
-      carritoList.push(<CarritoCard onChange={handleChildChange} name={product.name} size={product.size} priceU={product.precioU} amountI={product.cantidad} uid={product.uid} url_img={product.url_img}></CarritoCard>);
+      carritoList.push(<CarritoCard key={product.uid} onChange={handleChildChange} name={product.name} size={product.size} priceU={product.precioU} amountI={product.cantidad} uid={product.uid} url_img={product.url_img}></CarritoCard>);
       newPriceTotal = newPriceTotal + (product.cantidad * product.precioU);
     });
   }
@@ -31,6 +32,22 @@ function Carrito() {
       setPriceTotal(newPriceTotal);
     }
   }, [loading, data]);
+
+  const checkout = () => {
+    setgoToCheckout(true);
+  };
+
+  const closeCheckout = () => {
+    setgoToCheckout(false);
+  };
+
+  if (goToCheckout) {
+    return(
+      <>
+        <Pago onClose={closeCheckout} cantidadCobrar={PriceTotal}></Pago>
+      </>
+    )
+  }
 
   return (
     <>
@@ -48,7 +65,7 @@ function Carrito() {
             <p>Total: </p>
             <p>${PriceTotal}</p>
           </Price>
-          <Next>Continuar al checkout</Next>
+          <Next onClick={checkout}>Continuar al checkout</Next>
         </div>
       )}
       <NavBar pagina={'carrito'}/>

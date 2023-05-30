@@ -17,7 +17,7 @@ function Escaneo() {
   const [scannedCode, setScannedCode] = useState(false);
   const [getProduct, { loading, data }] = useLazyQuery(GET_PRODUCTO);
   
-  const onNewScanResult = (decodedText, decodedResult) => {
+  const onNewScanResult = (decodedText) => {
     if (!scannedCode) {
       getProduct({ variables: { upc: decodedText } });
       setScannedCode(true);
