@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_PRODUCTO = gql`
-query GetProducto($upc: String!) {
+  query GetProducto($upc: String!) {
     producto(where: {upc: {_eq: $upc}}) {
       net_cont
       price

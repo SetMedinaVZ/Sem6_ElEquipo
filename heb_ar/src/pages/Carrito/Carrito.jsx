@@ -5,11 +5,14 @@ import CarritoCard from "../../components/carrito/carritoCard/carritoCard";
 import { CarritoList, Next, Price, Titulo, Space } from "./CarritoStyled"
 import { useQuery } from "@apollo/client";
 import { GET_CARRITO } from "../../graphql/queries/getCarrito";
+import { useAuth } from "../../context/AuthContext";
 
 function Carrito() {
+  const { currentUser } = useAuth();
   var [PriceTotal, setPriceTotal] = useState(0);
   var newPriceTotal = 0;
-  const { loading, error, data } = useQuery(GET_CARRITO,{fetchPolicy: 'network-only',});
+  console.log(currentUser.uid);
+  const { loading, error, data } = useQuery(GET_CARRITO,{ variables: { userId: currentUser.uid},fetchPolicy: 'network-only',});
   let carritoList = [];
 
   const handleChildChange = (value) => {

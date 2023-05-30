@@ -5,6 +5,7 @@ import Add from "../../assets/icons/add.svg";
 import Minus from "../../assets/icons/minus.svg";
 import { useMutation } from '@apollo/client';
 import { CREATE_CARRITO } from "../../graphql/mutations/createCarrito";
+import { useAuth } from "../../context/AuthContext";
 
 const ProductModal = styled.div`
   position: relative;
@@ -182,18 +183,13 @@ const AddToCart = styled.button`
   }
 `;
 
-const ScannerProductInfo = ({ data, onButtonClose }) => {
+const ScannerProductInfo = ({ data, onButtonClose, onClose}) => {
   const [createCarrito] = useMutation(CREATE_CARRITO);
   const [amount, setAmount] = useState(1);
   const [price, setPrice] = useState(data.price);
+  const { currentUser } = useAuth();
 
   const handleCreateCarrito = async () => {
-    console.log("cantidad",amount);
-    console.log("productId",data.id);
-    console.log("name",data.name);
-    console.log("url_img",data.url_img);
-    console.log("precioU",data.price);
-    console.log("size",data.net_cont);
     try {
       const { dataC } = await createCarrito({
         variables: {
@@ -203,9 +199,10 @@ const ScannerProductInfo = ({ data, onButtonClose }) => {
           size: data.net_cont,
           url_img: data.url_img,
           precioU: data.price,
-          userId: "7pl31793utYIH5Y5mFvGC2fg53X2",
+          userId: currentUser.uid,
         },
       });
+      onClose();
     } catch (error) {
       console.error('Error updating carrito:', error);
     }

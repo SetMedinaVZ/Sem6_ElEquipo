@@ -1,15 +1,15 @@
 import { gql } from "@apollo/client";
 
 export const GET_CARRITO = gql`
-    query getCarrito {
-        carrito {
+    query GetCarrito($userId: String!) {
+        carrito(where: {userId: {_eq: $userId}}) {
+            userId
             cantidad
             precioU
-            productId
-            uid
-            userId
             name
+            productId
             size
+            uid
             url_img
         }
     }

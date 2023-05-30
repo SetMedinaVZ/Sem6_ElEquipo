@@ -5,7 +5,6 @@ import Escaner from "../../components/Escaner/escaner";
 import ScannerProductInfo from "../../components/ScannerProductInfo/ScannerProductInfo";
 import { useLazyQuery } from '@apollo/client';
 import { GET_PRODUCTO } from "../../graphql/queries/getProducto";
-// import Barcode
 
 import "./Escaneo.css";
 import styled from "styled-components";
@@ -40,7 +39,7 @@ function Escaneo() {
       />
       {data && (
         <ScannerModule scanned={scannedCode} className="center">
-          <ScannerProductInfo data={data.producto[0]} onButtonClose={closeModal} />
+          <ScannerProductInfo data={data.producto[0]} onButtonClose={closeModal} onClose={closeModal}/>
         </ScannerModule>
       )}
       <NavBar pagina={"escaneo"} />
