@@ -62,7 +62,7 @@ const Carousel = (props) => {
       >
         <SwiperSlide>
           <Content background="linear-gradient(180deg, #f85a46 0%, rgba(222, 43, 39, 0) 100%)">
-            <QuestNum>10/12</QuestNum>
+            <QuestNum>10/20</QuestNum>
             <ContentText>Quests completados esta semana</ContentText>
           </Content>
         </SwiperSlide>

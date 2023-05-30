@@ -15,7 +15,7 @@ const Section = styled.div`
   height: 100%;
   right: 0;
   top: 0;
-  z-index: 4;
+  z-index: 100;
 
   background: var(--hebRed);
   box-shadow: -4px 0px 4px rgba(0, 0, 0, 0.25);
@@ -77,7 +77,7 @@ function Sidebar({ setOpen }) {
       <AllButtons>
         <SidebarButton buttonIcon={<User />} buttonText="Mi Perfil" buttonLink="/perfil"/>
         <SidebarButton buttonIcon={<Chart />} buttonText="Gastos Mensuales" buttonLink="/gastos-mensuales"/>
-        <SidebarButton buttonIcon={<Quest />} buttonText="Quests" buttonLink="/perfil"/>
+        <SidebarButton buttonIcon={<Quest />} buttonText="Quests" buttonLink="/quests"/>
       </AllButtons>
       <LogOut onClick={logout}>
         <LogOutButton />

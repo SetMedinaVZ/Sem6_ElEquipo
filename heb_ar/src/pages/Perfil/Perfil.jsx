@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useState, useEffect} from "react";
 // import AppBar from "../../common/AppBar/AppBar";
 // import NavBar from "../../common/NavBar/NavBar";
 import Arrow from "../../assets/icons/arrow.svg"
@@ -6,8 +6,38 @@ import {Titulo, Texto, Codigo, InputDiv, Input, Fecha, Button, Back} from "./Per
 import AppBar from "../../common/AppBar/AppBar";
 import { Link, useNavigate } from "react-router-dom";
 
+import { collection, getDoc, doc, getDocs, query } from "firebase/firestore";
+
+import { firestore } from '../../firebase';
+import { useAuth } from "../../context/AuthContext";
+
 function Perfil() {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
+  const [nombre, setNombre] = useState("Nombre ");
+  const [apellido, setApellido] = useState("Apellido");
+  const [email, setEmail] = useState("correo");
+  const [telefono, setTelefono] = useState("");
+
+  const getUserInfo = async() =>{
+    const userRef = doc(firestore, 'users', currentUser.uid);
+    const userSnap = await getDoc(userRef);
+
+    if(userSnap.exists()){
+      setApellido(userSnap.data().apellido);
+      setNombre(userSnap.data().nombre);
+      setEmail(userSnap.data().email);
+      setTelefono(userSnap.data().telefono);
+      console.log(userSnap.data());
+    }else{
+      console.log("undefined");
+    }
+  }
+
+  useEffect(()=>{
+    getUserInfo();
+  });
 
   return (
     <>
@@ -26,12 +56,12 @@ function Perfil() {
 
         <InputDiv className="NombreUsuario">
           <Texto>Nombre</Texto>
-          <Input placeholder="Marcelo Marquez"></Input>
+          <Input placeholder={nombre+" "+apellido}></Input>
         </InputDiv>
 
         <InputDiv className="CorreoUsuario">
           <Texto>Correo</Texto>
-          <Input placeholder="marcelomarquez@gmail.com"></Input>
+          <Input placeholder={email}></Input>
         </InputDiv>
 
         <InputDiv className="ContraseñaUsuario">
@@ -41,7 +71,7 @@ function Perfil() {
 
         <InputDiv className="TelefonoUsuario">
           <Texto>Número de teléfono</Texto>
-          <Input placeholder="81-12345678"></Input>
+          <Input placeholder={telefono}></Input>
         </InputDiv>
 
         <InputDiv className="NacimientoUsuario">

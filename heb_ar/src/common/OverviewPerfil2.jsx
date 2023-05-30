@@ -21,7 +21,7 @@ const Section = styled.div`
   width: 100%;
   height: 55%;
   top: -100%; /* start the component offscreen */
-  z-index: 3;
+  z-index: 100;
 
   background: var(--hebRed);
   box-shadow: -4px 0px 4px rgba(0, 0, 0, 0.25);
