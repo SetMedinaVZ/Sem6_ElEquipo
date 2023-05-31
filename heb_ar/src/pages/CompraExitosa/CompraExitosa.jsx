@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Back, Titulo } from "../Perfil/PerfilStyled";
 import { TextG } from "../Pago/Pago.styled";
 import Arrow from "../../assets/icons/arrow.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Check from "../../assets/icons/check.svg";
+import QRCode from "react-qr-code";
 
 const Titulo2 = styled(Titulo)`
   font-family: "Inter";
@@ -24,19 +25,17 @@ const Texto = styled(TextG)`
 const CompraExitosa = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {total} = location.state;
+  const { voucher, puntos } = location.state;
+  const [voucherString, setVoucherString] = useState("");
 
-  const obtainPuntos = () => {
-    if (
-      total === 0 ||
-      total === null ||
-      total === undefined
-    ) {
-      return `0`;
+  useEffect(() => {
+    if (voucher === 0 || voucher === null || voucher === undefined) {
+      navigate("/carrito");
+    } else {
+      //Transform to string the voucher
+      setVoucherString(JSON.stringify(voucher));
     }
-    //Return 10% of the total with no decimals
-    return Math.floor(total * 0.1);
-  };
+  }, []);
 
   return (
     <div className="container mx-auto">
@@ -47,9 +46,10 @@ const CompraExitosa = () => {
       <img src={Check} style={{ marginTop: "1rem" }} alt="Compra exitosa" />
       <Texto>Puntos generados en tu {<br />} compra:</Texto>
       <Titulo2 style={{ fontSize: "48px", padding: "0", margin: "1rem" }}>
-        {obtainPuntos() + " puntos"}
+        {puntos + " puntos"}
       </Titulo2>
       <Texto>Favor de presentar este {<br />} código QR en tu salida</Texto>
+      <QRCode value={voucherString} />
     </div>
   );
 };

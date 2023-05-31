@@ -17,7 +17,15 @@ import { useAuth } from "../../context/AuthContext";
 import GooglePayButton from "@google-pay/button-react";
 import CreditCardInput from "../../components/CardInput/CardInput";
 import { firestore } from "../../firebase";
-import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import MetodoPagoItem from "../../components/MetodoPagoItem/MetodoPagoItem";
 
 /**
@@ -89,36 +97,49 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
   const handleCheckout = () => {
     const date = new Date();
     const total = obtainTotal();
-    // const collectionRef = collection(
-    //   firestore,
-    //   "users",
-    //   currentUser.uid,
-    //   "purchase_history"
-    // );
-    // addDoc(collectionRef, {
-    //   date: date,
-    //   cost: obtainTotal(),
-    //   productos: carrito,
-    //   store: "Av. Humberto Lobo",
-    //   qr: "prueba",
-    // });
-    navigate("/compra-exitosa", { state: { total: total } });
+    const points = Math.floor(total * 0.1);
+    const newPoints = userDoc.puntos + points;
+
+    const collectionRef = collection(
+      firestore,
+      "users",
+      currentUser.uid,
+      "purchase_history"
+    );
+
+    addDoc(collectionRef, {
+      date: date,
+      cost: obtainTotal(),
+      productos: jsonData,
+      store: "Av. Humberto Lobo",
+      qr: "prueba",
+    });
+
+    const docRef = doc(firestore, "users", currentUser.uid);
+    updateDoc(docRef, {
+      puntos: newPoints,
+    });
+    
+    navigate("/compra-exitosa", { state: { voucher: jsonData, puntos: points } });
   };
 
   useEffect(() => {
     if (!cantidadCobrar) {
-      navigate("/carrito");
+      //Reload carrito
+      window.location.reload();
     } else {
       fetchDefaultCard().then(() => {
+        setJsonData(
+          carrito.map((item) => ({
+            Cantidad: item.cantidad,
+            Costo: item.precioU,
+            Nombre: item.name,
+            Pasillo: item.pasillo,
+          }))
+        );
         setLoading(false);
       });
     }
-    setJsonData(carrito.map(item => ({
-      Cantidad: item.cantidad,
-      Costo: item.precioU,
-      Nombre: item.name,
-      Pasillo: item.pasillo
-    })));
   }, []);
 
   useEffect(() => {
