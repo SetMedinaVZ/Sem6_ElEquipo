@@ -32,6 +32,7 @@ import InfoProducto from "./pages/InfoProducto/InfoProducto";
 import Aisle from "./pages/Aisle/Aisle";
 import Pago from "./pages/Pago/Pago";
 import ScavengeTest from "./pages/testQuest/ScavengeTest";
+import CompraExitosa from "./pages/CompraExitosa/CompraExitosa";
 
 const httpLink = createHttpLink({
   uri: "https://strong-polliwog-81.hasura.app/v1/graphql",
@@ -178,6 +179,14 @@ root.render(
             element={
               <ProtectedRoute>
                   <ScavengeTest/>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/compra-exitosa"
+            element={
+              <ProtectedRoute>
+                <CompraExitosa />
               </ProtectedRoute>
             }
           />
