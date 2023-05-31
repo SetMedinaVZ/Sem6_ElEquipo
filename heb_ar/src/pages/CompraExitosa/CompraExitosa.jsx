@@ -2,7 +2,7 @@ import React from "react";
 import { Back, Titulo } from "../Perfil/PerfilStyled";
 import { TextG } from "../Pago/Pago.styled";
 import Arrow from "../../assets/icons/arrow.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Check from "../../assets/icons/check.svg";
 
@@ -21,18 +21,21 @@ const Texto = styled(TextG)`
   text-align: center;
 `;
 
-const CompraExitosa = ({cantidadCobrar}) => {
+const CompraExitosa = () => {
   const navigate = useNavigate();
-  
+  const location = useLocation();
+  const {total} = location.state;
+
   const obtainPuntos = () => {
     if (
-      cantidadCobrar === 0 ||
-      cantidadCobrar === null ||
-      cantidadCobrar === undefined
+      total === 0 ||
+      total === null ||
+      total === undefined
     ) {
       return `0`;
     }
-    return cantidadCobrar * 0.1;
+    //Return 10% of the total with no decimals
+    return Math.floor(total * 0.1);
   };
 
   return (

@@ -17,7 +17,7 @@ import { useAuth } from "../../context/AuthContext";
 import GooglePayButton from "@google-pay/button-react";
 import CreditCardInput from "../../components/CardInput/CardInput";
 import { firestore } from "../../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import MetodoPagoItem from "../../components/MetodoPagoItem/MetodoPagoItem";
 
 /**
@@ -52,9 +52,9 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
       return `$0`;
     }
     if (toggle && userDoc.puntos > 0) {
-      return `$${cantidadCobrar - userDoc.puntos * 0.01}`;
+      return cantidadCobrar - userDoc.puntos * 0.01;
     } else {
-      return `$${cantidadCobrar}`;
+      return cantidadCobrar;
     }
   };
 
@@ -86,13 +86,22 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
   };
 
   const handleCheckout = () => {
-    navigate("/compra-exitosa", {
-      state: {
-        cantidadCobrar: cantidadCobrar,
-        carrito: carrito,
-        defaultCard: defaultCard,
-      },
-    });
+    const date = new Date();
+    const total = obtainTotal();
+    // const collectionRef = collection(
+    //   firestore,
+    //   "users",
+    //   currentUser.uid,
+    //   "purchase_history"
+    // );
+    // addDoc(collectionRef, {
+    //   date: date,
+    //   cost: obtainTotal(),
+    //   productos: carrito,
+    //   store: "Av. Humberto Lobo",
+    //   qr: "prueba",
+    // });
+    navigate("/compra-exitosa", { state: { total: total } });
   };
 
   useEffect(() => {
@@ -211,7 +220,7 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
                 />
                 <TextWrapper>
                   <TextB>Total a pagar</TextB>
-                  <TextB>{obtainTotal()}</TextB>
+                  <TextB>${obtainTotal()}</TextB>
                 </TextWrapper>
               </>
             )}
@@ -224,7 +233,7 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
               onClick={handleCheckout}
               disabled={buttonIsDisabled()}
             >
-              Pagar {obtainTotal()}
+              Pagar ${obtainTotal()}
             </CheckoutButton>
           </Footer>
         </>
