@@ -94,21 +94,15 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
       },
     });
   };
-  //TODO: Descomentar cuando se implemente el carrito
-  // useEffect(() => {
-  //   if (!cantidadCobrar) {
-  //     navigate("/carrito");
-  //   } else {
-  //     fetchDefaultCard().then(() => {
-  //       setLoading(false);
-  //     });
-  //   }
-  // }, []);
 
   useEffect(() => {
-    fetchDefaultCard().then(() => {
-      setLoading(false);
-    });
+    if (!cantidadCobrar) {
+      navigate("/carrito");
+    } else {
+      fetchDefaultCard().then(() => {
+        setLoading(false);
+      });
+    }
   }, []);
 
   useEffect(() => {
