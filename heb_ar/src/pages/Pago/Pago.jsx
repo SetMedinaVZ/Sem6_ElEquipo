@@ -159,8 +159,8 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
                   totalPriceStatus: "FINAL",
                   totalPriceLabel: "Total",
                   totalPrice: "100.00",
-                  currencyCode: "USD",
-                  countryCode: "US",
+                  currencyCode: "MXN",
+                  countryCode: "MX",
                 },
               }}
               onLoadPaymentData={(paymentRequest) => {
