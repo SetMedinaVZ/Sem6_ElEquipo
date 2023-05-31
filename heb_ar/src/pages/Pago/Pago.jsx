@@ -27,6 +27,8 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import MetodoPagoItem from "../../components/MetodoPagoItem/MetodoPagoItem";
+import { useMutation } from '@apollo/client';
+import { DELETE_CARRITO_USER } from "../../graphql/mutations/deleteCarritoUser";
 
 /**
  *
@@ -43,6 +45,21 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
   const [defaultCard, setDefaultCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [addedCard, setAddedCard] = useState(false);
+
+  const [deleteCarritoUser] = useMutation(DELETE_CARRITO_USER);
+
+  const handleDeleteCarritoUser = async () => {
+    try {
+      console.log(currentUser.uid);
+      const { data } = await deleteCarritoUser({
+        variables: {
+          userId: currentUser.uid,
+        },
+      });
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -119,7 +136,7 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
     updateDoc(docRef, {
       puntos: newPoints,
     });
-    
+    handleDeleteCarritoUser();
     navigate("/compra-exitosa", { state: { voucher: jsonData, puntos: points } });
   };
 
