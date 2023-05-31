@@ -51,7 +51,7 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
     ) {
       return `$0`;
     }
-    if (userDoc.puntos > 0) {
+    if (toggle && userDoc.puntos > 0) {
       return `$${cantidadCobrar - userDoc.puntos * 0.01}`;
     } else {
       return `$${cantidadCobrar}`;
