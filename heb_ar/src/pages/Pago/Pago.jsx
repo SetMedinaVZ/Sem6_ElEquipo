@@ -220,10 +220,6 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
             )}
           </ToggleContainer>
           <Footer>
-            <TextWrapper>
-              <TextB>Total a pagar</TextB>
-              <TextB>{obtainTotal()}</TextB>
-            </TextWrapper>
             <CheckoutButton
               onClick={handleCheckout}
               disabled={buttonIsDisabled()}
