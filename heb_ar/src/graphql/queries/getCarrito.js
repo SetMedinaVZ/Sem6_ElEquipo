@@ -11,6 +11,7 @@ export const GET_CARRITO = gql`
             size
             uid
             url_img
+            pasillo
         }
     }
 `;

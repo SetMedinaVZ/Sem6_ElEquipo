@@ -44,7 +44,7 @@ function Carrito() {
   if (goToCheckout) {
     return(
       <>
-        <Pago onClose={closeCheckout} cantidadCobrar={PriceTotal}></Pago>
+        <Pago carrito ={data.carrito} onClose={closeCheckout} cantidadCobrar={PriceTotal}></Pago>
       </>
     )
   }

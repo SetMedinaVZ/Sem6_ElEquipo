@@ -23,12 +23,13 @@ import MetodoPagoItem from "../../components/MetodoPagoItem/MetodoPagoItem";
 /**
  *
  * @param {number} cantidadCobrar - Cantidad a cobrar
- * @param {array} carrito - Array de objetos con los productos del carrito
+ * @param {array} carritoA - Array de objetos con los productos del carrito
  * @returns JSX.Element
  */
 const Pago = ({ cantidadCobrar, carrito, onClose }) => {
   const navigate = useNavigate();
   const { userDoc, currentUser } = useAuth();
+  const [jsonData, setJsonData] = useState([]);
 
   const [toggle, setToggle] = useState(true);
   const [defaultCard, setDefaultCard] = useState(null);
@@ -112,6 +113,12 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
         setLoading(false);
       });
     }
+    setJsonData(carrito.map(item => ({
+      Cantidad: item.cantidad,
+      Costo: item.precioU,
+      Nombre: item.name,
+      Pasillo: item.pasillo
+    })));
   }, []);
 
   useEffect(() => {

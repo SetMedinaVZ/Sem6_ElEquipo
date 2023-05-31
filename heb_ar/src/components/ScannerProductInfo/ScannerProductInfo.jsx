@@ -200,6 +200,7 @@ const ScannerProductInfo = ({ data, onButtonClose, onClose}) => {
           url_img: data.url_img,
           precioU: data.price,
           userId: currentUser.uid,
+          pasillo: data.pasillo,
         },
       });
       onClose();

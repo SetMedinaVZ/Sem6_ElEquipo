@@ -12,6 +12,7 @@ export const GET_PRODUCTO = gql`
       sugars
       upc
       url_img
+      pasillo
     }
   } 
 `;
