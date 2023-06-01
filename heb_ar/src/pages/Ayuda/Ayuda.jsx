@@ -65,7 +65,7 @@ function Ayuda() {
             <Back src={Arrow} alt="Regresar"/>
           </div>
           {/* </Link> */}
-          <Titulo>AyudaTest</Titulo>
+          <Titulo>Ayuda</Titulo>
           <Center>
             <Container>
               {
