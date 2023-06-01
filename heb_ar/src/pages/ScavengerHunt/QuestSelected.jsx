@@ -1,4 +1,4 @@
-import {React, useEffect} from "react";
+import {React, useEffect, useState} from "react";
 // import AppBar from "../../common/AppBar/AppBar";
 // import NavBar from "../../common/NavBar/NavBar";
 import Arrow from "../../assets/icons/arrow.svg"
@@ -11,32 +11,127 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link, useParams, useSearchParams } from "react-router-dom";
+import { collection, getDocs, query, where, getDoc } from "firebase/firestore";
+
+import { firestore } from '../../firebase';
+import { useAuth } from "../../context/AuthContext";
 
 const QuestTemplate = (props) => {
-  let { params } = useParams();
+  let { actName } = useParams();
+  const { currentUser } = useAuth();
 
-  console.log(params);
+  const [ actDesc, setActDesc ] = useState('');
+  const [ actActs, setActActs ] = useState([{}]);
+  const [ actPistas, setActPistas ] = useState([{}]);
+
+  let actNameTo = '';
+
+  if(actName === 'qr_scan'){
+    actNameTo = 'Qr Scan';
+  } else if(actName === 'scavenger_quest'){
+    actNameTo = 'Scavenger Hunt';
+  } else if(actName === 'buy_products'){
+    actNameTo = 'Buy Products';
+  } else if(actName === 'quick_buy'){
+    actNameTo = 'Quick Buy';
+  }
+
   const navigate = useNavigate();
 
+  const getUserQuests = async () =>{
+    const getUserQuestsRef = collection(firestore, 'users', currentUser.uid, 'quests');
+    const getUserQuestsQuery = query(getUserQuestsRef);
+    const getUserQuestsSnapShot = await getDocs(getUserQuestsQuery);
+    let dataAux = [];
+    getUserQuestsSnapShot.docs.map((doc) => dataAux.push({ id:doc.id, ...doc.data()}));
+
+    dataAux.forEach(row => {
+      // console.log(row);
+    })
+  }
+
+  const getQuestsInfo = async () =>{
+    const genQuestInfoRef = collection(firestore, 'quests');
+    const genQuestInfoQuery = query(genQuestInfoRef);
+    const genQuestInfoSnapShot = await getDocs(genQuestInfoQuery);
+    let dataAux = [];
+    genQuestInfoSnapShot.docs.map((doc) => dataAux.push({ id:doc.id, ...doc.data()}));
+
+    dataAux.forEach(row => {
+      if(row.id === actName){
+        setActDesc(row.actDesc);
+
+        let data = [];
+        for(let i = 1; i <= row.actCount; i++){
+          data.push(row['act'+i]);
+        }
+
+        console.log(actActs);
+        setActActs(data);
+      }
+    })
+
+    actActs.forEach(row => {
+      // console.log(row.pistas);
+      setActPistas(row.pistas);
+    })
+  }
+
   useEffect(()=>{
-    // console.log(path);
+    getQuestsInfo();
+    getUserQuests();
   },[]);
   
     return (
     <>
-        {/* <AppBar /> */}
         <div className="container">
-          {/* <Link to="/"> */}
           <div onClick={() => navigate(-1)}>
             <Back src={Arrow} alt="Regresar"/>
           </div>
-          <Titulo>Scavenger Hunt</Titulo>
+          <Titulo>{actNameTo}</Titulo>
           <Progress>
             <ProgressTxt>1/5 completados</ProgressTxt>
           </Progress>
-          <Txt>En una zona de la sucursal se encuentran 5 objetos escondidos, es tu misión encontrarlos utilizando la camara de tu celular con realidad aumentada.</Txt>
-
+          <Txt>{actDesc}</Txt>
+          
           <AccordionWrapper>
+            { actActs.map((row,idx)=>(
+            <>
+            <Accordion>
+              <AccordionSummary
+                  expandIcon={
+                    // <Completo>
+                      <ExpandMoreIcon />
+                    // </Completo>
+                  } aria-controls="panel1a-content" id="panel1a-header">
+                <Actividad>{actNameTo} # {idx+1}</Actividad>
+              </AccordionSummary>
+              <AccordionDetails>
+                <ActividadDesc>
+                  <Label>Pistas</Label>
+                  <ul>
+                  {
+                    console.log(actPistas)
+                    // actPistas[idx+1].map((pista)=>{
+                    //   <li>{pista}</li>
+                    // })
+                  }
+                  </ul>
+                  
+                  <br></br>
+
+                  <Label>Premio</Label>
+                  <ul>
+                    <li>{row.premioPuntos} puntos</li>
+                  </ul>
+                </ActividadDesc>
+              </AccordionDetails>
+            </Accordion>
+            </>
+            ))
+            }
+          </AccordionWrapper>
+          {/* <AccordionWrapper>
             <Accordion>
               <AccordionSummary
                 expandIcon={
@@ -117,7 +212,7 @@ const QuestTemplate = (props) => {
                 <Typography>Marcelo MLP</Typography>
               </AccordionDetails>
             </Accordion>
-          </AccordionWrapper>
+          </AccordionWrapper> */}
           
           <Camara>
             <img src={Scan} alt="Camara"/>

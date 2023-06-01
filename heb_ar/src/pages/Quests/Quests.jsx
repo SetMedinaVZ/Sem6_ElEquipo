@@ -34,8 +34,7 @@ import { collection, getDocs, query, where, getDoc } from "firebase/firestore";
 
 import { firestore } from "../../firebase";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import QuestTemplate from "../ScavengerHunt/QuestSelected";
+import {useNavigate} from "react-router-dom";
 
 function Quests() {
   const [countMade, setCountMade] = useState(0);
@@ -86,6 +85,7 @@ function Quests() {
           trueCount = trueCount + 1;
         }
       }
+      console.log(trueCount);
       if (row.id === "buy_products") {
         setUserActBuy(trueCount);
         setCountMade((prevState) => prevState + trueCount);
@@ -100,6 +100,7 @@ function Quests() {
         setCountMade((prevState) => prevState + trueCount);
       }
     });
+
   };
 
   const getQuestsInfo = async () => {
@@ -125,6 +126,7 @@ function Quests() {
       }
       // console.log(row);
     });
+    setCountToMake(totActCount);
   };
 
   useEffect(() => {
@@ -145,7 +147,7 @@ function Quests() {
 
         <Column>
           <Row>
-            <Link to="/quests/qr_products">
+            <Link to="/quests/qr_scan">
               <ScanProducts>
                 <Counter>
                   {userActQR}/{actQR}
@@ -153,8 +155,8 @@ function Quests() {
                 <SPimg src={SP} />
               </ScanProducts>
             </Link>
-
-            <Link to="/quests/scavenger_hunt">
+            
+            <Link to="/quests/scavenger_quest">
               <ScavengerHunt>
                 <Counter>
                   {usertActScav}/{actScav}
