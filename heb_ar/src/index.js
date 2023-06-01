@@ -33,7 +33,6 @@ import Aisle from "./pages/Aisle/Aisle";
 import Pago from "./pages/Pago/Pago";
 import ScavengeTest from "./pages/testQuest/ScavengeTest";
 import CompraExitosa from "./pages/CompraExitosa/CompraExitosa";
-import { Canvas } from "@react-three/fiber";
 import QuestTemplate from "./pages/ScavengerHunt/QuestSelected";
 
 const httpLink = createHttpLink({
