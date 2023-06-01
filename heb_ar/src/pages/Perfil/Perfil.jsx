@@ -21,6 +21,7 @@ import {
   collection,
   getDoc,
   doc,
+  updateDoc,
   getDocs,
   query,
   setDoc,
@@ -89,31 +90,20 @@ function Perfil() {
     getUserInfo();
   }, []);
 
-  // function deleteUser() {
-  //   const user = currentUser;
-
-  //   if (user) {
-  //     // Delete user document in Firestore
-  //     const userRef = doc(firestore, "users", user.uid);
-  //     setDoc(userRef, { deleted: true })
-  //       .then(() => {
-  //         // Delete user in Firebase Authentication
-  //         user
-  //           .delete()
-  //           .then(() => {
-  //             console.log("User deleted successfully");
-  //           })
-  //           .catch((error) => {
-  //             console.error("Error deleting user:", error);
-  //           });
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error deleting user document:", error);
-  //       });
-  //   } else {
-  //     console.error("No user is currently logged in");
-  //   }
-  // }
+  const editSaveBtnHandler = async () => {
+    if (canEdit) {
+      const [name, lastName] = fullName.split(" ");
+      const updatedData = {
+        nombre: name,
+        apellido: lastName,
+        email: email,
+        telefono: telefono,
+      };
+      const userRef = doc(firestore, "users", currentUser.uid);
+      await updateDoc(userRef, updatedData);
+    }
+    setCanEdit((prev) => !prev);
+  };
 
   return (
     <>
@@ -122,7 +112,7 @@ function Perfil() {
         <div onClick={() => navigate(-1)}>
           <Back src={Arrow} alt="Regresar" />
         </div>
-        <EditBtn onClick={() => setCanEdit((prev) => !prev)}>
+        <EditBtn onClick={editSaveBtnHandler}>
           {canEdit ? <img src={Save} alt="" /> : <img src={Edit} alt="" />}
         </EditBtn>
         {/* </Link> */}
