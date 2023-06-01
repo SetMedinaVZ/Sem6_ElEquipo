@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const Titulo = styled.text`
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 36px;
-    color: #000000;
-    margin-bottom: 22px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  color: #000000;
+  margin-bottom: 22px;
 `;
 
 export const Input = styled.input`

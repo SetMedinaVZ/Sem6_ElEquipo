@@ -11,6 +11,7 @@ import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import IniciarSesion from "./pages/AccessPage/IniciarSesion";
 import CrearCuenta from "./pages/CrearCuenta/CrearCuenta";
+import OlvidasteContra from "./pages/OlvidasteContra/OlvidasteContra";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./context/protectedRoute";
 import Perfil from "./pages/Perfil/Perfil";
@@ -66,6 +67,7 @@ root.render(
         <Routes>
           <Route path="/iniciar-sesion" element={<IniciarSesion />} />
           <Route path="/crear-cuenta" element={<CrearCuenta />} />
+          <Route path="/OlvidasteContra" element={<OlvidasteContra />} />
           <Route
             path="/"
             element={

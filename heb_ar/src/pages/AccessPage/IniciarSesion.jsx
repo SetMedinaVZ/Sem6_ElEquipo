@@ -188,8 +188,8 @@ function IniciarSesion() {
                   '#009FCE'
               }}
               className="CrearCuenta">Crear
-              Cuenta</Button
-            >
+              Cuenta
+            </Button>
           </a>
 
           <div className="RectangleRow">
