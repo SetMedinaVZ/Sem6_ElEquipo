@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "../../common/AppBar/AppBar";
 import NavBar from "../../common/NavBar/NavBar";
 import Escaner from "../../components/Escaner/escaner";
@@ -20,9 +20,18 @@ function Escaneo() {
   const onNewScanResult = (decodedText) => {
     if (!scannedCode) {
       getProduct({ variables: { upc: decodedText } });
-      setScannedCode(true);
     }
   };
+
+  useEffect(() => {
+    try {
+      if(data.producto[0]){
+        setScannedCode(true);
+      }
+    } catch {
+      console.log("Not aviable");
+    }
+  }, [data]);
 
   const closeModal = () => {
     setScannedCode(false);
@@ -37,7 +46,7 @@ function Escaneo() {
         disableFlip={false}
         qrCodeSuccessCallback={onNewScanResult}
       />
-      {data && (
+      {scannedCode && (
         <ScannerModule scanned={scannedCode} className="center">
           <ScannerProductInfo data={data.producto[0]} onButtonClose={closeModal} onClose={closeModal}/>
         </ScannerModule>
