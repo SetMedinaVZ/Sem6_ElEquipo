@@ -39,7 +39,7 @@ import { DELETE_CARRITO_USER } from "../../graphql/mutations/deleteCarritoUser";
 const Pago = ({ cantidadCobrar, carrito, onClose }) => {
   const navigate = useNavigate();
   const { userDoc, currentUser } = useAuth();
-  const [jsonData, setJsonData] = useState([]);
+  const [jsonData, setJsonData] = useState({});
 
   const [toggle, setToggle] = useState(true);
   const [defaultCard, setDefaultCard] = useState(null);

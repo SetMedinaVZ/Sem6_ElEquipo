@@ -97,21 +97,21 @@ function GastosMensuales() {
         setTotal(prevState => prevState+row.cost);
         Object.values(row.productos).forEach(prod => {
           if(typeof prod == "object"){
-            if(prod.Pasillo == "Bebidas y Snacks"){
+            if(prod.Pasillo == "Bebidas Y Snacks"){
               setPBebida(prevState => prevState+Number((prod.Costo*prod.Cantidad).toFixed(1)));
-            } else if(prod.Pasillo == "Productos Congelados"){
+            } else if(prod.Pasillo == "Alimentos Congelados"){
               setPConge(prevState => prevState+Number((prod.Costo*prod.Cantidad).toFixed(1))) 
             } else if(prod.Pasillo == "Carnes Y Pescados"){
               setPCarne(prevState => prevState+Number((prod.Costo*prod.Cantidad).toFixed(1))) 
             } else if(prod.Pasillo == "Frutas Y Verduras"){
               setPFrutas(prevState => prevState+Number((prod.Costo*prod.Cantidad).toFixed(1))) 
-            } else if(prod.Pasillo == "Pan y Tortillas"){
+            } else if(prod.Pasillo == "Pan Y Tortillas"){
               setPPan(prevState => prevState+Number((prod.Costo*prod.Cantidad).toFixed(1))) 
-            } else if(prod.Pasillo == "Lacteos y Huevo"){
+            } else if(prod.Pasillo == "Lácteos Y Huevo"){
               setPLacto(prevState => prevState+Number((prod.Costo*prod.Cantidad).toFixed(1))) 
             } else if(prod.Pasillo == "Vinos, Licores Y Cervezas"){
               setPVino(prevState => prevState+Number((prod.Costo*prod.Cantidad).toFixed(1))) 
-            } else if(prod.Pasillo == "Jamones, Quesos y Deli"){
+            } else if(prod.Pasillo == "Jamones, Quesos Y Deli"){
               setPJamon(prevState => prevState+Number((prod.Costo*prod.Cantidad).toFixed(1))) 
             }
             // console.log(prod);

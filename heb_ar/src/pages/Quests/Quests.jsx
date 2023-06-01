@@ -34,6 +34,8 @@ import { collection, getDocs, query, where, getDoc } from "firebase/firestore";
 
 import { firestore } from '../../firebase';
 import { useAuth } from "../../context/AuthContext";
+import {useNavigate} from "react-router-dom";
+import QuestTemplate from "../ScavengerHunt/QuestSelected";
 
 function Quests() {
   const [countMade, setCountMade] = useState(0);
@@ -52,6 +54,8 @@ function Quests() {
   const { currentUser } = useAuth();
   
   const [ count, setCount ] = useState((countMade/countToMake*100).toFixed());
+
+  const navigation = useNavigate();
 
   useEffect(()=>{
     setCount((countMade/countToMake*100).toFixed());
@@ -86,7 +90,7 @@ function Quests() {
         setUserActScav(trueCount);
         setCountMade(prevState => prevState+trueCount);
       }
-      console.log(row)
+      // console.log(row)
     })
   }
 
@@ -109,7 +113,7 @@ function Quests() {
       } else if(row.id === 'scavenger_quest'){
         setActScav(row.actCount);
       }
-      console.log(row);
+      // console.log(row);
     })
     setCountToMake(totActCount);
   }
@@ -132,12 +136,14 @@ function Quests() {
 
         <Column>
           <Row>
-            <ScanProducts>
-              <Counter>{userActQR}/{actQR}</Counter>
-              <SPimg src={SP} />
-            </ScanProducts>
+            <Link to="/quests/qr_products">
+              <ScanProducts>
+                <Counter>{userActQR}/{actQR}</Counter>
+                <SPimg src={SP} />
+              </ScanProducts>
+            </Link>
             
-            <Link to="/scavenger-hunt">
+            <Link to="/quests/scavenger_hunt">
               <ScavengerHunt>
                 <Counter>{usertActScav}/{actScav}</Counter>
                 <SHimg src={SH} />
@@ -146,15 +152,19 @@ function Quests() {
           </Row>
 
           <Row>
-            <BuyProducts>
-              <Counter>{userActBuy}/{actBuy}</Counter>
-              <BPimg src={BP} />
-            </BuyProducts>
+            <Link to="/quests/buy_products">
+              <BuyProducts>
+                <Counter>{userActBuy}/{actBuy}</Counter>
+                <BPimg src={BP} />
+              </BuyProducts>
+            </Link>
             
-            <QuickBuy>
-              <Counter>{userActQuick}/{actQuick}</Counter>
-              <QBimg src={QB} />
-            </QuickBuy>
+            <Link to="/quests/quick_buy">
+              <QuickBuy>
+                <Counter>{userActQuick}/{actQuick}</Counter>
+                <QBimg src={QB} />
+              </QuickBuy>
+            </Link>
           </Row>
         </Column>
 

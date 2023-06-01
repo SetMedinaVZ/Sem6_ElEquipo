@@ -17,7 +17,7 @@ import Perfil from "./pages/Perfil/Perfil";
 import Carrito from "./pages/Carrito/Carrito";
 import Escaneo from "./pages/Escaneo/Escaneo";
 import Quests from "./pages/Quests/Quests";
-import ScavengerHunt from "./pages/ScavengerHunt/ScavengerHunt";
+import ScavengerHunt from "./pages/ScavengerHunt/QuestSelected";
 import Cupones from "./pages/Cupones/Cupones";
 import "firebase/functions";
 import firebase from "firebase/app";
@@ -33,6 +33,8 @@ import Aisle from "./pages/Aisle/Aisle";
 import Pago from "./pages/Pago/Pago";
 import ScavengeTest from "./pages/testQuest/ScavengeTest";
 import CompraExitosa from "./pages/CompraExitosa/CompraExitosa";
+import { Canvas } from "@react-three/fiber";
+import QuestTemplate from "./pages/ScavengerHunt/QuestSelected";
 
 const httpLink = createHttpLink({
   uri: "https://strong-polliwog-81.hasura.app/v1/graphql",
@@ -127,10 +129,10 @@ root.render(
             }
           />
           <Route
-            path="/scavenger-hunt"
+            path="/quests/:actName"
             element={
               <ProtectedRoute>
-                <ScavengerHunt />
+                <QuestTemplate />
               </ProtectedRoute>
             }
           />

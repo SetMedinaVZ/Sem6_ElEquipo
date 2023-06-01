@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useEffect} from "react";
 // import AppBar from "../../common/AppBar/AppBar";
 // import NavBar from "../../common/NavBar/NavBar";
 import Arrow from "../../assets/icons/arrow.svg"
@@ -10,10 +10,17 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 
-function QuestTemplate() {
+const QuestTemplate = (props) => {
+  let { params } = useParams();
 
-    const navigate = useNavigate();
+  console.log(params);
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    // console.log(path);
+  },[]);
   
     return (
     <>
