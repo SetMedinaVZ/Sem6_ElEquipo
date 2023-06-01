@@ -47,7 +47,6 @@ export function AuthProvider({ children }) {
         console.error("Error writing user document: ", error);
       });
   }
-  
 
   function logout() {
     return signOut(auth);

@@ -55,6 +55,9 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+localStorage.setItem("totalQuests", 0);
+localStorage.setItem("completedQuests", 0);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ApolloProvider client={client}>
@@ -179,7 +182,7 @@ root.render(
             path="/scavengeTest"
             element={
               <ProtectedRoute>
-                  <ScavengeTest/>
+                <ScavengeTest />
               </ProtectedRoute>
             }
           />

@@ -1,6 +1,10 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { collection, getDocs, query } from "firebase/firestore";
+import { firestore } from "../../firebase";
+import { useAuth } from "../../context/AuthContext";
 
 const Container = styled.div`
   width: 90%;
@@ -51,7 +55,41 @@ const ContentText = styled.span`
 `;
 
 const Carousel = (props) => {
-  console.log(props.data);
+  const { currentUser } = useAuth();
+  const [completedQuests, setCompletedQuests] = useState(0);
+  const [totalQuests, setTotalQuests] = useState(0);
+  // console.log(props.data);
+  const getQuestsCount = async () => {
+    const userPurchaseHistoryRef = collection(
+      firestore,
+      "users",
+      currentUser.uid,
+      "quests"
+    );
+    const userPurchaseHistoryQuery = query(userPurchaseHistoryRef);
+    const userPurchaseHistorySnapshot = await getDocs(userPurchaseHistoryQuery);
+    let completedQuests = 0;
+    let totalQuests = 0;
+    userPurchaseHistorySnapshot.docs.forEach((doc) => {
+      let data = doc.data();
+      console.log(data);
+      for (let i = 1; i <= data.actCount; i++) {
+        let acts = "act";
+        let str = acts + i;
+        if (data[str].completed) {
+          completedQuests = completedQuests + 1;
+        }
+      }
+      totalQuests = totalQuests + data.actCount;
+    });
+    setTotalQuests(totalQuests);
+    setCompletedQuests(completedQuests);
+  };
+
+  useEffect(() => {
+    getQuestsCount();
+  }, []);
+
   return (
     <Container>
       <Swiper
@@ -62,7 +100,9 @@ const Carousel = (props) => {
       >
         <SwiperSlide>
           <Content background="linear-gradient(180deg, #f85a46 0%, rgba(222, 43, 39, 0) 100%)">
-            <QuestNum>10/20</QuestNum>
+            <QuestNum>
+              {completedQuests}/{totalQuests}
+            </QuestNum>
             <ContentText>Quests completados esta semana</ContentText>
           </Content>
         </SwiperSlide>
