@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Back, Titulo } from "../Perfil/PerfilStyled";
 import { TextG } from "../Pago/Pago.styled";
@@ -40,7 +41,7 @@ const CompraExitosa = () => {
   const location = useLocation();
   const { voucher, puntos } = location.state;
   const [voucherString, setVoucherString] = useState("");
-  const { currentUser } = useAuth();
+  const { userDoc, currentUser } = useAuth();
   const [completedBuyQuest, setCompletedBuyQuest] = useState(false);
   const [questData, setQuestData] = useState(null);
 
@@ -59,6 +60,7 @@ const CompraExitosa = () => {
         Object.entries(doc.data()).forEach(([key, value]) => {
           if (value.completed === false) {
             auxBuyQuest.push({
+              name: key,
               idAct: value.idAct,
             });
           }
@@ -80,10 +82,9 @@ const CompraExitosa = () => {
         });
       }
     });
+    // console.log(auxBuyQuest);
     return auxBuyQuest;
   };
-
-  const updateQuests = async () => {};
 
   const checkIfCompletedQuest = (totalQta, questsLists) => {
     // console.log(totalQta);
@@ -130,11 +131,42 @@ const CompraExitosa = () => {
     checkIfCompletedQuest(total, questsLists);
   }, []);
 
+  const updateQuests = async () => {
+    if (questData) {
+      const userRef = doc(firestore, "users", currentUser.uid);
+      const buyProductRef = doc(userRef, "quests/buy_products");
+      // const buyProductActSnapshot = await getDoc(buyProductRef);
+      // if (buyProductActSnapshot.exists()) {
+      //   console.log(buyProductActSnapshot.data());
+      // }
+      // await updateDoc(buyProductRef, {
+      //   ${questData[0].name}.completed`: true,
+      // });
+
+      const newPoints = userDoc.puntos + questData[0].premioPuntos;
+      const updateData = {};
+      updateData[`${questData[0].name}.completed`] = true;
+      try {
+        await updateDoc(buyProductRef, updateData);
+        await updateDoc(userRef, {
+          puntos: newPoints,
+        });
+      } catch (error) {
+        console.log("ERROR: ", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    // console.log(questData);
+    updateQuests();
+  }, [questData]);
+
   const closeModal = () => {
     setCompletedBuyQuest(false);
   };
 
-  console.log(questData);
+  // console.log(questData);
 
   return (
     <div className="container mx-auto">
@@ -150,12 +182,12 @@ const CompraExitosa = () => {
       <Texto>Favor de presentar este {<br />} código QR en tu salida</Texto>
       <QRCode value={voucherString} />
       {completedBuyQuest && (
-        (<QuestCompleted
+        <QuestCompleted
           onCloseButton={closeModal}
           message="¡Felicidades, completaste un Quest de comprar productos"
           criteria={`Compra minima de ${questData[0].criterio} puntos`}
           points={questData[0].premioPuntos}
-        />)
+        />
       )}
     </div>
   );
