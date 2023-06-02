@@ -77,14 +77,14 @@ function Escaneo() {
   const onNewScanResult = (decodedText) => {
     if (isNaN(parseInt(decodedText[0]))) {
       qrData.forEach((data) => {
-        console.log(data.criterio);
-        console.log(decodedText);
-        console.log(data.criterio === decodedText);
-        // if (data.criterio === decodedText) {
-        //   console.log("yay")
-        // }
+        // console.log("Criterio ", data.criterio);
+        // console.log("QR ", decodedText);
+        // console.log(data.criterio === decodedText);
+        if (data.criterio === decodedText) {
+          console.log("yay")
+        }
       });
-      // console.log(decodedText);
+      console.log(decodedText);
     }
     // try {
     else if (!scannedCode) {
@@ -126,7 +126,7 @@ function Escaneo() {
     <>
       <AppBar />
       <Escaner
-        fps={10}
+        fps={20}
         qrbox={250}
         disableFlip={false}
         qrCodeSuccessCallback={onNewScanResult}

@@ -1,8 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
+import CloseImg from "../../assets/icons/close3.svg";
+import Celebrate from "../../assets/imgs/celebrate.png";
 
 const ProductModal = styled.div`
-  position: relative;
+  /* position: relative; */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   /* width: 270px; */
   width: 80vw;
   /* max-height: 527px; */
@@ -31,15 +37,18 @@ const CloseButton = styled.button`
   }
 `;
 
-const ContainerName = styled.div`
+const ContainerText = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 15px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  height: 100%;
 `;
 
-const ProductName = styled.span`
+const MainText = styled.span`
   font-family: "Inter";
   font-weight: 600;
   font-size: 20px;
@@ -47,20 +56,47 @@ const ProductName = styled.span`
   padding-bottom: 5px;
 `;
 
-const NetCount = styled.span`
+const SecondText = styled.span`
   font-family: "Inter";
-  font-weight: 600;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 18px;
   text-align: center;
   padding: 5px;
+  /* margin-top: 20px; */
+`;
+
+const ThirdText = styled.span`
+  font-family: "Inter";
+  font-weight: 900;
+  font-size: 17px;
+  text-align: center;
+  padding: 5px;
+  /* margin-top: 20px; */
 `;
 
 const QuestCompleted = (props) => {
   return (
     <ProductModal>
-      Acabaste wuwuw
+      <CloseButton onClick={props.onButtonClose}>
+        <img src={CloseImg} alt="Close button" />
+      </CloseButton>
+      <ContainerText>
+        <img src={Celebrate} alt="Celebration emoji" style={{ width: 100 }} />
+        <MainText>
+          {props.message}
+          {/* ¡Felicidades, completaste el Quest de comprar productos! */}
+        </MainText>
+        <SecondText>
+          {/* Criterio completado: Compra mínima de 10 productos. */}
+          Criterio completado: {props.criteria}.
+        </SecondText>
+        <ThirdText>
+          {/* Puntos conseguidos: 100 puntos. */}
+          Puntos conseguidos: {props.points} puntos.
+        </ThirdText>
+      </ContainerText>
     </ProductModal>
-  )
-}
+  );
+};
 
-export default QuestCompleted
+export default QuestCompleted;

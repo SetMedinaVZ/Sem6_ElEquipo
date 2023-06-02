@@ -18,6 +18,7 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore";
+import QuestCompleted from "../../components/QuestCompleted/QuestCompleted";
 
 const Titulo2 = styled(Titulo)`
   font-family: "Inter";
@@ -79,13 +80,13 @@ const CompraExitosa = () => {
         });
       }
     });
-    // console.log(auxBuyQuest);
-    // setQuestData(auxBuyQuest);
     return auxBuyQuest;
   };
 
+  const updateQuests = async () => {};
+
   const checkIfCompletedQuest = (totalQta, questsLists) => {
-    console.log(totalQta);
+    // console.log(totalQta);
     questsLists.then((result) => {
       let valorMasCercano = result[0].criterio;
       let diferenciaMasCercana = Math.abs(totalQta - valorMasCercano);
@@ -96,52 +97,20 @@ const CompraExitosa = () => {
           diferenciaMasCercana = diferencia;
         }
       });
-      // if (valorMasCercano > totalQta) {
-      //   console.log(
-      //     `El número más cercano a 1 es ${valorMasCercano} y es mayor.`
-      //   );
-      // } else if (valorMasCercano < totalQta) {
-      //   console.log(
-      //     `El número más cercano a 1 es ${valorMasCercano} y es menor.`
-      //   );
-      // } else {
-      //   console.log(
-      //     `El número más cercano a 1 es ${valorMasCercano} y es igual.`
-      //   );
-      // }
-      let completed = false;
-      if (totalQta < valorMasCercano) {
-        completed = false;
-      } else if (totalQta > valorMasCercano || totalQta === valorMasCercano) {
-        completed = true;
+      if (totalQta > valorMasCercano || totalQta === valorMasCercano) {
+        const completedObj = result.filter(
+          (obj) => obj.criterio === valorMasCercano
+        );
+        // console.log(completedObj);
+        setCompletedBuyQuest(true);
+        setQuestData(completedObj);
       }
-      console.log(completed);
+      // console.log(completed);
+
+      // Get the act completed
+      // console.log(result);
     });
   };
-
-  //   / Valor más cercano a 6
-  // let valorMasCercano = valores[0]; // Asignamos el primer valor como el más cercano inicialmente
-  // let diferenciaMasCercana = Math.abs(6 - valorMasCercano); // Diferencia inicial
-
-  // // Recorremos la lista de valores
-  // valores.forEach(valor => {
-  //   const diferencia = Math.abs(6 - valor); // Diferencia actual
-
-  //   // Verificamos si encontramos un valor más cercano
-  //   if (diferencia < diferenciaMasCercana) {
-  //     valorMasCercano = valor; // Actualizamos el valor más cercano
-  //     diferenciaMasCercana = diferencia; // Actualizamos la diferencia más cercana
-  //   }
-  // });
-
-  // // Verificamos si el número más cercano es mayor o menor a 6
-  // if (valorMasCercano > 6) {
-  //   console.log(`El número más cercano a 6 es ${valorMasCercano} y es mayor.`);
-  // } else if (valorMasCercano < 6) {
-  //   console.log(`El número más cercano a 6 es ${valorMasCercano} y es menor.`);
-  // } else {
-  //   console.log(`El número más cercano a 6 es ${valorMasCercano} y es igual.`);
-  // }
 
   useEffect(() => {
     if (voucher === 0 || voucher === null || voucher === undefined) {
@@ -161,6 +130,12 @@ const CompraExitosa = () => {
     checkIfCompletedQuest(total, questsLists);
   }, []);
 
+  const closeModal = () => {
+    setCompletedBuyQuest(false);
+  };
+
+  console.log(questData);
+
   return (
     <div className="container mx-auto">
       <div onClick={() => navigate(-1)}>
@@ -174,6 +149,14 @@ const CompraExitosa = () => {
       </Titulo2>
       <Texto>Favor de presentar este {<br />} código QR en tu salida</Texto>
       <QRCode value={voucherString} />
+      {completedBuyQuest && (
+        (<QuestCompleted
+          onCloseButton={closeModal}
+          message="¡Felicidades, completaste un Quest de comprar productos"
+          criteria={`Compra minima de ${questData[0].criterio} puntos`}
+          points={questData[0].premioPuntos}
+        />)
+      )}
     </div>
   );
 };
