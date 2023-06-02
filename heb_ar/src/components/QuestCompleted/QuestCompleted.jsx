@@ -77,7 +77,7 @@ const ThirdText = styled.span`
 const QuestCompleted = (props) => {
   return (
     <ProductModal>
-      <CloseButton onClick={props.onButtonClose}>
+      <CloseButton onClick={props.onCloseButton}>
         <img src={CloseImg} alt="Close button" />
       </CloseButton>
       <ContainerText>
