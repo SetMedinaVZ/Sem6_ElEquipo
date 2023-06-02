@@ -19,10 +19,14 @@ import { useAuth } from "../../context/AuthContext";
 const QuestTemplate = (props) => {
   let { actName } = useParams();
   const { currentUser } = useAuth();
+  const [ toMake, setToMake ] = useState(0);
+  const [ Done, setDoneAct ] = useState(0);
 
   const [ actDesc, setActDesc ] = useState('');
   const [ actActs, setActActs ] = useState([{}]);
-  const [ actPistas, setActPistas ] = useState([{}]);
+
+  const [ actUser, setActUser ] = useState([{}]);
+  const [ showDetail, setShowDetail ] = useState([false]);
 
   let actNameTo = '';
 
@@ -45,9 +49,39 @@ const QuestTemplate = (props) => {
     let dataAux = [];
     getUserQuestsSnapShot.docs.map((doc) => dataAux.push({ id:doc.id, ...doc.data()}));
 
+    let det = [];
+    
     dataAux.forEach(row => {
-      // console.log(row);
+      if(row.id === actName){
+        // console.log(row);
+        
+        let data = [];
+        for(let i = 1; i <= row.actCount; i++){
+          data.push(row['act'+i]);
+          det.push(false);
+        }
+        
+        setActUser(data);
+        setShowDetail(det);
+      }
     })
+
+    let totAct = 0;
+
+    const newArray = [...showDetail];
+
+    for(let i = 0; i < actUser.length; i++){
+      if(actUser[i].idAct === actActs[i].idAct && actUser[i].completed == true){
+
+        newArray[i] = true;
+        
+        totAct = totAct+1;
+      }
+    }
+    
+    setShowDetail(newArray);
+    setToMake(actActs.length);
+    setDoneAct(totAct);
   }
 
   const getQuestsInfo = async () =>{
@@ -66,14 +100,8 @@ const QuestTemplate = (props) => {
           data.push(row['act'+i]);
         }
 
-        console.log(actActs);
         setActActs(data);
       }
-    })
-
-    actActs.forEach(row => {
-      // console.log(row.pistas);
-      setActPistas(row.pistas);
     })
   }
 
@@ -90,7 +118,7 @@ const QuestTemplate = (props) => {
           </div>
           <Titulo>{actNameTo}</Titulo>
           <Progress>
-            <ProgressTxt>1/5 completados</ProgressTxt>
+            <ProgressTxt>{Done}/{toMake} completado</ProgressTxt>
           </Progress>
           <Txt>{actDesc}</Txt>
           
@@ -99,30 +127,24 @@ const QuestTemplate = (props) => {
             <>
             <Accordion>
               <AccordionSummary
-                  expandIcon={
-                    // <Completo>
-                      <ExpandMoreIcon />
-                    // </Completo>
-                  } aria-controls="panel1a-content" id="panel1a-header">
+                  expandIcon={ 
+                    showDetail[idx] ? <Completo><ExpandMoreIcon /></Completo> : <ExpandMoreIcon />
+                  } 
+                  aria-controls="panel1a-content" id="panel1a-header">
                 <Actividad>{actNameTo} # {idx+1}</Actividad>
               </AccordionSummary>
               <AccordionDetails>
                 <ActividadDesc>
-                  <Label>Pistas</Label>
+                  <Label>Pista</Label>
                   <ul>
-                  {
-                    console.log(actPistas)
-                    // actPistas[idx+1].map((pista)=>{
-                    //   <li>{pista}</li>
-                    // })
-                  }
+                    <li>{row.pista}</li>
                   </ul>
                   
                   <br></br>
 
                   <Label>Premio</Label>
                   <ul>
-                    <li>{row.premioPuntos} puntos</li>
+                    <li>{row.premioPuntos} punts</li>
                   </ul>
                 </ActividadDesc>
               </AccordionDetails>
