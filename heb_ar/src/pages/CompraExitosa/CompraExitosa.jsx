@@ -132,34 +132,28 @@ const CompraExitosa = () => {
   }, []);
 
   const updateQuests = async () => {
-    if (questData) {
-      const userRef = doc(firestore, "users", currentUser.uid);
-      const buyProductRef = doc(userRef, "quests/buy_products");
-      // const buyProductActSnapshot = await getDoc(buyProductRef);
-      // if (buyProductActSnapshot.exists()) {
-      //   console.log(buyProductActSnapshot.data());
-      // }
-      // await updateDoc(buyProductRef, {
-      //   ${questData[0].name}.completed`: true,
-      // });
-
-      const newPoints = userDoc.puntos + questData[0].premioPuntos;
-      const updateData = {};
-      updateData[`${questData[0].name}.completed`] = true;
-      try {
-        await updateDoc(buyProductRef, updateData);
-        await updateDoc(userRef, {
-          puntos: newPoints,
-        });
-      } catch (error) {
-        console.log("ERROR: ", error);
-      }
+    const userRef = doc(firestore, "users", currentUser.uid);
+    const buyProductRef = doc(userRef, "quests/buy_products");
+    
+    const pointsSnap = await getDoc(userRef);
+    const newPoints = pointsSnap.data().puntos + questData[0].premioPuntos;
+    console.log(newPoints);
+    const updateData = {};
+    updateData[`${questData[0].name}.completed`] = true;
+    try {
+      await updateDoc(buyProductRef, updateData);
+      await updateDoc(userRef, {
+        puntos: newPoints,
+      });
+    } catch (error) {
+      console.log("ERROR: ", error);
     }
   };
 
   useEffect(() => {
-    // console.log(questData);
-    updateQuests();
+    if (questData) {
+      updateQuests();
+    }
   }, [questData]);
 
   const closeModal = () => {

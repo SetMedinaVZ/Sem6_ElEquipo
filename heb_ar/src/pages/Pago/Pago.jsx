@@ -111,6 +111,14 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
     });
   };
 
+  const updatePoints = async (newPoints) => {
+    console.log(newPoints);
+    const docRef = doc(firestore, "users", currentUser.uid);
+    await updateDoc(docRef, {
+      puntos: newPoints,
+    });
+  }
+
   const handleCheckout = () => {
     const date = new Date();
     const total = obtainTotal();
@@ -132,10 +140,8 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
       qr: "prueba",
     });
 
-    const docRef = doc(firestore, "users", currentUser.uid);
-    updateDoc(docRef, {
-      puntos: newPoints,
-    });
+    updatePoints(newPoints);
+    
     handleDeleteCarritoUser();
     navigate("/compra-exitosa", { state: { voucher: jsonData, puntos: points } });
   };
