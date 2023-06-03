@@ -118,7 +118,7 @@ const QuestTemplate = (props) => {
           </div>
           <Titulo>{actNameTo}</Titulo>
           <Progress>
-            <ProgressTxt>{Done}/{toMake} completado</ProgressTxt>
+            <ProgressTxt>{Done}/{toMake} completad</ProgressTxt>
           </Progress>
           <Txt>{actDesc}</Txt>
           

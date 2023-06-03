@@ -29,7 +29,7 @@ function Escaneo() {
   const { currentUser } = useAuth();
   const [scannedCode, setScannedCode] = useState(false);
   const [getProduct, { loading, data }] = useLazyQuery(GET_PRODUCTO);
-  const [qrData, setqrData] = useState(null);
+  const [ qrData, setQrData] = useState(null);
 
   const getQRQuests = async () => {
     const userRefQuests = collection(
@@ -67,42 +67,46 @@ function Escaneo() {
         });
       }
     });
-    // console.log(auxBuyQuest);
+    console.log('AuxbyQest to set')
+    console.log(auxBuyQuest);
     // setQuestData(auxBuyQuest);
-    setqrData(auxBuyQuest);
+    setQrData(auxBuyQuest);
   };
+
+  useEffect(()=>{
+    console.log('From useEffect')
+    console.log(qrData)
+
+  },[qrData])
 
   // const checkQuestQR = async () => {};
 
   const onNewScanResult = (decodedText) => {
-    if (isNaN(parseInt(decodedText[0]))) {
-      qrData.forEach((data) => {
-        // console.log("Criterio ", data.criterio);
-        // console.log("QR ", decodedText);
-        // console.log(data.criterio === decodedText);
-        if (data.criterio === decodedText) {
-          console.log("yay")
+    try {
+      if (isNaN(parseInt(decodedText[0]))) {
+        // console.log(decodedText + ' here');
+        console.log('fromQrScan');
+        console.log(qrData);
+        if(qrData === null){
+          console.log('aqui')
         }
-      });
-      console.log(decodedText);
+        // qrData.forEach((data) => {
+          // console.log("Criterio ", data.criterio);
+          // console.log("QR ", decodedText);
+          // console.log(data.criterio === decodedText);
+          // if (data.criterio === decodedText) {
+            // console.log("yay");
+            // console.log(data);
+          // }
+        // });
+      }
+      else if (!scannedCode) {
+        getProduct({ variables: { upc: decodedText } });
+      }
+    } catch {
+      console.log("ERROR");
     }
-    // try {
-    else if (!scannedCode) {
-      getProduct({ variables: { upc: decodedText } });
-    }
-    // } catch {
-    //   console.log("ERROR");
-    // }
   };
-
-  /*
-  [
-    {
-      criterio: "szdxcfgvhjbklmhvgcfx",
-      idAct: "fgjhkljvghcf"
-    }
-  ]
-   */
 
   useEffect(() => {
     getQRQuests();
@@ -120,13 +124,11 @@ function Escaneo() {
     setScannedCode(false);
   };
 
-  // console.log(qrData);
-
   return (
     <>
       <AppBar />
       <Escaner
-        fps={20}
+        fps={10}
         qrbox={250}
         disableFlip={false}
         qrCodeSuccessCallback={onNewScanResult}
