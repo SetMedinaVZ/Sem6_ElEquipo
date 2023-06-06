@@ -109,7 +109,8 @@ const QuestTemplate = (props) => {
     getQuestsInfo();
     getUserQuests();
   },[]);
-  
+  // },[Done, toMake, showDetail]);
+
     return (
     <>
         <div className="container">
@@ -118,7 +119,7 @@ const QuestTemplate = (props) => {
           </div>
           <Titulo>{actNameTo}</Titulo>
           <Progress>
-            <ProgressTxt>{Done}/{toMake} completad</ProgressTxt>
+            <ProgressTxt>{Done}/{toMake} completado</ProgressTxt>
           </Progress>
           <Txt>{actDesc}</Txt>
           
@@ -153,89 +154,6 @@ const QuestTemplate = (props) => {
             ))
             }
           </AccordionWrapper>
-          {/* <AccordionWrapper>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={
-                  <Completo>
-                    <ExpandMoreIcon />
-                  </Completo>
-                }
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                
-                <Actividad>Objeto Escondido # 1</Actividad>
-              </AccordionSummary>
-              <AccordionDetails>
-                <ActividadDesc>
-                  <Label>Pistas</Label>
-                  <ul>
-                    <li>Color de objeto: naranja</li>
-                    <li>Forma de objeto: trofeo</li>
-                  </ul>
-                  
-                  <br></br>
-
-                  <Label>Premio - escoger entre...</Label>
-                  <ul>
-                    <li>300 puntos</li>
-                    <li>Un producto marca HEB gratis</li>
-                    <li>Un cupón de descuento</li>
-                  </ul>
-                </ActividadDesc>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-              >
-                <Actividad>Objeto Escondido # 2</Actividad>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>Marcelo MLP</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-              >
-                <Actividad>Objeto Escondido # 3</Actividad>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>Marcelo MLP</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-              >
-                <Actividad>Objeto Escondido # 4</Actividad>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>Marcelo MLP</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-              >
-                <Actividad>Objeto Escondido # 5</Actividad>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>Marcelo MLP</Typography>
-              </AccordionDetails>
-            </Accordion>
-          </AccordionWrapper> */}
-          
           <Camara>
             <img src={Scan} alt="Camara"/>
             Ir a la cámara

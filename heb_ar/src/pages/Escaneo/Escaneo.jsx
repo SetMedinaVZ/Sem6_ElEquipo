@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AppBar from "../../common/AppBar/AppBar";
 import NavBar from "../../common/NavBar/NavBar";
 import Escaner from "../../components/Escaner/escaner";
@@ -29,7 +29,8 @@ function Escaneo() {
   const { currentUser } = useAuth();
   const [scannedCode, setScannedCode] = useState(false);
   const [getProduct, { loading, data }] = useLazyQuery(GET_PRODUCTO);
-  const [ qrData, setQrData] = useState(null);
+  const [ qrData, setQrData] = useState([{}]);
+
 
   const getQRQuests = async () => {
     const userRefQuests = collection(
@@ -67,38 +68,30 @@ function Escaneo() {
         });
       }
     });
-    console.log('AuxbyQest to set')
-    console.log(auxBuyQuest);
-    // setQuestData(auxBuyQuest);
+    
     setQrData(auxBuyQuest);
+    return auxBuyQuest;
   };
 
-  useEffect(()=>{
-    console.log('From useEffect')
-    console.log(qrData)
-
-  },[qrData])
-
-  // const checkQuestQR = async () => {};
-
-  const onNewScanResult = (decodedText) => {
+  const onNewScanResult = async(decodedText) => {
     try {
       if (isNaN(parseInt(decodedText[0]))) {
-        // console.log(decodedText + ' here');
-        console.log('fromQrScan');
-        console.log(qrData);
-        if(qrData === null){
-          console.log('aqui')
-        }
-        // qrData.forEach((data) => {
+        const det = [];
+        await getQRQuests()
+          .then((respo) => {
+            respo.map(d => det.push(d));
+          });
+
+        det.forEach((dat) => {
+          console.log(dat);
           // console.log("Criterio ", data.criterio);
           // console.log("QR ", decodedText);
           // console.log(data.criterio === decodedText);
           // if (data.criterio === decodedText) {
-            // console.log("yay");
-            // console.log(data);
+          //   console.log("yay");
+          //   console.log(data);
           // }
-        // });
+        });
       }
       else if (!scannedCode) {
         getProduct({ variables: { upc: decodedText } });
