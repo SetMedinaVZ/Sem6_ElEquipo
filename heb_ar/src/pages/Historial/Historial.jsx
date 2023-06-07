@@ -119,6 +119,7 @@ function Historial() {
     let det = [];
     
     dataAux.forEach(row => {
+      console.log(row);
       let date = new Date(row.date.seconds * 1000);
       let day = date.getDate();
       let month = nombresMes[date.getMonth()];
@@ -128,7 +129,7 @@ function Historial() {
       det.push(false);
       setShowDetail(det);
 
-      let rowToPush = {id:row.id, qr: row.qr, cost: row.cost, date: date2, store: row.store, productos: row.productos};
+      let rowToPush = {id:row.id, qr: 'prueb', cost: row.cost, date: date2, store: row.store, productos: row.productos};
       
       data.push(rowToPush);
     })
