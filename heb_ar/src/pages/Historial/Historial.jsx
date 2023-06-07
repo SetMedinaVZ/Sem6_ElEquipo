@@ -121,7 +121,7 @@ function Historial() {
     dataAux.forEach(row => {
       let date = new Date(row.date.seconds * 1000);
       let day = date.getDate();
-      let month = nombresMes[date.getMonth()-1];
+      let month = nombresMes[date.getMonth()];
       let year = date.getFullYear();
       let date2 = day + " de " + month + ", " + year;
       

@@ -23,7 +23,7 @@ const QuestTemplate = (props) => {
   const [ Done, setDoneAct ] = useState(0);
 
   const [ actDesc, setActDesc ] = useState('');
-  const [ actActs, setActActs ] = useState([{}]);
+  const [ actActs, setActActs ] = useState([]);
 
   const [ actUser, setActUser ] = useState([{}]);
   const [ showDetail, setShowDetail ] = useState([false]);
@@ -42,7 +42,33 @@ const QuestTemplate = (props) => {
 
   const navigate = useNavigate();
 
+  const getQuestsInfo = async () =>{
+    const genQuestInfoRef = collection(firestore, 'quests');
+    const genQuestInfoQuery = query(genQuestInfoRef);
+    const genQuestInfoSnapShot = await getDocs(genQuestInfoQuery);
+    let dataAux = [];
+    genQuestInfoSnapShot.docs.map((doc) => dataAux.push({ id:doc.id, ...doc.data()}));
+    
+
+    let data = [];
+    let newActdesc = "";
+    
+    for(const row of dataAux ){
+      if(row.id === actName){
+        newActdesc = row.actDesc;
+        for(let i = 1; i <= row.actCount; i++){
+          data.push(row['act'+i]);
+        }
+        break;
+      }
+    }
+
+    setActDesc(newActdesc);
+    setActActs(data);
+  }
+
   const getUserQuests = async () =>{
+    if(actActs.length === 0) return;
     const getUserQuestsRef = collection(firestore, 'users', currentUser.uid, 'quests');
     const getUserQuestsQuery = query(getUserQuestsRef);
     const getUserQuestsSnapShot = await getDocs(getUserQuestsQuery);
@@ -50,17 +76,18 @@ const QuestTemplate = (props) => {
     getUserQuestsSnapShot.docs.map((doc) => dataAux.push({ id:doc.id, ...doc.data()}));
 
     let det = [];
+    let data = [];
     
     dataAux.forEach(row => {
       if(row.id === actName){
-        // console.log(row);
         
-        let data = [];
+        data = [];
         for(let i = 1; i <= row.actCount; i++){
           data.push(row['act'+i]);
           det.push(false);
         }
         
+
         setActUser(data);
         setShowDetail(det);
       }
@@ -70,12 +97,15 @@ const QuestTemplate = (props) => {
 
     const newArray = [...showDetail];
 
-    for(let i = 0; i < actUser.length; i++){
-      if(actUser[i].idAct === actActs[i].idAct && actUser[i].completed == true){
+    for(let i = 0; i < data.length; i++){
+      
+      if(data[i].idAct === actActs[i].idAct && data[i].completed == true){
 
         newArray[i] = true;
         
         totAct = totAct+1;
+      }else{
+        newArray[i] = false;
       }
     }
     
@@ -83,36 +113,17 @@ const QuestTemplate = (props) => {
     setToMake(actActs.length);
     setDoneAct(totAct);
   }
-
-  const getQuestsInfo = async () =>{
-    const genQuestInfoRef = collection(firestore, 'quests');
-    const genQuestInfoQuery = query(genQuestInfoRef);
-    const genQuestInfoSnapShot = await getDocs(genQuestInfoQuery);
-    let dataAux = [];
-    genQuestInfoSnapShot.docs.map((doc) => dataAux.push({ id:doc.id, ...doc.data()}));
-
-    dataAux.forEach(row => {
-      if(row.id === actName){
-        setActDesc(row.actDesc);
-
-        let data = [];
-        for(let i = 1; i <= row.actCount; i++){
-          data.push(row['act'+i]);
-        }
-
-        setActActs(data);
-      }
-    })
-  }
-
+  
   useEffect(()=>{
     getQuestsInfo();
-    getUserQuests();
   },[]);
-  // },[Done, toMake, showDetail]);
+
+  useEffect(() => {
+    getUserQuests();
+  }, [actActs])
 
     return (
-    <>
+      <>
         <div className="container">
           <div onClick={() => navigate(-1)}>
             <Back src={Arrow} alt="Regresar"/>
@@ -124,33 +135,31 @@ const QuestTemplate = (props) => {
           <Txt>{actDesc}</Txt>
           
           <AccordionWrapper>
-            { actActs.map((row,idx)=>(
-            <>
-            <Accordion>
-              <AccordionSummary
-                  expandIcon={ 
-                    showDetail[idx] ? <Completo><ExpandMoreIcon /></Completo> : <ExpandMoreIcon />
-                  } 
-                  aria-controls="panel1a-content" id="panel1a-header">
-                <Actividad>{actNameTo} # {idx+1}</Actividad>
-              </AccordionSummary>
-              <AccordionDetails>
-                <ActividadDesc>
-                  <Label>Pista</Label>
-                  <ul>
-                    <li>{row.pista}</li>
-                  </ul>
-                  
-                  <br></br>
+            {actActs.map((row,idx)=>(
+              <Accordion key={idx}>
+                <AccordionSummary
+                    expandIcon={ 
+                      showDetail[idx] ? <Completo><ExpandMoreIcon /></Completo> : <ExpandMoreIcon />
+                    } 
+                    aria-controls="panel1a-content" id="panel1a-header">
+                  <Actividad>{actNameTo} # {idx+1}</Actividad>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <ActividadDesc>
+                    <Label>Pista</Label>
+                    <ul>
+                      <li>{row.pista}</li>
+                    </ul>
+                    
+                    <br></br>
 
-                  <Label>Premio</Label>
-                  <ul>
-                    <li>{row.premioPuntos} punts</li>
-                  </ul>
-                </ActividadDesc>
-              </AccordionDetails>
-            </Accordion>
-            </>
+                    <Label>Premio</Label>
+                    <ul>
+                      <li>{row.premioPuntos} punts</li>
+                    </ul>
+                  </ActividadDesc>
+                </AccordionDetails>
+              </Accordion>
             ))
             }
           </AccordionWrapper>

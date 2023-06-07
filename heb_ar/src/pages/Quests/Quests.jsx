@@ -48,7 +48,7 @@ function Quests() {
   const [userActBuy, setUserActBuy] = useState(0);
   const [userActQR, setUserActQR] = useState(0);
   const [userActQuick, setUserActQuick] = useState(0);
-  const [usertActScav, setUserActScav] = useState(0);
+  const [usertActScav, setUserActScav] = useState(2);
 
   const { currentUser } = useAuth();
 
