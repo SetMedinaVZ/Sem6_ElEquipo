@@ -20,6 +20,7 @@ import {
 
 import "./Escaneo.css";
 import styled from "styled-components";
+import QuestCompleted from "../../components/QuestCompleted/QuestCompleted";
 
 const ScannerModule = styled.div`
   display: ${(props) => (props.scanned ? "block" : "none")};
@@ -30,6 +31,8 @@ function Escaneo() {
   const [scannedCode, setScannedCode] = useState(false);
   const [getProduct, { loading, data }] = useLazyQuery(GET_PRODUCTO);
   const [ qrData, setQrData] = useState([{}]);
+
+  const [completedQrQuest, setCompletedQrQuest] = useState(false);
 
 
   const getQRQuests = async () => {
@@ -83,14 +86,12 @@ function Escaneo() {
           });
 
         det.forEach((dat) => {
-          console.log(dat);
-          // console.log("Criterio ", data.criterio);
-          // console.log("QR ", decodedText);
-          // console.log(data.criterio === decodedText);
-          // if (data.criterio === decodedText) {
-          //   console.log("yay");
-          //   console.log(data);
-          // }
+          if(dat.criterio === decodedText){
+            // console.log(dat);
+            // console.log(decodedText);
+            updateQuests(dat);
+            setCompletedQrQuest(true);
+          }
         });
       }
       else if (!scannedCode) {
@@ -98,6 +99,27 @@ function Escaneo() {
       }
     } catch {
       console.log("ERROR");
+    }
+  };
+
+  const updateQuests = async (questData) => {
+    const userRef = doc(firestore, "users", currentUser.uid);
+    const qrScanRef = doc(userRef, "quests/qr_scan");
+    
+    const pointsSnap = await getDoc(userRef);
+    const newPoints = pointsSnap.data().puntos + questData.premioPuntos;
+    // console.log(newPoints);
+    const updateData = {};
+    // console.log(questData);
+    updateData[`act2.completed`] = true;
+    console.log(updateData);
+    try {
+      await updateDoc(qrScanRef, updateData);
+      await updateDoc(userRef, {
+        puntos: newPoints,
+      });
+    } catch (error) {
+      console.log("ERROR: ", error);
     }
   };
 
@@ -115,6 +137,7 @@ function Escaneo() {
 
   const closeModal = () => {
     setScannedCode(false);
+    setCompletedQrQuest(false);
   };
 
   return (
@@ -134,6 +157,14 @@ function Escaneo() {
             onClose={closeModal}
           />
         </ScannerModule>
+      )}
+      {completedQrQuest && (
+        <QuestCompleted
+          onCloseButton={closeModal}
+          message="¡Felicidades, completaste un Quest de scanear QR"
+          criteria={`Scan de QR`}
+          points={'200'}
+        />
       )}
       <NavBar pagina={"escaneo"} />
     </>

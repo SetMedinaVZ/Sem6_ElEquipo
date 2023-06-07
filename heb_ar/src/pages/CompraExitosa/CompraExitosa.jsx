@@ -151,6 +151,7 @@ const CompraExitosa = () => {
   };
 
   useEffect(() => {
+    console.log(questData);
     if (questData) {
       updateQuests();
     }
