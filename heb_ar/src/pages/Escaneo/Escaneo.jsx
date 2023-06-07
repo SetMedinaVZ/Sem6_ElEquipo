@@ -50,6 +50,7 @@ function Escaneo() {
         Object.entries(doc.data()).forEach(([key, value]) => {
           if (value.completed === false) {
             auxBuyQuest.push({
+              name:key,
               idAct: value.idAct,
             });
           }
@@ -111,8 +112,8 @@ function Escaneo() {
     // console.log(newPoints);
     const updateData = {};
     // console.log(questData);
-    updateData[`act2.completed`] = true;
-    console.log(updateData);
+    updateData[`${questData.name}.completed`] = true;
+    // console.log(updateData);
     try {
       await updateDoc(qrScanRef, updateData);
       await updateDoc(userRef, {
@@ -163,7 +164,7 @@ function Escaneo() {
           onCloseButton={closeModal}
           message="¡Felicidades, completaste un Quest de scanear QR"
           criteria={`Scan de QR`}
-          points={'200'}
+          points={'100'}
         />
       )}
       <NavBar pagina={"escaneo"} />
