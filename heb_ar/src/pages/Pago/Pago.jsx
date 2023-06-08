@@ -137,7 +137,7 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
       cost: obtainTotal(),
       productos: jsonData,
       store: "Av. Humberto Lobo",
-      qr: "prueba",
+      qr: JSON.stringify(jsonData),
     });
 
     updatePoints(newPoints);

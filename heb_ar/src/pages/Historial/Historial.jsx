@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
 // import AppBar from "../../common/AppBar/AppBar";
-import Arrow from "../../assets/icons/arrow.svg"
-import { Back, Titulo } from "./HistorialStyled"
+import Arrow from "../../assets/icons/arrow.svg";
+import { Back, Titulo } from "./HistorialStyled";
 import styled from "styled-components";
 import QRImage from "../../assets/imgs/qr.svg";
 import HelpIcon from "../../assets/icons/help.svg";
 import "./Historial.css";
+import { QRCodeSVG } from "qrcode.react";
 import { collection, getDocs, query, where, getDoc } from "firebase/firestore";
-
-import { firestore } from '../../firebase';
+import { firestore } from "../../firebase";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import SpecData from "../../components/PurhcaseHistorySpec/SpecData";
+import QRCodeModal from "../../components/QRCodeModal/QRCodeModal";
 
 const Container = styled.div`
   width: 88%;
-  height: 80vh;// Review for root makeing 50% possible and dynamic
+  height: 80vh; // Review for root makeing 50% possible and dynamic
 
-  background: #FFFFFF;
+  background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   overflow: scroll;
@@ -35,7 +36,7 @@ const RowCont = styled.div`
 const QRDiv = styled.div`
   width: 30%;
   height: 100%;
-  background: #F5F5F5;
+  background: #f5f5f5;
   align-items: center;
   justify-content: center;
   display: flex;
@@ -50,7 +51,7 @@ const InfoDiv = styled.div`
   /* justify-content: space-between; */
   display: flex;
   flex-direction: column;
-  padding-top:10px;
+  padding-top: 10px;
 `;
 
 const MoneyDiv = styled.div`
@@ -61,7 +62,7 @@ const MoneyDiv = styled.div`
   display: flex;
   flex-direction: column;
 
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 15px;
@@ -75,23 +76,23 @@ const MoneyDiv = styled.div`
 
 const Button = styled.button`
   display: flex;
-  justify-content:center;;
+  justify-content: center;
 
-  background: #FFFFFF;
+  background: #ffffff;
   border: 0.5px solid rgba(0, 0, 0, 0.7);
   border-radius: 41px;
 
   @media screen and (max-width: 768px) {
     width: 65px;
     height: 18px;
-    font-family: 'Inter';
+    font-family: "Inter";
     font-style: normal;
     font-weight: 600;
     font-size: 10px;
 
-    .help-icon{
-        width: 10.66px;
-        height: 10.53px;
+    .help-icon {
+      width: 10.66px;
+      height: 10.53px;
     }
   }
 `;
@@ -103,117 +104,173 @@ function Historial() {
   const [userData, setUserData] = useState([{}]);
   const [userSpecData, setUserSpecData] = useState([{}]);
   const [showDetail, setShowDetail] = useState([false]);
+  const [showQRCode, setShowQRCode] = useState(false);
+  const [currentQR, setCurrentQR] = useState(null);
 
   useEffect(() => {
     getUserPurchaseHistory();
   }, []);
 
-  const getUserPurchaseHistory = async () =>{
-    const userPurchaseHistoryRef = collection(firestore, 'users', currentUser.uid, 'purchase_history');
+  const getUserPurchaseHistory = async () => {
+    const userPurchaseHistoryRef = collection(
+      firestore,
+      "users",
+      currentUser.uid,
+      "purchase_history"
+    );
     const userPurchaseHistoryQuery = query(userPurchaseHistoryRef);
     const userPurchaseHistorySnapshot = await getDocs(userPurchaseHistoryQuery);
     let dataAux = [];
-    userPurchaseHistorySnapshot.docs.map((doc) => dataAux.push({ id:doc.id, ...doc.data()}));
+    userPurchaseHistorySnapshot.docs.map((doc) =>
+      dataAux.push({ id: doc.id, ...doc.data() })
+    );
 
     let data = [];
     let det = [];
-    
-    dataAux.forEach(row => {
-      console.log(row);
+
+    dataAux.forEach((row) => {
+      // console.log(row);
       let date = new Date(row.date.seconds * 1000);
       let day = date.getDate();
       let month = nombresMes[date.getMonth()];
       let year = date.getFullYear();
       let date2 = day + " de " + month + ", " + year;
-      
+
       det.push(false);
       setShowDetail(det);
 
-      let rowToPush = {id:row.id, qr: 'prueb', cost: row.cost, date: date2, store: row.store, productos: row.productos};
-      
+      let rowToPush = {
+        id: row.id,
+        qr: row.qr,
+        cost: row.cost,
+        date: date2,
+        store: row.store,
+        productos: row.productos,
+      };
+
       data.push(rowToPush);
-    })
+    });
 
     setUserData(data);
-  }
+  };
 
   const getPurchaseSingle = (history, idx) => {
     let aux = showDetail;
-    aux.forEach((bol,idx2)=>{
-      bol = false
-      if(idx2 == idx){
+    aux.forEach((bol, idx2) => {
+      bol = false;
+      if (idx2 === idx) {
         aux[idx2] = aux[idx];
-      }else{
-        aux[idx2] = bol
+      } else {
+        aux[idx2] = bol;
       }
-    }
-    );
+    });
     aux[idx] = !aux[idx];
     setShowDetail(aux);
 
-    userData.forEach((row)=>{
-      if(row.id === history){
+    userData.forEach((row) => {
+      if (row.id === history) {
         let data = [];
-        Object.values(row.productos).forEach(prod => {
+        Object.values(row.productos).forEach((prod) => {
           data.push(prod);
         });
         // console.log(data);
         setUserSpecData(data);
       }
-    })
-  }
+    });
+  };
 
   // useEffect(()=>{
   //   console.log(userSpecData)
   //   // console.log(showDetail);
   // },[userSpecData])
 
-  const nombresMes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio" ,"Agosto" ,"Septiembre" ,"Octubre" ,"Noviembre" ,"Diciembre"];
-  
+  const nombresMes = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+
+  const qrCodeHandler = (qr) => {
+    if (showQRCode === false) {
+      setCurrentQR(qr);
+    } else {
+      setCurrentQR(null);
+    }
+
+    setShowQRCode((prev) => !prev);
+  };
+
   return (
     <>
-        <div className="container">
-          <div onClick={() => navigate(-1)}>
-            <Back src={Arrow} alt="Regresar"/>
-          </div>
-          <Titulo>Historial</Titulo>
-          <Container>
-            {
-              userData.map((row, idx) => (
-              <><RowCont>
-                  <QRDiv>
-                    {/* <img className="qr-image" src={QRImage} /> */}
-                    <h1>{row.qr}</h1>
-                  </QRDiv>
-                  <InfoDiv className={showDetail[idx] ? "InfoSelected":"InfoN"}>
-                    <div>
-                      <h1 className={showDetail[idx] ? "FechaSelected":"Fecha"}>{row.date}</h1>
-                      <h1 className={showDetail[idx] ? "LocationSelected":"Location"}>{row.store}</h1>
-                    </div>
-                    {!showDetail[idx] && <div className="ButtonDivH">
-                      <Button onClick={()=>getPurchaseSingle(row.id, idx)}>
+      <div className="container">
+        <div onClick={() => navigate(-1)}>
+          <Back src={Arrow} alt="Regresar" />
+        </div>
+        <Titulo>Historial</Titulo>
+        <Container>
+          {userData.map((row, idx) => (
+            <>
+              <RowCont>
+                <QRDiv onClick={() => qrCodeHandler(row.qr)}>
+                  <QRCodeSVG value={row.qr} size={90} />
+                </QRDiv>
+                <InfoDiv className={showDetail[idx] ? "InfoSelected" : "InfoN"}>
+                  <div>
+                    <h1 className={showDetail[idx] ? "FechaSelected" : "Fecha"}>
+                      {row.date}
+                    </h1>
+                    <h1
+                      className={
+                        showDetail[idx] ? "LocationSelected" : "Location"
+                      }
+                    >
+                      {row.store}
+                    </h1>
+                  </div>
+                  {!showDetail[idx] && (
+                    <div className="ButtonDivH">
+                      <Button onClick={() => getPurchaseSingle(row.id, idx)}>
                         Detalles
                       </Button>
                       <Link to="/ayuda">
                         <Button>
                           Ayuda
-                          <img className="help-icon" src={HelpIcon} />
+                          <img
+                            className="help-icon"
+                            src={HelpIcon}
+                            alt="Help Icon"
+                          />
                         </Button>
                       </Link>
-                    </div>}
-                  </InfoDiv>
-                  {!showDetail[idx] && <div className="rectMoney"></div>}
-                  <MoneyDiv className={showDetail[idx] ? "MoneySelected":"MoneyN"}>
-                    <h1>${row.cost}</h1>
-                    <h1>Mxn</h1>
-                  </MoneyDiv>
-                </RowCont><div className="rectRow"></div>
-                {showDetail[idx] && <SpecData data={userSpecData}></SpecData>}
-                </>
-              ))
-            }
-          </Container>
-        </div>
+                    </div>
+                  )}
+                </InfoDiv>
+                {!showDetail[idx] && <div className="rectMoney"></div>}
+                <MoneyDiv
+                  className={showDetail[idx] ? "MoneySelected" : "MoneyN"}
+                >
+                  <h1>${row.cost}</h1>
+                  <h1>Mxn</h1>
+                </MoneyDiv>
+              </RowCont>
+              <div className="rectRow"></div>
+              {showDetail[idx] && <SpecData data={userSpecData}></SpecData>}
+            </>
+          ))}
+        </Container>
+        {showQRCode && (
+          <QRCodeModal onButtonClose={qrCodeHandler} qrCode={currentQR} />
+        )}
+      </div>
     </>
   );
 }
