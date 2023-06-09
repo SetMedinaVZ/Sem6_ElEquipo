@@ -37,7 +37,7 @@ export const InputDiv = styled.div`
   } */
 `;
 
-export const Texto = styled.text`
+export const Texto = styled.p`
     /* padding-top: 44px; */
    
     font-family: 'Inter';

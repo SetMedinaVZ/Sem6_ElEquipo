@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Titulo = styled.text`
+export const Titulo = styled.p`
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 700;

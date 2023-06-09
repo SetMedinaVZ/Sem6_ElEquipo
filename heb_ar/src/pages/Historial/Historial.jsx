@@ -218,7 +218,7 @@ function Historial() {
         <Titulo>Historial</Titulo>
         <Container>
           {userData.map((row, idx) => (
-            <>
+            <div key={idx}>
               <RowCont>
                 <QRDiv onClick={() => qrCodeHandler(row.qr)}>
                   <QRCodeSVG value={row.qr} size={90} />
@@ -264,7 +264,7 @@ function Historial() {
               </RowCont>
               <div className="rectRow"></div>
               {showDetail[idx] && <SpecData data={userSpecData}></SpecData>}
-            </>
+            </div>
           ))}
         </Container>
         {showQRCode && (

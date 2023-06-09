@@ -9,7 +9,7 @@ export const Back = styled.img`
     transform: scaleX(-1);
 `;
 
-export const Titulo = styled.text`
+export const Titulo = styled.p`
     width: 234px;
     height: 80px;
     font-family: 'Poppins';

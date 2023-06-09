@@ -29,7 +29,7 @@ const PopProductList = (props) => {
       {/* <PopProductCard cardImg={test} cardName='Coca Cola' /> */}
       {props.data.map((product) => {
         return (
-          <div onClick={navigateToProduct(product)}>
+          <div key={product.id} onClick={navigateToProduct(product)}>
             <PopProductCard
               key={product.id}
               cardImg={product.url_img}

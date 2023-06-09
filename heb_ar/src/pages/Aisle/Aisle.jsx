@@ -15,7 +15,7 @@ const Back = styled.img`
   transform: scaleX(-1);
 `;
 
-const Titulo = styled.text`
+const Titulo = styled.p`
   /* position: absolute; */
   padding-top: 44px;
   padding-bottom: 2px;

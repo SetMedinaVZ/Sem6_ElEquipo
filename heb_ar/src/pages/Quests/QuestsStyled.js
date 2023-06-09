@@ -2,7 +2,7 @@ import { LinearProgress } from "@mui/material";
 import styled from "styled-components";
 import {styled as StyledMUI} from "@mui/system"
 
-export const Titulo = styled.text`
+export const Titulo = styled.p`
     /* position: absolute; */
     padding-bottom: 2px;
    
@@ -18,7 +18,7 @@ export const ProgressDiv = styled.div`
     color: #FCB716;
 `;
 
-export const Percentage = styled.text`
+export const Percentage = styled.p`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
@@ -94,7 +94,7 @@ export const QuickBuy = styled.div`
     border-radius: 15px;
 `;
 
-export const Counter = styled.text`
+export const Counter = styled.p`
     display: flex;
     position: absolute;
     width: 100%;
@@ -163,7 +163,7 @@ export const ConsejoDiv = styled.div`
     /* margin-left: 18px; */
 `;
 
-export const ConsejoTxt = styled.text`
+export const ConsejoTxt = styled.p`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
@@ -194,7 +194,7 @@ export const ConsejoImg = styled.div`
     border-radius: 15px;
 `;
 
-export const ConsejoDesc = styled.text`
+export const ConsejoDesc = styled.p`
     width: 174px;
     height: 118px;
     align-self: center;

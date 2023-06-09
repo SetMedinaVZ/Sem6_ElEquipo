@@ -134,8 +134,8 @@ function Cupones() {
           <h1 className="TimeVar">{timeMinutes   + ":" + timeSeconds}</h1>
         </div>
         {
-              cuponToUse.map(row => (
-              <>
+              cuponToUse.map((row, index) => (
+              <div key={index}>
               <CuponesLayout>
                 <Cupon>
                   <NivelCupon>
@@ -154,7 +154,7 @@ function Cupones() {
                   </CuponInfo>
                 </Cupon>
               </CuponesLayout>
-              </>
+              </div>
               ))
             }
         {/* <CuponesLayout>

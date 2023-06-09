@@ -70,7 +70,7 @@ export const InfoDiv = styled.div`
   padding-top:10px;
 `;
 
-export const Fecha = styled.text `
+export const Fecha = styled.p `
     font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
@@ -80,7 +80,7 @@ export const Fecha = styled.text `
     color: #722017;
 `;
 
-export const Location = styled.text `
+export const Location = styled.p `
     font-family: 'Inter';
     font-style: normal;
     font-weight: 600;

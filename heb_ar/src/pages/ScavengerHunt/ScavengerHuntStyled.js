@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Titulo = styled.text`
+export const Titulo = styled.p`
     /* position: absolute; */
     padding-top: 44px;
     padding-bottom: 2px;
@@ -36,7 +36,7 @@ export const Progress = styled.div`
     border-radius: 20px;
 `;
 
-export const ProgressTxt = styled.text` 
+export const ProgressTxt = styled.p` 
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
@@ -46,7 +46,7 @@ export const ProgressTxt = styled.text`
     color: #3F3838;
 `;
 
-export const Txt = styled.text` 
+export const Txt = styled.p` 
     display: flex;
     width: 350px;
     margin-top: 19px;
@@ -67,11 +67,11 @@ export const AccordionWrapper = styled.div`
     margin-top: 30px;
 `;
 
-export const Label = styled.text`
+export const Label = styled.p`
     font-weight: bold;
 `;
 
-export const Actividad = styled.text`
+export const Actividad = styled.p`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
@@ -84,7 +84,7 @@ export const Actividad = styled.text`
     color: #787878;
 `;
 
-export const ActividadDesc = styled.text`
+export const ActividadDesc = styled.p`
     font-family: 'Inter';
     font-style: normal;
 `;

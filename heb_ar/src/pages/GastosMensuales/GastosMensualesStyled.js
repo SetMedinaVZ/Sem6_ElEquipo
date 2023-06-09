@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Titulo = styled.text`
+export const Titulo = styled.p`
     /* position: absolute; */
     padding-top: 15px;
     padding-bottom: 2px;
@@ -22,7 +22,7 @@ export const Back = styled.img`
     transform: scaleX(-1);
 `;
 
-export const Total = styled.text`
+export const Total = styled.p`
     position: relative;
     width: 350px;
     height: 40px;
@@ -130,7 +130,7 @@ export const TextDiv = styled.div`
     margin-right: auto;
 `;
 
-export const Cat = styled.text`
+export const Cat = styled.p`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
@@ -138,7 +138,7 @@ export const Cat = styled.text`
     line-height: 19px;
 `;
 
-export const PorDesc = styled.text`
+export const PorDesc = styled.p`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
@@ -146,7 +146,7 @@ export const PorDesc = styled.text`
     line-height: 15px;
 `;
 
-export const Spent = styled.text`
+export const Spent = styled.p`
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 600;

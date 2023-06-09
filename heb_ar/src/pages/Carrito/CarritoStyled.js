@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Titulo = styled.text`
+export const Titulo = styled.p`
     padding-bottom: 2px;
 
     font-family: "Poppins";
