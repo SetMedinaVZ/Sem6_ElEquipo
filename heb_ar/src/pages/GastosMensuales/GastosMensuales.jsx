@@ -221,7 +221,7 @@ function GastosMensuales() {
           </div>
           {/* </Link> */}
           <Titulo>Gastos Mensuales</Titulo>
-          <Total>${total}</Total>
+          <Total>${Math.round(total * 100) / 100}</Total>
           <PieDiv>
             <Pie
               data = {data}

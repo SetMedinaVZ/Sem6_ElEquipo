@@ -241,7 +241,7 @@ const ScannerProductInfo = ({ data, onButtonClose, onClose}) => {
       </ProductInfo>
       <ButtonsContainer>
         <PriceAmountContainer>
-          <Price>Total: ${price}</Price>
+          <Price>Total: ${price.toFixed(2)}</Price>
           <AmountButton>
             <button onClick={minusHandler}>
               <img src={Minus} alt="" />

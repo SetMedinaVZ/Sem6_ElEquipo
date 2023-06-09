@@ -258,7 +258,7 @@ function Historial() {
                 <MoneyDiv
                   className={showDetail[idx] ? "MoneySelected" : "MoneyN"}
                 >
-                  <h1>${row.cost}</h1>
+                  <h1>${Math.round(row.cost * 100) / 100}</h1>
                   <h1>Mxn</h1>
                 </MoneyDiv>
               </RowCont>

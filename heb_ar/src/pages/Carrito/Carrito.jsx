@@ -70,7 +70,7 @@ function Carrito() {
           <Space/>
           <Price>
             <p>Total: </p>
-            <p>${PriceTotalR}</p>
+            <p>${Math.round(PriceTotal * 100) / 100}</p>
           </Price>
           <Next onClick={checkout}>Continuar al checkout</Next>
         </div>

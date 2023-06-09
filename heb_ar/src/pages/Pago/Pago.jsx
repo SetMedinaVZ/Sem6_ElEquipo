@@ -78,9 +78,9 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
       return `$0`;
     }
     if (toggle && userDoc.puntos > 0) {
-      return cantidadCobrar - userDoc.puntos * 0.01;
+      return Math.round((cantidadCobrar - userDoc.puntos * 0.01) * 100) / 100;
     } else {
-      return cantidadCobrar;
+      return Math.round((cantidadCobrar * 100) / 100);
     }
   };
 
@@ -111,14 +111,6 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
     });
   };
 
-  const updatePoints = async (newPoints) => {
-    console.log(newPoints);
-    const docRef = doc(firestore, "users", currentUser.uid);
-    await updateDoc(docRef, {
-      puntos: newPoints,
-    });
-  }
-
   const handleCheckout = () => {
     const date = new Date();
     const total = obtainTotal();
@@ -137,16 +129,19 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
       cost: obtainTotal(),
       productos: jsonData,
       store: "Av. Humberto Lobo",
-      qr: JSON.stringify(jsonData),
+      qr: "prueba",
     });
 
-    updatePoints(newPoints);
-    
+    const docRef = doc(firestore, "users", currentUser.uid);
+    updateDoc(docRef, {
+      puntos: newPoints,
+    });
     handleDeleteCarritoUser();
     navigate("/compra-exitosa", { state: { voucher: jsonData, puntos: points } });
   };
 
   useEffect(() => {
+    console.log(carrito);
     if (!cantidadCobrar) {
       //Reload carrito
       window.location.reload();
