@@ -9,11 +9,14 @@ function CarritoCard({name,priceU,amountI,size,uid,url_img,onChange}) {
     const [postCarrito] = useMutation(POST_CARRITO);
     const [isVisible, setIsVisible] = useState(true);
     var [priceF, setPriceF] = useState("");
+    var [priceFR, setPriceFR] = useState("");
     var [amount, setAmount] = useState(amountI);
 
     const handleClick = () => {
       setIsVisible(false);
     };
+
+
 
     const handleUpdateCarrito = async (cantidad) => {
         try {
@@ -47,19 +50,25 @@ function CarritoCard({name,priceU,amountI,size,uid,url_img,onChange}) {
       setPriceF(priceU * amount);
     });
 
+    useEffect(() => {
+      const parsedNumber = parseFloat(priceF);
+      const rounded = isNaN(parsedNumber) ? 0 : Number(parsedNumber.toFixed(2));
+      setPriceFR(rounded);
+    }, [priceF]);
+
     const sumar = () => {
-        setAmount(amount + 1);
-        setPriceF(amount * priceU);
-        handleUpdateCarrito(amount+1)
-        onChange(priceU)
+      setAmount(amount + 1);
+      setPriceF(amount * priceU);
+      handleUpdateCarrito(amount+1)
+      onChange(priceU)
     };
 
     const restar = () => {
         if (amount > 0) {
-            setAmount(amount - 1);
-            setPriceF(amount);
-            handleUpdateCarrito(amount-1)
-            onChange(priceU * -1)
+          setAmount(amount - 1);
+          setPriceF(amount);
+          handleUpdateCarrito(amount-1)
+          onChange(priceU * -1)
         }
     };
 
@@ -77,7 +86,7 @@ function CarritoCard({name,priceU,amountI,size,uid,url_img,onChange}) {
                       <div onClick={handleDeleteCarrito} className='close'></div>
                   </div>
                   <div className='row price-row'>
-                      <h1 className='price'>${priceF}</h1>
+                      <h1 className='price'>${priceFR}</h1>
                       <div className='amount-container'>
                           <button onClick={restar} className='amount-button'>-</button>
                           <h1 className='amount'>{amount}</h1>

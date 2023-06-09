@@ -7,6 +7,9 @@ import { useLazyQuery } from "@apollo/client";
 import { GET_PRODUCTO } from "../../graphql/queries/getProducto";
 import { useAuth } from "../../context/AuthContext";
 import { firestore } from "../../firebase";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   collection,
   query,
@@ -29,6 +32,7 @@ const ScannerModule = styled.div`
 function Escaneo() {
   const { currentUser } = useAuth();
   const [scannedCode, setScannedCode] = useState(false);
+  const [didScan, setDidscan] = useState(false);
   const [getProduct, { loading, data }] = useLazyQuery(GET_PRODUCTO);
   const [ qrData, setQrData] = useState([{}]);
 
@@ -78,7 +82,7 @@ function Escaneo() {
   };
 
   const onNewScanResult = async(decodedText) => {
-    try {
+    if(!scannedCode && !completedQrQuest){
       if (isNaN(parseInt(decodedText[0]))) {
         const det = [];
         await getQRQuests()
@@ -88,18 +92,13 @@ function Escaneo() {
 
         det.forEach((dat) => {
           if(dat.criterio === decodedText){
-            // console.log(dat);
-            // console.log(decodedText);
             updateQuests(dat);
             setCompletedQrQuest(true);
           }
         });
-      }
-      else if (!scannedCode) {
+      } else {
         getProduct({ variables: { upc: decodedText } });
       }
-    } catch {
-      console.log("ERROR");
     }
   };
 
@@ -126,13 +125,16 @@ function Escaneo() {
 
   useEffect(() => {
     getQRQuests();
-
     try {
       if (data.producto[0]) {
         setScannedCode(true);
+      } else{
+        if (didScan) {
+          toast.error("Código inválido");
+          setDidscan(false);
+        }
       }
     } catch {
-      console.log("Not aviable");
     }
   }, [data]);
 
@@ -144,12 +146,15 @@ function Escaneo() {
   return (
     <>
       <AppBar />
-      <Escaner
+      <ToastContainer />
+      {(!scannedCode && !completedQrQuest) && (
+        <Escaner
         fps={10}
         qrbox={250}
         disableFlip={false}
         qrCodeSuccessCallback={onNewScanResult}
       />
+      )}
       {scannedCode && (
         <ScannerModule scanned={scannedCode} className="center">
           <ScannerProductInfo
