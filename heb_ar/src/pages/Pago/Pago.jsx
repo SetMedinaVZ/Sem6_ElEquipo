@@ -115,7 +115,9 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
     const date = new Date();
     const total = obtainTotal();
     const points = Math.floor(total * 0.1);
+    const pointsRemove = Math.floor(userDoc.puntos*0.01);
     const newPoints = userDoc.puntos + points;
+    console.log('POINTSREMOVE',pointsRemove);
 
     const collectionRef = collection(
       firestore,
@@ -134,7 +136,7 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
 
     const docRef = doc(firestore, "users", currentUser.uid);
     updateDoc(docRef, {
-      puntos: newPoints,
+      puntos: (newPoints-pointsRemove),
     });
     handleDeleteCarritoUser();
     navigate("/compra-exitosa", { state: { voucher: jsonData, puntos: points } });

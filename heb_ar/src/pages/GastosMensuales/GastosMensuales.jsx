@@ -239,7 +239,7 @@ function GastosMensuales() {
               <Cat>Lácteos y Huevos</Cat>
               <PorDesc>{PercLacto === 'NaN' ?  '0': PercLacto}% de tu total del mes</PorDesc>
             </TextDiv>
-            <Spent>${PLacto}</Spent>
+            <Spent>${Math.round(PLacto * 100) / 100}</Spent>
           </FyVLegendDiv>
 
           <LegendDiv>
@@ -248,7 +248,7 @@ function GastosMensuales() {
               <Cat>Alimentos Congelados</Cat>
               <PorDesc>{PercConge === 'NaN' ?  '0': PercConge}% de tu total del mes</PorDesc>
             </TextDiv>
-            <Spent>${PConge}</Spent>
+            <Spent>${Math.round(PConge * 100) / 100}</Spent>
           </LegendDiv>
 
           <LegendDiv>
@@ -257,7 +257,7 @@ function GastosMensuales() {
               <Cat>Bebidas y Snacks</Cat>
               <PorDesc>{PercBebida === 'NaN' ?  '0': PercBebida}% de tu total del mes</PorDesc>
             </TextDiv>
-            <Spent>${PBebida}</Spent>
+            <Spent>${Math.round(PBebida * 100) / 100}</Spent>
           </LegendDiv>
 
           <LegendDiv>
@@ -266,7 +266,7 @@ function GastosMensuales() {
               <Cat>Pan y Tortillas</Cat>
               <PorDesc>{PercPan === 'NaN' ?  '0': PercPan}% de tu total del mes</PorDesc>
             </TextDiv>
-            <Spent>${PPan}</Spent>
+            <Spent>${Math.round(PPan * 100) / 100}</Spent>
           </LegendDiv>
 
           <LegendDiv>
@@ -275,7 +275,7 @@ function GastosMensuales() {
               <Cat>Frutas y Verduras</Cat>
               <PorDesc>{PercFrutas === 'NaN' ?  '0': PercFrutas}% de tu total del mes</PorDesc>
             </TextDiv>
-            <Spent>${PFrutas}</Spent>
+            <Spent>${Math.round(PFrutas * 100) / 100}</Spent>
           </LegendDiv>
 
           <LegendDiv>
@@ -284,7 +284,7 @@ function GastosMensuales() {
               <Cat>Carnes y Pescados</Cat>
               <PorDesc>{PercCarne === 'NaN' ?  '0': PercCarne}% de tu total del mes</PorDesc>
             </TextDiv>
-            <Spent>${PCarne}</Spent>
+            <Spent>${Math.round(PCarne * 100) / 100}</Spent>
           </LegendDiv>
 
           <LegendDiv>
@@ -293,7 +293,7 @@ function GastosMensuales() {
               <Cat>Vinos, Licores y Cervezas</Cat>
               <PorDesc>{PercVino === 'NaN' ?  '0': PercVino}% de tu total del mes</PorDesc>
             </TextDiv>
-            <Spent>${PVino}</Spent>
+            <Spent>${Math.round(PVino * 100) / 100}</Spent>
           </LegendDiv>
 
           <LegendDiv>
@@ -302,7 +302,7 @@ function GastosMensuales() {
               <Cat>Jamones, Quesos y Deli</Cat>
               <PorDesc>{PercJamon === 'NaN' ?  '0': PercJamon}% de tu total del mes</PorDesc>
             </TextDiv>
-            <Spent>${PJamon}</Spent>
+            <Spent>${Math.round(PJamon * 100) / 100}</Spent>
           </LegendDiv>
         </div>
       </>
