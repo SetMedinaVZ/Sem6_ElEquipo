@@ -80,7 +80,7 @@ function Carrito() {
   if (goToCheckout) {
     return(
       <>
-        <Pago carrito ={data.carrito} onClose={closeCheckout} cantidadCobrar={PriceTotal} descuento={descuento}/>
+        <Pago carrito ={data.carrito} onClose={closeCheckout} cantidadCobrar={PriceTotal} descuento={descuento} cuponesCanjeados={cuponesCanjeados}/>
       </>
     )
   }

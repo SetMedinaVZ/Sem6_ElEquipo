@@ -25,6 +25,7 @@ import {
   addDoc,
   doc,
   updateDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 import MetodoPagoItem from "../../components/MetodoPagoItem/MetodoPagoItem";
 import { useMutation } from '@apollo/client';
@@ -36,7 +37,7 @@ import { DELETE_CARRITO_USER } from "../../graphql/mutations/deleteCarritoUser";
  * @param {array} carritoA - Array de objetos con los productos del carrito
  * @returns JSX.Element
  */
-const Pago = ({ cantidadCobrar, carrito, onClose, descuento }) => {
+const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados }) => {
   const navigate = useNavigate();
   const { userDoc, currentUser } = useAuth();
   const [jsonData, setJsonData] = useState({});
@@ -140,10 +141,23 @@ const Pago = ({ cantidadCobrar, carrito, onClose, descuento }) => {
       qr: "prueba",
     });
 
-    const docRef = doc(firestore, "users", currentUser.uid);
-    updateDoc(docRef, {
+    //Update user doc with new points
+    const userDocRef = doc(firestore, "users", currentUser.uid);
+    updateDoc(userDocRef, {
       puntos: (newPoints-pointsRemove),
     });
+
+    //Update used coupons in user doc to canjeado: true
+    const usedCouponsRef = collection(firestore, "users", currentUser.uid, "used_coupons");
+    cuponesCanjeados.forEach((cupon) => {
+      updateDoc(doc(usedCouponsRef, cupon.id), {
+        canjeado: true,
+        enCheckout: false,
+        fechaCanje: serverTimestamp(),
+      });
+    });
+
+    //Delete user's cart
     handleDeleteCarritoUser();
     navigate("/compra-exitosa", { state: { voucher: jsonData, puntos: points } });
   };
