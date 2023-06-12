@@ -12,9 +12,8 @@ function Carrito() {
   const { currentUser } = useAuth();
   const [goToCheckout, setgoToCheckout] = useState(false);
   var [PriceTotal, setPriceTotal] = useState(0);
-  var [PriceTotalR, setPriceTotalR] = useState(0);
   var newPriceTotal = 0;
-  const { loading, error, data } = useQuery(GET_CARRITO,{ variables: { userId: currentUser.uid},fetchPolicy: 'network-only',});
+  const { loading, error, data, refetch} = useQuery(GET_CARRITO,{ variables: { userId: currentUser.uid},fetchPolicy: 'network-only',});
   let carritoList = [];
 
   const handleChildChange = (value) => {
@@ -34,19 +33,17 @@ function Carrito() {
     }
   }, [loading, data]);
 
-  const checkout = () => {
+
+
+  const checkout = async () => {
+    await refetch();
     setgoToCheckout(true);
   };
 
   const closeCheckout = () => {
+    refetch();
     setgoToCheckout(false);
   };
-
-  useEffect(() => {
-    const parsedNumber = parseFloat(PriceTotal);
-    const rounded = isNaN(parsedNumber) ? 0 : Number(parsedNumber.toFixed(2));
-    setPriceTotalR(rounded);
-  }, [PriceTotal]);
 
   if (goToCheckout) {
     return(

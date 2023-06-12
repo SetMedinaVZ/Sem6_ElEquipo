@@ -145,7 +145,6 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
   useEffect(() => {
     console.log(carrito);
     if (!cantidadCobrar) {
-      //Reload carrito
       window.location.reload();
     } else {
       fetchDefaultCard().then(() => {
