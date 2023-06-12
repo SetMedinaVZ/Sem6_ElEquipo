@@ -9,12 +9,14 @@ import CuponImg from "../../assets/imgs/coupon.svg";
 import HebIMG from "../../assets/imgs/logo.svg";
 import BlurPage from "../../common/BlurPage";
 import { CuponesLayout, Cupon, NivelCupon } from "./CuponesStyled";
-import { collection, getDocs, query } from "firebase/firestore";
-
+import { useAuth } from "../../context/AuthContext";
+import { collection, getDocs, query, doc, where, addDoc } from "firebase/firestore";
 import { firestore } from '../../firebase';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Cupones() {
-  
+  const {currentUser} = useAuth();
   const [seconds, setSeconds] = useState(0);
   const [timeSeconds, setTimeSec] = useState(localStorage.getItem('clockSeconds'));
   const [timeMinutes, setTimeMin] = useState(localStorage.getItem('clockMinutes'));
@@ -22,20 +24,54 @@ function Cupones() {
 
   const [cuponToUse, setCuponData] = useState([]);
 
-  // const [isActive1, setActive1] = useState(false);
-  // const [isActive2, setActive2] = useState(false);
-  // const [isActive3, setActive3] = useState(false);
+  const [cuponesCanjeados, setCuponesCanjeados] = useState([]);
+  const [cuponSeleccionado, setCuponSeleccionado] = useState(null);
 
   const [Popup, setPopUp] = useState(false);
   const [PopupText, setPopUpText] = useState("");
 
-  const CuponSelected = (textoCupon) => {
+  const CuponSelected = (row) => {
     setPopUp(true);
-    setPopUpText(textoCupon);
+    setPopUpText(row.textoCupon);
+    setCuponSeleccionado(row);
   }
 
-  const CuponDeselected = () => {
+  const verifyCouponsInUse =  () => {
+    let inUse = false;
+    cuponesCanjeados.forEach(row => {
+      if(row.couponID == cuponSeleccionado.id){
+        inUse = true;
+      }
+    });
+    return inUse;
+  }
+
+  const closePopUp = () => {
     setPopUp(false);
+  }
+
+  //Function to handle the cupon deselected event
+  const CuponDeselected = async () => {
+    //If cupon is in use, then we can't use it
+    if(verifyCouponsInUse()){
+      toast.error("Ya has usado este cupón");
+      //Set popup to false to close it
+      setPopUp(false);
+    }
+    //If cupon is not in use, then we can use it so we update the data in the database
+    else{
+      const usedCouponsRef = collection(firestore, 'users', currentUser.uid, 'used_coupons');
+      //Add cuponSeleccionado in used_coupons collection inside the user document with enCheckout = true
+      await addDoc(usedCouponsRef, {
+        id: cuponSeleccionado.id,
+        porcValor: cuponSeleccionado.porcValor,
+        canjeado: false,
+        enCheckout: true,
+        fechaCanje: null,
+      });
+      toast.success("Cupón canjeado con éxito");
+      setPopUp(false);
+    }
   }
 
   const getTime = () => {
@@ -52,24 +88,25 @@ function Cupones() {
     return () => clearInterval(interval);
   }, []);
 
+  //Obtener cupones disponibles para el usuario
   const getCuponesDisp = async () =>{
     const userCuponAvailableRef = collection(firestore, 'cupones');
     const userCuponAvailableQuery = query(userCuponAvailableRef);
     const userCuponAvailableSnapShot = await getDocs(userCuponAvailableQuery);
-    const cuponData = userCuponAvailableSnapShot.docs.map(doc => doc.data());
-    
+    const cuponData = userCuponAvailableSnapShot.docs.map(doc => ({...doc.data(), id: doc.id}));
+
     let nivel1 = [];
     let nivel2 = [];
     let nivel3 = [];
     cuponData.forEach(row => {
       if(row.nivel == 1){
-        let rowToPush = {nivel: row.nivel, porcValor: row.porcValor, textoCupon: row.textoCupon, isactive:false, tiempoDesb:"25:00"};
+        let rowToPush = {nivel: row.nivel, porcValor: row.porcValor, textoCupon: row.textoCupon, isactive:false, tiempoDesb:"25:00", id: row.id};
         nivel1.push(rowToPush);
       } else if(row.nivel == 2){
-        let rowToPush = {nivel: row.nivel, porcValor: row.porcValor, textoCupon: row.textoCupon, isactive:false, tiempoDesb:"40:00"};
+        let rowToPush = {nivel: row.nivel, porcValor: row.porcValor, textoCupon: row.textoCupon, isactive:false, tiempoDesb:"40:00", id: row.id};
         nivel2.push(rowToPush);
       }else{
-        let rowToPush = {nivel: row.nivel, porcValor: row.porcValor, textoCupon: row.textoCupon, isactive:false, tiempoDesb:"60:00"};
+        let rowToPush = {nivel: row.nivel, porcValor: row.porcValor, textoCupon: row.textoCupon, isactive:false, tiempoDesb:"60:00", id: row.id};
         nivel3.push(rowToPush);
       }
     })
@@ -86,9 +123,26 @@ function Cupones() {
     // console.log(finalCupones);
     setCuponData(finalCupones);
   }
+
+  //Obtener cupones canjeados en proceso de canje para que no permita canjear mas
+  //de uno del mismo nivel
+  const getCuponesCanjeados = async () =>{
+    const userCouponsUsedRef = collection(firestore, 'users', currentUser.uid, 'used_coupons');
+    const userCouponsUsedQuery = query(userCouponsUsedRef, where("enCheckout", "==", true));
+    const userCouponsUsedSnapShot = await getDocs(userCouponsUsedQuery);
+    const cuponesEnCanje = userCouponsUsedSnapShot.docs.map(doc => doc.data(), doc.id);
+    setCuponesCanjeados(cuponesEnCanje);
+  }
+
   useEffect(()=>{
     getCuponesDisp();
+    getCuponesCanjeados();
   },[]);
+
+  useEffect(() =>{
+    console.log("cupones canjeados", cuponesCanjeados);
+    console.log("cupones disponibles", cuponToUse);
+  },[cuponesCanjeados])
 
   useEffect(() =>{
     setTimeSec(localStorage.getItem("clockSeconds"));
@@ -127,6 +181,7 @@ function Cupones() {
   return (
     <>
       <AppBar />
+      <ToastContainer />
       <div className="container">
         <Titulo>Cupones por tiempo</Titulo>
         <div className="Tiempo" id="tiempo">
@@ -135,26 +190,26 @@ function Cupones() {
         </div>
         {
               cuponToUse.map((row, index) => (
-              <div key={index}>
-              <CuponesLayout>
-                <Cupon>
-                  <NivelCupon>
-                    <h1>Nivel {row.nivel}</h1>
-                  </NivelCupon>
-                  {!row.isactive &&
-                  <TimeText>
-                      <h1>Desbloquea:</h1>
-                      <h1>{row.tiempoDesb}</h1>
-                  </TimeText>
-                  }
-                  <CuponInfo style={{filter: row.isactive ? '' : 'blur(10px)', pointerEvents: row.isactive ? '':'none'}} onClick={() => CuponSelected(row.textoCupon)}>
-                    <img src={CuponImg} alt="Cupon" className="cupon-img" />
-                    <img src={HebIMG} alt="HEB" className="heb-img" />
-                    <p className="cupon-text">{row.textoCupon}</p>
-                  </CuponInfo>
-                </Cupon>
-              </CuponesLayout>
-              </div>
+                <div key={index}>
+                  <CuponesLayout>
+                    <Cupon>
+                      <NivelCupon>
+                        <h1>Nivel {row.nivel}</h1>
+                      </NivelCupon>
+                      {!row.isactive &&
+                      <TimeText>
+                          <h1>Desbloquea:</h1>
+                          <h1>{row.tiempoDesb}</h1>
+                      </TimeText>
+                      }
+                      <CuponInfo style={{filter: row.isactive ? '' : 'blur(10px)', pointerEvents: row.isactive ? '':'none'}} onClick={() => CuponSelected(row)}>
+                        <img src={CuponImg} alt="Cupon" className="cupon-img" />
+                        <img src={HebIMG} alt="HEB" className="heb-img" />
+                        <p className="cupon-text">{row.textoCupon}</p>
+                      </CuponInfo>
+                    </Cupon>
+                  </CuponesLayout>
+                </div>
               ))
             }
         {/* <CuponesLayout>
@@ -216,7 +271,7 @@ function Cupones() {
       {Popup && <div className="CuponPopup" id="CuponPopup">
         <div className="cupon-infoPopup">
           <img src={CuponImg} alt="Cupon" className="cupon-imgPopup" />
-          <img src={CloseImg} alt="Cupon" className="close-imgPopup" onClick={CuponDeselected}/>
+          <img src={CloseImg} alt="Cupon" className="close-imgPopup" onClick={closePopUp} />
           <p className="cupon-textPopup">{PopupText}</p>
           <button className="PopUpButton" onClick={CuponDeselected}>Utilizar</button>
         </div>

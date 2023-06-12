@@ -7,11 +7,15 @@ import { useQuery } from "@apollo/client";
 import { GET_CARRITO } from "../../graphql/queries/getCarrito";
 import { useAuth } from "../../context/AuthContext";
 import Pago from "../Pago/Pago";
+import { collection, query, where, getDocs, doc } from "firebase/firestore";
+import { firestore } from "../../firebase";
 
 function Carrito() {
   const { currentUser } = useAuth();
   const [goToCheckout, setgoToCheckout] = useState(false);
   var [PriceTotal, setPriceTotal] = useState(0);
+  const [descuento, setDescuento] = useState(0);
+  const [cuponesCanjeados, setCuponesCanjeados] = useState([]);
   var newPriceTotal = 0;
   const { loading, error, data, refetch} = useQuery(GET_CARRITO,{ variables: { userId: currentUser.uid},fetchPolicy: 'network-only',});
   let carritoList = [];
@@ -27,13 +31,41 @@ function Carrito() {
     });
   }
 
+        //Obtener cupones canjeados en proceso de canje para que no permita canjear mas
+  //de uno del mismo nivel
+  const getCuponesCanjeados = async () =>{
+    const userCouponsUsedRef = collection(firestore, 'users', currentUser.uid, 'used_coupons');
+    const userCouponsUsedQuery = query(userCouponsUsedRef, where("enCheckout", "==", true));
+    const userCouponsUsedSnapShot = await getDocs(userCouponsUsedQuery);
+    const cuponesEnCanje = userCouponsUsedSnapShot.docs.map(doc => doc.data(), doc.id);
+    setCuponesCanjeados(cuponesEnCanje);
+  }
+
+  const obtainDiscountFromCoupons =  () => {
+    let discount = 0;
+    cuponesCanjeados.forEach(cupon => {
+      const porcDiscount = cupon.porcValor;
+      discount = discount + ((porcDiscount / 100) * newPriceTotal);
+    });
+    setDescuento(discount);
+  }
+
+  useEffect(() => {
+    getCuponesCanjeados().then(() => {
+      obtainDiscountFromCoupons();
+    });
+  }, [PriceTotal]);
+
+  useEffect(() => {
+    console.log("cupones canjeados", cuponesCanjeados);
+    console.log("descuento", descuento);
+  }, [cuponesCanjeados, descuento]);
+
   useEffect(() => {
     if (!loading && data) {
       setPriceTotal(newPriceTotal);
     }
   }, [loading, data]);
-
-
 
   const checkout = async () => {
     await refetch();
@@ -48,7 +80,7 @@ function Carrito() {
   if (goToCheckout) {
     return(
       <>
-        <Pago carrito ={data.carrito} onClose={closeCheckout} cantidadCobrar={PriceTotal}></Pago>
+        <Pago carrito ={data.carrito} onClose={closeCheckout} cantidadCobrar={PriceTotal} descuento={descuento}/>
       </>
     )
   }
