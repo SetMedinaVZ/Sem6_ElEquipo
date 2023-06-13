@@ -81,14 +81,68 @@ function Escaneo() {
     return auxBuyQuest;
   };
 
+  const getQrCompleted = async () => {
+    const userRefQuests = collection(
+      firestore,
+      "users",
+      currentUser.uid,
+      "quests"
+    );
+    const userRefQuestsQuery = query(userRefQuests);
+    const userRefQuestsSnapshot = await getDocs(userRefQuestsQuery);
+    const auxQRQuestComp = [];
+    userRefQuestsSnapshot.docs.forEach((doc) => {
+      if (doc.id === "qr_scan") {
+        Object.entries(doc.data()).forEach(([key, value]) => {
+          if (value.completed === true) {
+            auxQRQuestComp.push({
+              name:key,
+              idAct: value.idAct,
+            });
+          }
+        });
+      }
+    });
+
+    const questsRef = query(collection(firestore, "quests"));
+    const questsSnapshot = await getDocs(questsRef);
+    questsSnapshot.docs.forEach((doc) => {
+      if (doc.id === "qr_scan") {
+        Object.entries(doc.data()).forEach(([key, value]) => {
+          for (let i = 0; i < auxQRQuestComp.length; i++) {
+            if (auxQRQuestComp[i].idAct === value.idAct) {
+              auxQRQuestComp[i].criterio = value.criterio;
+            }
+          }
+        });
+      }
+    });
+
+    return auxQRQuestComp;
+  };
+
   const onNewScanResult = async(decodedText) => {
     if(!scannedCode && !completedQrQuest){
       if (isNaN(parseInt(decodedText[0]))) {
         const det = [];
+        const detComp = [];
         await getQRQuests()
           .then((respo) => {
             respo.map(d => det.push(d));
           });
+        await getQrCompleted()
+          .then((respo) => {
+            respo.map(d => detComp.push(d));
+          });
+
+        console.log(det);
+        console.log(detComp);
+        console.log(decodedText);
+        detComp.forEach((datComp) => {
+          if(datComp.criterio === decodedText){
+            toast.error("Código inválido");
+          }
+        });
 
         det.forEach((dat) => {
           if(dat.criterio === decodedText){
