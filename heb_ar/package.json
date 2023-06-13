@@ -4,11 +4,11 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.14",
-    "@emotion/react": "^11.11.0",
+    "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@google-pay/button-react": "^3.0.9",
     "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.13.2",
+    "@mui/material": "^5.13.5",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",

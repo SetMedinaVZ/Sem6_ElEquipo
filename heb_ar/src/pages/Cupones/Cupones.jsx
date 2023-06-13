@@ -14,6 +14,7 @@ import { collection, getDocs, query, doc, where, addDoc } from "firebase/firesto
 import { firestore } from '../../firebase';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Tooltip from '@mui/material/Tooltip';
 
 function Cupones() {
   const {currentUser} = useAuth();
@@ -21,6 +22,7 @@ function Cupones() {
   const [timeSeconds, setTimeSec] = useState(localStorage.getItem('clockSeconds'));
   const [timeMinutes, setTimeMin] = useState(localStorage.getItem('clockMinutes'));
   const [loginDate, setLoginDate] = useState(Date.now());
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const [cuponToUse, setCuponData] = useState([]);
 
@@ -185,7 +187,14 @@ function Cupones() {
       <div className="container">
         <Titulo>Cupones por tiempo</Titulo>
         <div className="Tiempo" id="tiempo">
-          <img src={Info} className="InfoSvg" alt="info"/>
+          <Tooltip title={
+            <p>
+              Descubre los tres niveles de cupones especiales. El temporizador desbloquea
+              el siguiente nivel cuando se agota el tiempo. ¡Mejores cupones en niveles superiores!
+              Aprovecha las recompensas ahora.
+            </p>} arrow open={showTooltip}>
+            <img src={Info} className="InfoSvg" alt="info" onClick={() => setShowTooltip(prev => !prev)} />
+          </Tooltip>
           <h1 className="TimeVar">{timeMinutes   + ":" + timeSeconds}</h1>
         </div>
         {
@@ -202,7 +211,7 @@ function Cupones() {
                           <h1>{row.tiempoDesb}</h1>
                       </TimeText>
                       }
-                      <CuponInfo style={{filter: row.isactive ? '' : 'blur(10px)', pointerEvents: row.isactive ? '':'none'}} onClick={() => CuponSelected(row)}>
+                      <CuponInfo style={{filter: row.isactive ? '' : 'blur(10px)', pointerEvents: row.isactive ? '':'none'}} onClick={() => {setShowTooltip(false); CuponSelected(row)}}>
                         <img src={CuponImg} alt="Cupon" className="cupon-img" />
                         <img src={HebIMG} alt="HEB" className="heb-img" />
                         <p className="cupon-text">{row.textoCupon}</p>

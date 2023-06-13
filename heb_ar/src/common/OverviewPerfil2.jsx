@@ -8,12 +8,13 @@ import User3SVG from "../assets/icons/user3.svg";
 import CardSVG from "../assets/icons/card.svg";
 import HistorySVG from "../assets/icons/history.svg";
 import AyudaSVG from "../assets/icons/ayuda.svg";
+import { Tooltip } from "@mui/material";
 
 import "./OverViewPerfil2.css";
 import { Link, useNavigate } from "react-router-dom";
 import { collection, getDoc, doc, getDocs, query } from "firebase/firestore";
 
-import { firestore } from '../firebase';
+import { firestore } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
 const Section = styled.div`
@@ -135,36 +136,35 @@ const Column = styled.div`
 `;
 
 function OverviewPerfil2({ setOpen }) {
-
   const { currentUser } = useAuth();
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [puntos, setPuntos] = useState(0);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
     getUserInfo();
   }, []);
 
-  const getUserInfo = async () =>{
-    const userRef = doc(firestore, 'users', currentUser.uid);
+  const getUserInfo = async () => {
+    const userRef = doc(firestore, "users", currentUser.uid);
     const userSnap = await getDoc(userRef);
 
-    if(userSnap.exists()){
+    if (userSnap.exists()) {
       // console.log(userSnap.data());
 
       setApellido(userSnap.data().apellido);
       setNombre(userSnap.data().nombre);
-      setPuntos(userSnap.data().puntos)
-
-    }else{
+      setPuntos(userSnap.data().puntos);
+    } else {
       console.log("undefined");
     }
+  };
 
-  }
-  
   const [isOpen, setIsOpen] = React.useState(true);
 
   const handleClose = () => {
+    setShowTooltip(false);
     // set the slide-out animation
     setIsOpen(false);
     setOpen();
@@ -179,14 +179,26 @@ function OverviewPerfil2({ setOpen }) {
       </Button>
       <Hola>
         <h1 className="Hola">
-          Hola, <b>{nombre +" "+ apellido}</b>
+          Hola, <b>{nombre + " " + apellido}</b>
         </h1>
       </Hola>
       <Section2>
         <SubSection1>
           <Column className="PuntosDiv">
             <h1>Puntos Acumulados:</h1>
-            <img className="info-svg" src={Info} />
+            <Tooltip
+              title={
+                <p>
+                  ¡Gana puntos y disfruta de descuentos en tus compras! Por cada 20 pesos que gastes,
+                  obtendrás un punto en tu cuenta. Cuantos más puntos acumules, mayores serán los descuentos
+                  que podrás disfrutar al comprar. ¡Aprovecha esta oportunidad para ahorrar mientras adquieres tus productos favoritos!
+                </p>
+              }
+              arrow
+              open={showTooltip}
+            >
+              <img className="info-svg" src={Info} alt="" onClick={() => setShowTooltip(prev => !prev)} />
+            </Tooltip>
           </Column>
           <Column className="PuntosDiv2">
             <h1>{puntos}</h1>
