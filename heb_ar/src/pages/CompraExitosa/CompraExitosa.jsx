@@ -12,9 +12,7 @@ import { firestore } from "../../firebase";
 import {
   collection,
   query,
-  where,
   getDocs,
-  addDoc,
   doc,
   updateDoc,
   getDoc,
@@ -41,9 +39,10 @@ const CompraExitosa = () => {
   const location = useLocation();
   const { voucher, puntos } = location.state;
   const [voucherString, setVoucherString] = useState("");
-  const { userDoc, currentUser } = useAuth();
+  const { currentUser } = useAuth();
   const [completedBuyQuest, setCompletedBuyQuest] = useState(false);
-  const [questData, setQuestData] = useState(null);
+  const [questData, setQuestData] = useState([]);
+  const [selectedQuest, setSelectedQuest] = useState({});
 
   const getBuyQuests = async () => {
     const userRefQuests = collection(
@@ -58,7 +57,7 @@ const CompraExitosa = () => {
     userRefQuestsSnapshot.docs.forEach((doc) => {
       if (doc.id === "buy_products") {
         Object.entries(doc.data()).forEach(([key, value]) => {
-          if (value.completed === false) {
+          if (typeof value === "object" && value.completed === false) {
             auxBuyQuest.push({
               name: key,
               idAct: value.idAct,
@@ -82,64 +81,50 @@ const CompraExitosa = () => {
         });
       }
     });
-    // console.log(auxBuyQuest);
-    return auxBuyQuest;
+
+    console.log("Quest Data recieved: ", auxBuyQuest);
+    setQuestData(auxBuyQuest);
   };
 
-  const checkIfCompletedQuest = (totalQta, questsLists) => {
-    // console.log(totalQta);
-    questsLists.then((result) => {
-      let valorMasCercano = result[0].criterio;
-      let diferenciaMasCercana = Math.abs(totalQta - valorMasCercano);
-      result.forEach((data) => {
-        const diferencia = Math.abs(totalQta - data.criterio);
-        if (diferencia < diferenciaMasCercana) {
-          valorMasCercano = data.criterio;
-          diferenciaMasCercana = diferencia;
-        }
-      });
-      if (totalQta > valorMasCercano || totalQta === valorMasCercano) {
-        const completedObj = result.filter(
-          (obj) => obj.criterio === valorMasCercano
-        );
-        // console.log(completedObj);
-        setCompletedBuyQuest(true);
-        setQuestData(completedObj);
-      }
-      // console.log(completed);
+  function nearestLargerEqual(num) {
+    // Filtrar la lista para contener solo números menores o iguales a num
+    let validNums = questData.filter((n) => n.criterio <= num);
 
-      // Get the act completed
-      // console.log(result);
-    });
-  };
+    // Si no hay números válidos, devolver 0
+    if (validNums.length === 0) return;
 
-  useEffect(() => {
-    if (voucher === 0 || voucher === null || voucher === undefined) {
-      navigate("/carrito");
-    } else {
-      //Transform to string the voucher
-      setVoucherString(JSON.stringify(voucher));
-    }
-    // Check if we completed a buy quest
-    const questsLists = getBuyQuests();
+    // Ordenar la lista de números válidos
+    validNums.sort((a, b) => a.criterio - b.criterio);
 
-    let total = 0;
+    // Devolver el último elemento de la lista de números válidos, que será el más cercano a num
+    return validNums[validNums.length - 1];
+  }
+
+  const checkIfCompletedQuest = () => {
+    // Get the total quantity of products
+    let totalQta = 0;
     voucher.forEach((obj) => {
-      total += obj.Cantidad;
+      totalQta += obj.Cantidad;
     });
 
-    checkIfCompletedQuest(total, questsLists);
-  }, []);
+    const selectedQuest = nearestLargerEqual(totalQta);
+    // if (selectedQuest && sessionStorage.getItem("buyQuestCompleted") === "false") {
+    if (selectedQuest) {
+      setCompletedBuyQuest(true);
+      setSelectedQuest(selectedQuest);
+      sessionStorage.setItem("buyQuestCompleted", "true");
+      // console.log(sessionStorage.getItem("buyQuestCompleted"));
+    }
+  };
 
   const updateQuests = async () => {
+    console.log("Selected Quest: ", selectedQuest);
     const userRef = doc(firestore, "users", currentUser.uid);
     const buyProductRef = doc(userRef, "quests/buy_products");
-    
     const pointsSnap = await getDoc(userRef);
-    const newPoints = pointsSnap.data().puntos + questData[0].premioPuntos;
-    console.log(newPoints);
+    const newPoints = pointsSnap.data().puntos + selectedQuest.premioPuntos;
     const updateData = {};
-    updateData[`${questData[0].name}.completed`] = true;
+    updateData[`${selectedQuest.name}.completed`] = true;
     try {
       await updateDoc(buyProductRef, updateData);
       await updateDoc(userRef, {
@@ -151,21 +136,50 @@ const CompraExitosa = () => {
   };
 
   useEffect(() => {
-    console.log(questData);
-    if (questData) {
-      updateQuests();
+    if (voucher === 0 || voucher === null || voucher === undefined) {
+      navigate("/carrito");
+    } else {
+      //Transform to string the voucher
+      setVoucherString(JSON.stringify(voucher));
+    }
+    // console.log(sessionStorage.getItem("buyQuestCompleted"));
+
+    if (!sessionStorage.getItem("buyQuestCompleted")) {
+      sessionStorage.setItem("buyQuestCompleted", "false");
+    }
+
+    if (sessionStorage.getItem("buyQuestCompleted") === "false") {
+      // Get quest data
+      getBuyQuests();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (questData.length !== 0) {
+      console.log(questData);
+      checkIfCompletedQuest();
     }
   }, [questData]);
+
+  useEffect(() => {
+    if (Object.keys(selectedQuest).length !== 0) {
+      // console.log(questData);
+      updateQuests();
+    }
+  }, [selectedQuest]);
 
   const closeModal = () => {
     setCompletedBuyQuest(false);
   };
 
-  // console.log(questData);
+  const handleReturn = () => {
+    sessionStorage.removeItem("buyQuestCompleted");
+    navigate(-1);
+  };
 
   return (
     <div className="container mx-auto">
-      <div onClick={() => navigate(-1)}>
+      <div onClick={handleReturn}>
         <Back src={Arrow} alt="Regresar" />
       </div>
       <Titulo2>¡Tu compra ha sido {<br />} exitosa!</Titulo2>
@@ -180,8 +194,8 @@ const CompraExitosa = () => {
         <QuestCompleted
           onCloseButton={closeModal}
           message="¡Felicidades, completaste un Quest de comprar productos"
-          criteria={`Compra minima de ${questData[0].criterio} puntos`}
-          points={questData[0].premioPuntos}
+          criteria={`Compra minima de ${selectedQuest.criterio} puntos`}
+          points={selectedQuest.premioPuntos}
         />
       )}
     </div>
