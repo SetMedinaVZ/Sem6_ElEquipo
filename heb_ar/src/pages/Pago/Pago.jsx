@@ -25,6 +25,7 @@ import {
   addDoc,
   doc,
   updateDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 import MetodoPagoItem from "../../components/MetodoPagoItem/MetodoPagoItem";
 import { useMutation } from '@apollo/client';
@@ -36,7 +37,7 @@ import { DELETE_CARRITO_USER } from "../../graphql/mutations/deleteCarritoUser";
  * @param {array} carritoA - Array de objetos con los productos del carrito
  * @returns JSX.Element
  */
-const Pago = ({ cantidadCobrar, carrito, onClose }) => {
+const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados }) => {
   const navigate = useNavigate();
   const { userDoc, currentUser } = useAuth();
   const [jsonData, setJsonData] = useState({});
@@ -65,8 +66,12 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
     setToggle(!toggle);
   };
 
-  const obtainDiscount = () => {
+  const obtainDiscountPorPuntos = () => {
     return `$${userDoc.puntos * 0.01}`;
+  };
+
+  const obtainDiscountPorCupones = () => {
+    return `$${Math.round(descuento * 100) / 100}`;
   };
 
   const obtainTotal = () => {
@@ -78,9 +83,11 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
       return `$0`;
     }
     if (toggle && userDoc.puntos > 0) {
-      return Math.round((cantidadCobrar - userDoc.puntos * 0.01) * 100) / 100;
+      //Retorna el total con descuento de puntos y cupones si es que hay
+      return Math.round((cantidadCobrar - descuento - userDoc.puntos * 0.01) * 100) / 100;
     } else {
-      return Math.round((cantidadCobrar * 100) / 100);
+      //Retorna el total con descuento de cupones si es que hay
+      return Math.round((cantidadCobrar - descuento) * 100) / 100;
     }
   };
 
@@ -134,10 +141,23 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
       qr: "prueba",
     });
 
-    const docRef = doc(firestore, "users", currentUser.uid);
-    updateDoc(docRef, {
+    //Update user doc with new points
+    const userDocRef = doc(firestore, "users", currentUser.uid);
+    updateDoc(userDocRef, {
       puntos: (newPoints-pointsRemove),
     });
+
+    //Update used coupons in user doc to canjeado: true
+    const usedCouponsRef = collection(firestore, "users", currentUser.uid, "used_coupons");
+    cuponesCanjeados.forEach((cupon) => {
+      updateDoc(doc(usedCouponsRef, cupon.id), {
+        canjeado: true,
+        enCheckout: false,
+        fechaCanje: serverTimestamp(),
+      });
+    });
+
+    //Delete user's cart
     handleDeleteCarritoUser();
     navigate("/compra-exitosa", { state: { voucher: jsonData, puntos: points } });
   };
@@ -145,7 +165,6 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
   useEffect(() => {
     console.log(carrito);
     if (!cantidadCobrar) {
-      //Reload carrito
       window.location.reload();
     } else {
       fetchDefaultCard().then(() => {
@@ -156,8 +175,8 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
             Nombre: item.name,
             Pasillo: item.pasillo,
           }))
-        );
-        setLoading(false);
+        )
+          setLoading(false);
       });
     }
   }, []);
@@ -165,6 +184,10 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
   useEffect(() => {
     fetchDefaultCard();
   }, [addedCard]);
+
+  useEffect(() => {
+    console.log("descuento", descuento);
+  }, [descuento]);
 
   return (
     <>
@@ -252,11 +275,11 @@ const Pago = ({ cantidadCobrar, carrito, onClose }) => {
                 </TextWrapper>
                 <TextWrapper>
                   <TextB>Descuento</TextB>
-                  <TextB>{obtainDiscount()}</TextB>
+                  <TextB>{obtainDiscountPorPuntos()}</TextB>
                 </TextWrapper>
                 <TextWrapper>
                   <TextB>Cupón aplicado</TextB>
-                  {/* TODO:DESCONTAR CUPON */}
+                  <TextB>{obtainDiscountPorCupones()}</TextB>
                 </TextWrapper>
                 <div
                   style={{
