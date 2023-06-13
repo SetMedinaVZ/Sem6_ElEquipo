@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import React, { useEffect } from "react";
+import { Html5QrcodeScanner } from "html5-qrcode";
 
-import './escaner.css';
+import "./escaner.css";
 
 const createConfig = (props) => {
   let config = {};
@@ -21,22 +21,34 @@ const createConfig = (props) => {
 };
 
 const Escaner = (props) => {
-  const qrcodeRegionId = 'qrcode-region';
+  const qrcodeRegionId = "qrcode-region";
 
   useEffect(() => {
-
     const config = createConfig(props);
     const verbose = props.verbose === true;
 
     if (!props.qrCodeSuccessCallback) {
-      throw new Error('qrCodeSuccessCallback is a required callback.');
+      throw new Error("qrCodeSuccessCallback is a required callback.");
     }
-    const html5QrcodeScanner = new Html5QrcodeScanner(qrcodeRegionId, config, verbose);
-    html5QrcodeScanner.render(props.qrCodeSuccessCallback, props.qrCodeErrorCallback);
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      qrcodeRegionId,
+      config,
+      verbose
+    );
+    html5QrcodeScanner.render(
+      props.qrCodeSuccessCallback,
+      props.qrCodeErrorCallback
+    );
+    // console.log("Inside scanner, pause is ", props.canPause);
+    // if (props.canPause) {
+    // html5QrcodeScanner.pause(true);
+    // } else {
+    //   html5QrcodeScanner.resume()
+    // }
 
     return () => {
-      html5QrcodeScanner.clear().catch(error => {
-        console.error('Failed to clear html5QrcodeScanner. ', error);
+      html5QrcodeScanner.clear().catch((error) => {
+        console.error("Failed to clear html5QrcodeScanner. ", error);
       });
     };
   }, []);

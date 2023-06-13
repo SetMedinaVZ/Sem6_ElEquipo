@@ -34,10 +34,10 @@ function Escaneo() {
   const [scannedCode, setScannedCode] = useState(false);
   const [didScan, setDidscan] = useState(false);
   const [getProduct, { loading, data }] = useLazyQuery(GET_PRODUCTO);
-  const [ qrData, setQrData] = useState([{}]);
+  const [qrData, setQrData] = useState([{}]);
+  // const [pause, setPause] = useState(false);
 
   const [completedQrQuest, setCompletedQrQuest] = useState(false);
-
 
   const getQRQuests = async () => {
     const userRefQuests = collection(
@@ -54,7 +54,7 @@ function Escaneo() {
         Object.entries(doc.data()).forEach(([key, value]) => {
           if (value.completed === false) {
             auxBuyQuest.push({
-              name:key,
+              name: key,
               idAct: value.idAct,
             });
           }
@@ -76,7 +76,7 @@ function Escaneo() {
         });
       }
     });
-    
+
     setQrData(auxBuyQuest);
     return auxBuyQuest;
   };
@@ -96,7 +96,7 @@ function Escaneo() {
         Object.entries(doc.data()).forEach(([key, value]) => {
           if (value.completed === true) {
             auxQRQuestComp.push({
-              name:key,
+              name: key,
               idAct: value.idAct,
             });
           }
@@ -121,31 +121,30 @@ function Escaneo() {
     return auxQRQuestComp;
   };
 
-  const onNewScanResult = async(decodedText) => {
-    if(!scannedCode && !completedQrQuest){
+  const onNewScanResult = async (decodedText) => {
+    // setPause(true);
+    if (!scannedCode && !completedQrQuest) {
       if (isNaN(parseInt(decodedText[0]))) {
         const det = [];
         const detComp = [];
-        await getQRQuests()
-          .then((respo) => {
-            respo.map(d => det.push(d));
-          });
-        await getQrCompleted()
-          .then((respo) => {
-            respo.map(d => detComp.push(d));
-          });
-
-        console.log(det);
-        console.log(detComp);
-        console.log(decodedText);
-        detComp.forEach((datComp) => {
-          if(datComp.criterio === decodedText){
-            toast.error("Código inválido");
-          }
+        await getQRQuests().then((respo) => {
+          respo.map((d) => det.push(d));
+        });
+        await getQrCompleted().then((respo) => {
+          respo.map((d) => detComp.push(d));
         });
 
+        // console.log(det);
+        // console.log(detComp);
+        // console.log(decodedText);
+        // detComp.forEach((datComp) => {
+        //   if (datComp.criterio === decodedText) {
+        //     toast.error("Código inválido o inexistente");
+        //   }
+        // });
+
         det.forEach((dat) => {
-          if(dat.criterio === decodedText){
+          if (dat.criterio === decodedText) {
             updateQuests(dat);
             setCompletedQrQuest(true);
           }
@@ -156,10 +155,15 @@ function Escaneo() {
     }
   };
 
+  // useEffect(() => {
+  //   console.log("useEffect pause", pause);
+    
+  // }, [pause]);
+
   const updateQuests = async (questData) => {
     const userRef = doc(firestore, "users", currentUser.uid);
     const qrScanRef = doc(userRef, "quests/qr_scan");
-    
+
     const pointsSnap = await getDoc(userRef);
     const newPoints = pointsSnap.data().puntos + questData.premioPuntos;
     // console.log(newPoints);
@@ -182,14 +186,13 @@ function Escaneo() {
     try {
       if (data.producto[0]) {
         setScannedCode(true);
-      } else{
+      } else {
         if (didScan) {
           toast.error("Código inválido");
           setDidscan(false);
         }
       }
-    } catch {
-    }
+    } catch {}
   }, [data]);
 
   const closeModal = () => {
@@ -201,13 +204,14 @@ function Escaneo() {
     <>
       <AppBar />
       <ToastContainer />
-      {(!scannedCode && !completedQrQuest) && (
+      {!scannedCode && !completedQrQuest && (
         <Escaner
-        fps={10}
-        qrbox={250}
-        disableFlip={false}
-        qrCodeSuccessCallback={onNewScanResult}
-      />
+          fps={10}
+          qrbox={250}
+          disableFlip={false}
+          qrCodeSuccessCallback={onNewScanResult}
+          // canPause={pause}
+        />
       )}
       {scannedCode && (
         <ScannerModule scanned={scannedCode} className="center">
@@ -223,7 +227,7 @@ function Escaneo() {
           onCloseButton={closeModal}
           message="¡Felicidades, completaste un Quest de scanear QR"
           criteria={`Scan de QR`}
-          points={'100'}
+          points={"100"}
         />
       )}
       <NavBar pagina={"escaneo"} />
