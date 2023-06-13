@@ -31,7 +31,7 @@ function Carrito() {
     });
   }
 
-        //Obtener cupones canjeados en proceso de canje para que no permita canjear mas
+  //Obtener cupones canjeados en proceso de canje para que no permita canjear mas
   //de uno del mismo nivel
   const getCuponesCanjeados = async () =>{
     const userCouponsUsedRef = collection(firestore, 'users', currentUser.uid, 'used_coupons');
@@ -54,7 +54,7 @@ function Carrito() {
     getCuponesCanjeados().then(() => {
       obtainDiscountFromCoupons();
     });
-  }, [PriceTotal]);
+  }, [data]);
 
   useEffect(() => {
     console.log("cupones canjeados", cuponesCanjeados);
@@ -64,6 +64,7 @@ function Carrito() {
   useEffect(() => {
     if (!loading && data) {
       setPriceTotal(newPriceTotal);
+      console.log("carrito", data.carrito)
     }
   }, [loading, data]);
 

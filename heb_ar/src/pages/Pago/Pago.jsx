@@ -28,7 +28,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import MetodoPagoItem from "../../components/MetodoPagoItem/MetodoPagoItem";
-import { useMutation } from '@apollo/client';
+import { useMutation } from "@apollo/client";
 import { DELETE_CARRITO_USER } from "../../graphql/mutations/deleteCarritoUser";
 
 /**
@@ -37,7 +37,13 @@ import { DELETE_CARRITO_USER } from "../../graphql/mutations/deleteCarritoUser";
  * @param {array} carritoA - Array de objetos con los productos del carrito
  * @returns JSX.Element
  */
-const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados }) => {
+const Pago = ({
+  cantidadCobrar,
+  carrito,
+  onClose,
+  descuento,
+  cuponesCanjeados,
+}) => {
   const navigate = useNavigate();
   const { userDoc, currentUser } = useAuth();
   const [jsonData, setJsonData] = useState({});
@@ -58,7 +64,7 @@ const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados })
         },
       });
     } catch (error) {
-      console.error('Error deleting user:', error);
+      console.error("Error deleting user:", error);
     }
   };
 
@@ -67,11 +73,11 @@ const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados })
   };
 
   const obtainDiscountPorPuntos = () => {
-    return `$${userDoc.puntos * 0.01}`;
+    return `-$${Math.round(userDoc.puntos * 0.01)}`;
   };
 
   const obtainDiscountPorCupones = () => {
-    return `$${Math.round(descuento * 100) / 100}`;
+    return `-$${Math.round(descuento * 100) / 100}`;
   };
 
   const obtainTotal = () => {
@@ -84,7 +90,10 @@ const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados })
     }
     if (toggle && userDoc.puntos > 0) {
       //Retorna el total con descuento de puntos y cupones si es que hay
-      return Math.round((cantidadCobrar - descuento - userDoc.puntos * 0.01) * 100) / 100;
+      return (
+        Math.round((cantidadCobrar - descuento - userDoc.puntos * 0.01) * 100) /
+        100
+      );
     } else {
       //Retorna el total con descuento de cupones si es que hay
       return Math.round((cantidadCobrar - descuento) * 100) / 100;
@@ -122,9 +131,9 @@ const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados })
     const date = new Date();
     const total = obtainTotal();
     const points = Math.floor(total * 0.1);
-    const pointsRemove = Math.floor(userDoc.puntos*0.01);
+    const pointsRemove = Math.floor(userDoc.puntos * 0.01);
     const newPoints = userDoc.puntos + points;
-    console.log('POINTSREMOVE',pointsRemove);
+    console.log("POINTSREMOVE", pointsRemove);
 
     const collectionRef = collection(
       firestore,
@@ -144,13 +153,21 @@ const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados })
     //Update user doc with new points
     const userDocRef = doc(firestore, "users", currentUser.uid);
     updateDoc(userDocRef, {
-      puntos: (newPoints-pointsRemove),
+      puntos: newPoints - pointsRemove,
     });
 
     //Update used coupons in user doc to canjeado: true
-    const usedCouponsRef = collection(firestore, "users", currentUser.uid, "used_coupons");
-    cuponesCanjeados.forEach((cupon) => {
-      updateDoc(doc(usedCouponsRef, cupon.id), {
+    cuponesCanjeados?.forEach(async (cupon) => {
+      console.log("cupon", cupon);
+      const docRef = doc(
+        firestore,
+        "users",
+        currentUser.uid,
+        "used_coupons",
+        cupon.id
+      );
+      console.log("docRef cupones canjeados", docRef);
+      await updateDoc(docRef, {
         canjeado: true,
         enCheckout: false,
         fechaCanje: serverTimestamp(),
@@ -159,7 +176,9 @@ const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados })
 
     //Delete user's cart
     handleDeleteCarritoUser();
-    navigate("/compra-exitosa", { state: { voucher: jsonData, puntos: points } });
+    navigate("/compra-exitosa", {
+      state: { voucher: jsonData, puntos: points },
+    });
   };
 
   useEffect(() => {
@@ -175,8 +194,8 @@ const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados })
             Nombre: item.name,
             Pasillo: item.pasillo,
           }))
-        )
-          setLoading(false);
+        );
+        setLoading(false);
       });
     }
   }, []);
@@ -267,6 +286,10 @@ const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados })
           <ToggleContainer>
             <TextG>¿Quieres utilizar tus puntos en esta compra?</TextG>
             <Toggle handler={handleToggle} />{" "}
+            <TextWrapper>
+              <TextB>Subtotal</TextB>
+              <TextB>${cantidadCobrar}</TextB>
+            </TextWrapper>
             {toggle && userDoc.puntos > 0 && (
               <>
                 <TextWrapper>
@@ -274,30 +297,30 @@ const Pago = ({ cantidadCobrar, carrito, onClose, descuento, cuponesCanjeados })
                   <TextB>{userDoc.puntos}</TextB>
                 </TextWrapper>
                 <TextWrapper>
-                  <TextB>Descuento</TextB>
+                  <TextB>Descuento por puntos</TextB>
                   <TextB>{obtainDiscountPorPuntos()}</TextB>
-                </TextWrapper>
-                <TextWrapper>
-                  <TextB>Cupón aplicado</TextB>
-                  <TextB>{obtainDiscountPorCupones()}</TextB>
-                </TextWrapper>
-                <div
-                  style={{
-                    height: "1px",
-                    width: "80%",
-                    margin: "10px 0",
-                    backgroundColor: "#787878",
-                  }}
-                />
-                <TextWrapper>
-                  <TextB>Total a pagar</TextB>
-                  <TextB>${obtainTotal()}</TextB>
                 </TextWrapper>
               </>
             )}
             {toggle && userDoc.puntos === 0 && (
               <TextB>No tienes puntos acumulados</TextB>
             )}
+            <TextWrapper>
+              <TextB>Descuento por cupones</TextB>
+              <TextB>{obtainDiscountPorCupones()}</TextB>
+            </TextWrapper>
+            <div
+              style={{
+                height: "1px",
+                width: "80%",
+                margin: "10px 0",
+                backgroundColor: "#787878",
+              }}
+            />
+            <TextWrapper>
+              <TextB>Total a pagar</TextB>
+              <TextB>${obtainTotal()}</TextB>
+            </TextWrapper>
           </ToggleContainer>
           <Footer>
             <CheckoutButton
