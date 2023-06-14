@@ -122,8 +122,8 @@ function Escaneo() {
   };
 
   const onNewScanResult = async (decodedText) => {
-    // setPause(true);
     if (!scannedCode && !completedQrQuest) {
+      setDidscan(true);
       if (isNaN(parseInt(decodedText[0]))) {
         const det = [];
         const detComp = [];
