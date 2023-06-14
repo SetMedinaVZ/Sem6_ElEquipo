@@ -123,7 +123,6 @@ function Escaneo() {
   };
 
   const onNewScanResult = async (decodedText) => {
-    // console.log(decodedText);
     if (!scannedCode && !completedQrQuest) {
       setDidscan(true);
       if (isNaN(parseInt(decodedText[0]))) {
@@ -135,7 +134,7 @@ function Escaneo() {
         await getQrCompleted().then((respo) => {
           respo.map((d) => detComp.push(d));
         });
-
+        
         for(let i = 0; i < det.length; i++){
           if (det[i].criterio === decodedText) {
             updateQuests(det[i]);
@@ -145,13 +144,20 @@ function Escaneo() {
           }
         }
         
-        detComp.forEach((datComp) => {
-          if (datComp.criterio === decodedText) {
+        for(let i = 0; i < detComp.length; i++){
+          if (detComp[i].criterio === decodedText) {
             if(!toast.isActive("errorQR")){
-              toast.error("Código inválido o inexistente",{toastId:"errorQR"});
+              toast.error("Código invalido o Ya Acreditado",{toastId:"errorQR"});
+            }
+            return;
+          }else{
+            if(i < detComp.length){
+              if(!toast.isActive("noExiste")){
+                toast.error("Código invalido o inexistente",{toastId:"noExiste"});
+              }
             }
           }
-        });
+        }
       } else {
         getProduct({ variables: { upc: decodedText } });
       }
