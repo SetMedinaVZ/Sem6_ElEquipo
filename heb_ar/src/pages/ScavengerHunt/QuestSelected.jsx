@@ -155,7 +155,7 @@ const QuestTemplate = (props) => {
 
                     <Label>Premio</Label>
                     <ul>
-                      <li>{row.premioPuntos} punts</li>
+                      <li>{row.premioPuntos} puntos</li>
                     </ul>
                   </ActividadDesc>
                 </AccordionDetails>
@@ -163,11 +163,12 @@ const QuestTemplate = (props) => {
             ))
             }
           </AccordionWrapper>
+          <Link to="/escaneo">
           <Camara>
             <img src={Scan} alt="Camara"/>
             Ir a la cámara
           </Camara>
-          {/* </Link> */}
+          </Link>
         </div>
     </>
     );

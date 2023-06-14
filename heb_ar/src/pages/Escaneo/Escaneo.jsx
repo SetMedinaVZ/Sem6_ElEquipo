@@ -151,8 +151,8 @@ function Escaneo() {
             }
             return;
           }else{
-            if(i < detComp.length){
-              if(!toast.isActive("noExiste")){
+            if(i === detComp.length-1){
+              if(!toast.isActive("noExiste") && !toast.isActive("errorQR")){
                 toast.error("Código invalido o inexistente",{toastId:"noExiste"});
               }
             }
