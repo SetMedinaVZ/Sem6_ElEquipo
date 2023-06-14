@@ -35,6 +35,7 @@ function Escaneo() {
   const [didScan, setDidscan] = useState(false);
   const [getProduct, { loading, data }] = useLazyQuery(GET_PRODUCTO);
   const [qrData, setQrData] = useState([{}]);
+  const [toastDispl, setToastDisp] = useState(false);
   // const [pause, setPause] = useState(false);
 
   const [completedQrQuest, setCompletedQrQuest] = useState(false);
@@ -122,6 +123,7 @@ function Escaneo() {
   };
 
   const onNewScanResult = async (decodedText) => {
+    // console.log(decodedText);
     if (!scannedCode && !completedQrQuest) {
       setDidscan(true);
       if (isNaN(parseInt(decodedText[0]))) {
@@ -134,19 +136,20 @@ function Escaneo() {
           respo.map((d) => detComp.push(d));
         });
 
-        // console.log(det);
-        // console.log(detComp);
-        // console.log(decodedText);
-        // detComp.forEach((datComp) => {
-        //   if (datComp.criterio === decodedText) {
-        //     toast.error("Código inválido o inexistente");
-        //   }
-        // });
-
-        det.forEach((dat) => {
-          if (dat.criterio === decodedText) {
-            updateQuests(dat);
+        for(let i = 0; i < det.length; i++){
+          if (det[i].criterio === decodedText) {
+            updateQuests(det[i]);
             setCompletedQrQuest(true);
+            console.log(i);
+            return;
+          }
+        }
+        
+        detComp.forEach((datComp) => {
+          if (datComp.criterio === decodedText) {
+            if(!toast.isActive("errorQR")){
+              toast.error("Código inválido o inexistente",{toastId:"errorQR"});
+            }
           }
         });
       } else {
@@ -154,11 +157,6 @@ function Escaneo() {
       }
     }
   };
-
-  // useEffect(() => {
-  //   console.log("useEffect pause", pause);
-    
-  // }, [pause]);
 
   const updateQuests = async (questData) => {
     const userRef = doc(firestore, "users", currentUser.uid);

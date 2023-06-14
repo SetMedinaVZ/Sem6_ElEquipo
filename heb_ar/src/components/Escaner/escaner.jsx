@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 
 import "./escaner.css";
@@ -23,12 +23,14 @@ const createConfig = (props) => {
 const Escaner = (props) => {
   const qrcodeRegionId = "qrcode-region";
 
+  const [willPause, setPause] = useState(false);
+
   useEffect(() => {
     const config = createConfig(props);
     const verbose = props.verbose === true;
 
     if (!props.qrCodeSuccessCallback) {
-      throw new Error("qrCodeSuccessCallback is a required callback.");
+        throw new Error("qrCodeSuccessCallback is a required callback.");
     }
     const html5QrcodeScanner = new Html5QrcodeScanner(
       qrcodeRegionId,
@@ -38,8 +40,8 @@ const Escaner = (props) => {
     html5QrcodeScanner.render(
       props.qrCodeSuccessCallback,
       props.qrCodeErrorCallback
-    );
-    // console.log("Inside scanner, pause is ", props.canPause);
+      );
+    // console.log("Inside scanner, pause is ", props.qrCodeSuccessCallback);
     // if (props.canPause) {
     // html5QrcodeScanner.pause(true);
     // } else {
