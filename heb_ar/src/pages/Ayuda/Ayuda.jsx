@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 // import AppBar from "../../common/AppBar/AppBar";
 import Arrow from "../../assets/icons/arrow.svg"
 import { Back, Titulo, Center, Container, RowCont, QRDiv, InfoDiv, Fecha, Location, MoneyDiv, Button } from "./AyudaStyled"
-import QRImage from "../../assets/imgs/qr.svg";
+import { QRCodeSVG } from "qrcode.react";
 import HelpIcon from "../../assets/icons/help.svg";
 import { collection, getDocs, query } from "firebase/firestore";
 
@@ -74,7 +74,7 @@ function Ayuda() {
                   <RowCont>
                     <QRDiv>
                       {/* <img className="qr-image" src={QRImage} /> */}
-                      <h1>{row.qr}</h1>
+                      <QRCodeSVG value={row.qr} size={90} />
                     </QRDiv>
                     <InfoDiv>
                       <div>

@@ -147,7 +147,7 @@ const Pago = ({
       cost: obtainTotal(),
       productos: jsonData,
       store: "Av. Humberto Lobo",
-      qr: "prueba",
+      qr: JSON.stringify(jsonData),
     });
 
     //Update user doc with new points
