@@ -32,11 +32,11 @@ export const TextWrapper = styled.div`
 export const Footer = styled.footer`
   width: 100%;
   height: 100px;
-  position: fixed;
   bottom: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 5rem;
 `;
 
 export const CheckoutButton = styled.button`

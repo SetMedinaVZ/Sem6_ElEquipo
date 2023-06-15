@@ -12,18 +12,6 @@ import {
 } from "./InfoProducto.styled";
 
 const InfoProducto = ({ productInfo }) => {
-  //   function uploadProducts() {
-  //     const products = catalogoJSON;
-  //     const collectionRef = collection(firestore, "catalogo");
-  //     try {
-  //       products.forEach(async (product) => {
-  //         console.log(product);
-  //         await addDoc(collectionRef, product);
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
 
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
@@ -63,11 +51,9 @@ const InfoProducto = ({ productInfo }) => {
         <p>Cargando...</p>
       ) : (
         <>
-          {/* <Link to="/"> */}
           <div onClick={() => navigate(-1)}>
             <Back src={Arrow} alt="Regresar" />
           </div>
-          {/* </Link> */}
           <Titulo>{product.name}</Titulo>
           <img src={product.url_img} alt={product.name} />
           <Text>Marca: {product.brand}</Text>
