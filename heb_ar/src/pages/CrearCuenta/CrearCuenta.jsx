@@ -11,7 +11,7 @@ import Arrow from "../../assets/icons/arrow.svg";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, collection, addDoc } from "firebase/firestore";
 import { firestore } from "../../firebase";
 
 const SignUpButton = styled.button`
@@ -43,6 +43,159 @@ function CrearCuenta() {
   });
 
   const [isValid, setIsValid] = useState(false);
+
+  // const quests = {
+  //   buy_products: {
+  //     act1: {
+  //       completed: false,
+  //       idAct: "BUCsVYshTln7LYLr1u6H",
+  //     },
+  //     act2: {
+  //       completed: false,
+  //       idAct: "pkBVmLqetdroYFSyhAOS",
+  //     },
+  //     act3: {
+  //       completed: false,
+  //       idAct: "WUja63Jmd057rXd5Mo7A",
+  //     },
+  //     act4: {
+  //       completed: false,
+  //       idAct: "VbSw410E7M50ti7UzvAF",
+  //     },
+  //     actCount: 4,
+  //     actKey: true,
+  //   },
+  //   qr_scan: {
+  //     act1: {
+  //       completed: false,
+  //       idAct: "Lbw0SwnfcdAxp1IaZzY7",
+  //     },
+  //     act2: {
+  //       completed: false,
+  //       idAct: "VGs6FZm7vK8acehG8VN7",
+  //     },
+  //     act3: {
+  //       completed: false,
+  //       idAct: "tZ2il8jxK6ejUygznjni",
+  //     },
+  //     act4: {
+  //       completed: false,
+  //       idAct: "hkC1pduZqP9XQw79Vhhh",
+  //     },
+  //     actCount: 4,
+  //   },
+  //   quick_buy: {
+  //     act1: {
+  //       completed: false,
+  //       idAct: "GVb31FuIAgftqkYBDhpY",
+  //     },
+  //     act2: {
+  //       completed: false,
+  //       idAct: "xvCMWBVcWTHzDN2WH8av",
+  //     },
+  //     actCount: 2,
+  //   },
+  //   scavenger_quest: {
+  //     act1: {
+  //       completed: false,
+  //       idAct: "aGXsgPy84KY7AoiG9TUJ",
+  //     },
+  //     act2: {
+  //       completed: false,
+  //       idAct: "5DYCzoZBcnUuzoDnQvIA",
+  //     },
+  //     act3: {
+  //       completed: false,
+  //       idAct: "bg33ix289IO5zn0IAhAI",
+  //     },
+  //     act4: {
+  //       completed: false,
+  //       idAct: "brqxBoiaDR7FgMIBgw1C",
+  //     },
+  //     act5: {
+  //       completed: false,
+  //       idAct: "e2MMvjVx5NdqogLVuj8Z",
+  //     },
+  //     actCount: 5,
+  //   },
+  // };
+
+  const buy_products_quest = {
+      act1: {
+        completed: false,
+        idAct: "BUCsVYshTln7LYLr1u6H",
+      },
+      act2: {
+        completed: false,
+        idAct: "pkBVmLqetdroYFSyhAOS",
+      },
+      act3: {
+        completed: false,
+        idAct: "WUja63Jmd057rXd5Mo7A",
+      },
+      act4: {
+        completed: false,
+        idAct: "VbSw410E7M50ti7UzvAF",
+      },
+      actCount: 4,
+      actKey: true,
+  };
+
+  const qr_scan_quest = {
+    act1: {
+      completed: false,
+      idAct: "Lbw0SwnfcdAxp1IaZzY7",
+    },
+    act2: {
+      completed: false,
+      idAct: "VGs6FZm7vK8acehG8VN7",
+    },
+    act3: {
+      completed: false,
+      idAct: "tZ2il8jxK6ejUygznjni",
+    },
+    act4: {
+      completed: false,
+      idAct: "hkC1pduZqP9XQw79Vhhh",
+    },
+    actCount: 4,
+  };
+
+  const scavenger_hunt_quest = {
+    act1: {
+      completed: false,
+      idAct: "GVb31FuIAgftqkYBDhpY",
+    },
+    act2: {
+      completed: false,
+      idAct: "xvCMWBVcWTHzDN2WH8av",
+    },
+    actCount: 2,
+  };
+
+  const quick_buy_quest = {
+    act1: {
+      completed: false,
+      idAct: "aGXsgPy84KY7AoiG9TUJ",
+    },
+    act2: {
+      completed: false,
+      idAct: "5DYCzoZBcnUuzoDnQvIA",
+    },
+    act3: {
+      completed: false,
+      idAct: "bg33ix289IO5zn0IAhAI",
+    },
+    act4: {
+      completed: false,
+      idAct: "brqxBoiaDR7FgMIBgw1C",
+    },
+    act5: {
+      completed: false,
+      idAct: "e2MMvjVx5NdqogLVuj8Z",
+    },
+    actCount: 5,
+  };
 
   useEffect(() => {
     // const allValuesValid = Object.values(inputValues).every(value => value > 0);
@@ -76,12 +229,50 @@ function CrearCuenta() {
         await signup(inputValues.email, inputValues.password).then(
           (userCredential) => {
             const user = userCredential.user;
+            // User info
             setDoc(doc(firestore, "users", userCredential.user.uid), {
               nombre: inputValues.name,
               apellido: inputValues.lastname,
               email: inputValues.email,
               fechaNacimiento: fechaNacimiento,
+              puntos: 0,
+              telefono: "00-00000000"
             });
+            // Quests
+            const userRefQuests = collection(
+              firestore,
+              "users",
+              userCredential.user.uid,
+              "quests"
+            );
+            setDoc(doc(userRefQuests, "buy_products"), buy_products_quest);
+            setDoc(doc(userRefQuests, "qr_scan"), qr_scan_quest);
+            setDoc(doc(userRefQuests, "scavenger_quest"), scavenger_hunt_quest);
+            setDoc(doc(userRefQuests, "quick_buy"), quick_buy_quest);
+            // // Purchase History
+            // const userRefPurchaseHistory = collection(
+            //   firestore,
+            //   "users",
+            //   userCredential.user.uid,
+            //   "purchase_history"
+            // );
+            // addDoc(userRefPurchaseHistory, {});
+            // // Payment Methods
+            // const userRefPaymentMethods = collection(
+            //   firestore,
+            //   "users",
+            //   userCredential.user.uid,
+            //   "payment_methods"
+            // );
+            // addDoc(userRefPaymentMethods, {});
+            // // Used Coupons
+            // const userRefUsedCoupons = collection(
+            //   firestore,
+            //   "users",
+            //   userCredential.user.uid,
+            //   "used_coupons"
+            // );
+            // addDoc(userRefUsedCoupons, {});
           }
         );
         navigate("/perfil");
@@ -138,7 +329,7 @@ function CrearCuenta() {
       <AppBar />
       <ToastContainer />
       <div onClick={() => navigate(-1)}>
-        <Back src={Arrow} alt="Regresar" style={{top: "80px"}}/>
+        <Back src={Arrow} alt="Regresar" style={{ top: "80px" }} />
       </div>
       <div id="errorMessage">{errorMsg}</div>
       <div className="container">
